@@ -4,5 +4,6 @@
 /plugins
 /vendors
 /.idea
+.idea
 .DS_Store
 tags
