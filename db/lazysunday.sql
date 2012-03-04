@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 24, 2012 at 08:27 PM
+-- Generation Time: Mar 04, 2012 at 02:27 AM
 -- Server version: 5.5.16
 -- PHP Version: 5.3.8
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `games` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
 --
 -- Dumping data for table `games`
@@ -44,7 +44,8 @@ INSERT INTO `games` (`id`, `data`, `resultado`, `estado`, `created`, `modified`)
 (8, '2012-02-05 18:30:00', '10-9', 'Concluido', '2012-02-24 01:52:32', '2012-02-24 01:52:32'),
 (9, '2012-02-12 18:30:00', '15-12', 'ConcluÃ­do', '2012-02-24 02:01:42', '2012-02-24 02:01:42'),
 (10, '2012-02-19 18:30:00', '7-6', 'ConcluÃ­do', '2012-02-24 02:02:17', '2012-02-24 02:02:17'),
-(11, '2012-02-26 18:30:00', '', 'Por Realizar', '2012-02-24 02:02:53', '2012-02-24 02:02:53');
+(11, '2012-02-26 18:30:00', '', 'Por Realizar', '2012-02-24 02:02:53', '2012-02-24 02:02:53'),
+(22, '2012-03-04 01:31:00', '', '', '2012-03-04 01:31:25', '2012-03-04 01:31:25');
 
 -- --------------------------------------------------------
 
@@ -85,110 +86,30 @@ INSERT INTO `goals` (`id`, `player_id`, `game_id`, `golos`) VALUES
 CREATE TABLE IF NOT EXISTS `invites` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `game_id` int(10) unsigned NOT NULL,
-  `disponivel` text NOT NULL,
+  `player_id` int(10) unsigned NOT NULL,
+  `available` tinyint(1) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
 
 --
 -- Dumping data for table `invites`
 --
 
-INSERT INTO `invites` (`id`, `game_id`, `disponivel`) VALUES
-(7, 8, ''),
-(8, 9, ''),
-(9, 10, ''),
-(10, 11, '');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `invites_players`
---
-
-CREATE TABLE IF NOT EXISTS `invites_players` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `invite_id` int(10) unsigned NOT NULL,
-  `player_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=74 ;
-
---
--- Dumping data for table `invites_players`
---
-
-INSERT INTO `invites_players` (`id`, `invite_id`, `player_id`) VALUES
-(2, 7, 14),
-(3, 7, 15),
-(4, 7, 16),
-(5, 7, 17),
-(6, 7, 18),
-(7, 7, 19),
-(8, 7, 20),
-(9, 7, 21),
-(10, 7, 22),
-(11, 7, 23),
-(12, 7, 24),
-(13, 7, 25),
-(14, 7, 26),
-(15, 7, 27),
-(16, 7, 28),
-(17, 7, 29),
-(18, 7, 30),
-(19, 7, 31),
-(20, 8, 14),
-(21, 8, 15),
-(22, 8, 16),
-(23, 8, 17),
-(24, 8, 18),
-(25, 8, 19),
-(26, 8, 20),
-(27, 8, 21),
-(28, 8, 22),
-(29, 8, 23),
-(30, 8, 24),
-(31, 8, 25),
-(32, 8, 26),
-(33, 8, 27),
-(34, 8, 28),
-(35, 8, 29),
-(36, 8, 30),
-(37, 8, 31),
-(38, 9, 14),
-(39, 9, 15),
-(40, 9, 16),
-(41, 9, 17),
-(42, 9, 18),
-(43, 9, 19),
-(44, 9, 20),
-(45, 9, 21),
-(46, 9, 22),
-(47, 9, 23),
-(48, 9, 24),
-(49, 9, 25),
-(50, 9, 26),
-(51, 9, 27),
-(52, 9, 28),
-(53, 9, 29),
-(54, 9, 30),
-(55, 9, 31),
-(56, 10, 14),
-(57, 10, 15),
-(58, 10, 16),
-(59, 10, 17),
-(60, 10, 18),
-(61, 10, 19),
-(62, 10, 20),
-(63, 10, 21),
-(64, 10, 22),
-(65, 10, 23),
-(66, 10, 24),
-(67, 10, 25),
-(68, 10, 26),
-(69, 10, 27),
-(70, 10, 28),
-(71, 10, 29),
-(72, 10, 30),
-(73, 10, 31);
+INSERT INTO `invites` (`id`, `game_id`, `player_id`, `available`, `created`, `modified`) VALUES
+(13, 11, 14, 0, '2012-03-02 16:09:34', '2012-03-02 16:09:34'),
+(14, 11, 15, 1, '2012-03-02 16:09:40', '2012-03-02 16:09:40'),
+(15, 11, 16, 1, '2012-03-02 16:09:44', '2012-03-02 16:09:44'),
+(16, 11, 17, 1, '2012-03-02 16:09:50', '2012-03-02 16:09:50'),
+(17, 11, 18, 1, '2012-03-02 16:09:55', '2012-03-02 16:09:55'),
+(18, 11, 19, 0, '2012-03-02 16:10:03', '2012-03-02 16:10:03'),
+(20, 11, 20, 0, '2012-03-02 16:10:29', '2012-03-02 16:10:29'),
+(21, 11, 29, 0, '2012-03-03 23:25:05', '2012-03-03 23:25:05'),
+(22, 11, 28, NULL, '2012-03-03 23:27:30', '2012-03-03 23:27:30'),
+(42, 22, 14, 1, '2012-03-04 01:31:25', '2012-03-04 01:31:25'),
+(43, 22, 15, 0, '2012-03-04 01:31:25', '2012-03-04 01:31:25'),
+(44, 22, 16, NULL, '2012-03-04 01:31:25', '2012-03-04 01:31:25');
 
 -- --------------------------------------------------------
 
