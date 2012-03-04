@@ -47,9 +47,8 @@ class PlayersController extends AppController {
 				$this->Session->setFlash(__('The player could not be saved. Please, try again.'));
 			}
 		}
-		$invites = $this->Player->Invite->find('list');
 		$teams = $this->Player->Team->find('list');
-		$this->set(compact('invites', 'teams'));
+		$this->set(compact('teams'));
 	}
 
 /**
@@ -73,9 +72,8 @@ class PlayersController extends AppController {
 		} else {
 			$this->request->data = $this->Player->read(null, $id);
 		}
-		$invites = $this->Player->Invite->find('list');
 		$teams = $this->Player->Team->find('list');
-		$this->set(compact('invites', 'teams'));
+		$this->set(compact('teams'));
 	}
 
 /**

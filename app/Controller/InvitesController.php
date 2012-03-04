@@ -40,6 +40,7 @@ class InvitesController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Invite->create();
+            $this->request->data['Invite']['available'] = null;
 			if ($this->Invite->save($this->request->data)) {
 				$this->Session->setFlash(__('The invite has been saved'));
 				$this->redirect(array('action' => 'index'));
