@@ -36,15 +36,20 @@ class GamesController extends AppController {
         $invites = $this->Game->Invite->find('all', $options);
 
         $players = $this->Player->find('list');
-        print_r($players);
+        //print_r($invites);
 
-        /*foreach($players as $key => $player) {
-            if(!array_key_exists($key, $invitelist)) {
-                echo 'o mambo esta la dentro<br/>';
+
+        foreach($invites as $invite) {
+            $invite_list[$invite['Invite']['player_id']] = null;
+        }
+
+        foreach($players as $key => $player) {
+
+            if(!array_key_exists($key, $invite_list)) {
+                $notinvited[$key] = $player;
             }
-        }*/
+        }
 
-        $notinvited = array();
         $this->set(compact('invites', 'notinvited'));
 	}
 
@@ -145,38 +150,47 @@ class GamesController extends AppController {
             $options = array('conditions' => array('Invite.game_id' => $id, 'Invite.player_id' => $jogadorid));
             $currentInvite = $this->Game->Invite->find('first', $options);
 
-            //print_r($currentInvite['Invite']);
-
-            // $invites[jogadorID] => 1
-            // $invites[jogadorID] => 0
-            // $invites[jogadorID] => null
-            /*if($invites['jogador'.$jogadorid]) {
-                $currentInvite['Invite']['available'] = true;
-                $currentInvite['Invite']['answered'] = true;
-            } else if(!$invites['jogador'.$jogadorid] && !$currentInvite['Invite']['answered']) {
-                $currentInvite['Invite']['available'] = false;
-                $currentInvite['Invite']['answered'] = true;
-            } else if(is_null($invites['jogador'.$jogadorid])) {
-                $currentInvite['Invite']['answered'] = false;
-            }*/
+            print_r($currentInvite['Invite']);
 
             if($currentInvite['Invite']['available'] != $invites['jogador'.$jogadorid]) {
                 $currentInvite['Invite']['available'] = $invites['jogador'.$jogadorid];
-                $this->Game->Invite->save($currentInvite);
+                if($this->Game->Invite->save($currentInvite)) {
+                    //$this->Session->setFlash(__('Invite for player '.$jogadorid.' has been updated!'));
+                } else {
+                    //$this->Session->setFlash(__('Could not update invite for player '.$jogadorid));
+                }
             }
-
-
-
-
-            /*if($this->Game->Invite->save($currentInvite)) {
-                $this->Session->setFlash(__('Invite for player '.$jogadorid.' has been updated!'));
-            } else {
-                $this->Session->setFlash(__('Could not update invite for player '.$jogadorid));
-            }*/
-
 
             next($invites);
             $i++;
+        }
+
+        $this->redirect('/games/view/'.$id);
+    }
+
+    public function addInvites($id = null) {
+        $this->Game->id = $id;
+
+        $numInvites = count($this->request->data['Game']);
+        $invites = $this->request->data['Game'];
+        print_r($invites);
+
+        foreach($invites as $key => $invite) {
+            //echo key($invites);
+
+            $jogadorid = str_replace('jogador', '', $key);
+            //echo $jogadorid.' => '.$invites['jogador'.$jogadorid].'<br/>';
+
+            if($invite) {
+                $saveinvite = array('Invite' => array('game_id' => $id, 'player_id' => $jogadorid, 'available' => null));
+
+                $this->Invite->Create();
+                if($this->Invite->save($saveinvite)) {
+                    //$this->Session->setFlash(__('The invite has been saved'));
+                } else {
+                    //$this->Session->setFlash(__('The invite could not be saved. Please, try again.'));
+                }
+            }
         }
 
         $this->redirect('/games/view/'.$id);
