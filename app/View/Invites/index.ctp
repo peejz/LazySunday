@@ -4,7 +4,11 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('game_id');?></th>
-			<th><?php echo $this->Paginator->sort('disponivel');?></th>
+			<th><?php echo $this->Paginator->sort('player_id');?></th>
+			<th><?php echo $this->Paginator->sort('available');?></th>
+			<th><?php echo $this->Paginator->sort('answered');?></th>
+			<th><?php echo $this->Paginator->sort('created');?></th>
+			<th><?php echo $this->Paginator->sort('modified');?></th>
 			<th class="actions"><?php echo __('Actions');?></th>
 	</tr>
 	<?php
@@ -14,7 +18,13 @@
 		<td>
 			<?php echo $this->Html->link($invite['Game']['data'], array('controller' => 'games', 'action' => 'view', $invite['Game']['id'])); ?>
 		</td>
-		<td><?php echo h($invite['Invite']['disponivel']); ?>&nbsp;</td>
+		<td>
+			<?php echo $this->Html->link($invite['Player']['nome'], array('controller' => 'players', 'action' => 'view', $invite['Player']['id'])); ?>
+		</td>
+		<td><?php echo h($invite['Invite']['available']); ?>&nbsp;</td>
+		<td><?php echo h($invite['Invite']['answered']); ?>&nbsp;</td>
+		<td><?php echo h($invite['Invite']['created']); ?>&nbsp;</td>
+		<td><?php echo h($invite['Invite']['modified']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $invite['Invite']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $invite['Invite']['id'])); ?>

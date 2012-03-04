@@ -5,8 +5,9 @@
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('game_id');
-		echo $this->Form->input('disponivel');
-		echo $this->Form->input('Player');
+		echo $this->Form->input('player_id');
+		echo $this->Form->input('available');
+		echo $this->Form->input('answered');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit'));?>
