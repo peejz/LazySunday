@@ -124,8 +124,7 @@ div.actions {
     width:16%;
     padding:10px 1.5%;
 }
-div.form2,
-div.index2,
+
 div.view2 {
 	float:left;
     padding:10px 2%;
@@ -136,6 +135,7 @@ div.actions2 {
 	float:left;
 	width:10%;
 }
+
 div.actions h3 {
 	padding-top:0;
 	color:#777;
@@ -535,6 +535,21 @@ p.error em {
 	clear: both;
 }
 
+.actions2 ul {
+    margin: 0;
+    padding: 0;
+}
+.actions2 li {
+    margin:0 0 0.5em 0;
+    list-style-type: none;
+    white-space: nowrap;
+    padding: 0;
+}
+.actions2 ul li a {
+    font-weight: normal;
+    display: block;
+    clear: both;
+}
 /* Buttons and button links */
 input[type=submit],
 .actions ul li a,
