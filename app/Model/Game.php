@@ -3,8 +3,8 @@ App::uses('AppModel', 'Model');
 /**
  * Game Model
  *
- * @property Invite $Invite
  * @property Goal $Goal
+ * @property Invite $Invite
  * @property Team $Team
  */
 class Game extends AppModel {
@@ -14,23 +14,25 @@ class Game extends AppModel {
  * @var string
  */
 	public $displayField = 'data';
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
 /**
- * hasOne associations
+ * Validation rules
  *
  * @var array
  */
-	public $hasOne = array(
-		'Invite' => array(
-			'className' => 'Invite',
-			'foreignKey' => 'game_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
+	public $validate = array(
+		'data' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
 	);
+
+	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
  * hasMany associations
@@ -40,6 +42,19 @@ class Game extends AppModel {
 	public $hasMany = array(
 		'Goal' => array(
 			'className' => 'Goal',
+			'foreignKey' => 'game_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'Invite' => array(
+			'className' => 'Invite',
 			'foreignKey' => 'game_id',
 			'dependent' => false,
 			'conditions' => '',
