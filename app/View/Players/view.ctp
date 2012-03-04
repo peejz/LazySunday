@@ -100,7 +100,11 @@
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Game Id'); ?></th>
-		<th><?php echo __('Disponivel'); ?></th>
+		<th><?php echo __('Player Id'); ?></th>
+		<th><?php echo __('Available'); ?></th>
+		<th><?php echo __('Answered'); ?></th>
+		<th><?php echo __('Created'); ?></th>
+		<th><?php echo __('Modified'); ?></th>
 		<th class="actions"><?php echo __('Actions');?></th>
 	</tr>
 	<?php
@@ -109,7 +113,11 @@
 		<tr>
 			<td><?php echo $invite['id'];?></td>
 			<td><?php echo $invite['game_id'];?></td>
-			<td><?php echo $invite['disponivel'];?></td>
+			<td><?php echo $invite['player_id'];?></td>
+			<td><?php echo $invite['available'];?></td>
+			<td><?php echo $invite['answered'];?></td>
+			<td><?php echo $invite['created'];?></td>
+			<td><?php echo $invite['modified'];?></td>
 			<td class="actions">
 				<?php echo $this->Html->link(__('View'), array('controller' => 'invites', 'action' => 'view', $invite['id'])); ?>
 				<?php echo $this->Html->link(__('Edit'), array('controller' => 'invites', 'action' => 'edit', $invite['id'])); ?>

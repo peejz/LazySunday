@@ -8,7 +8,6 @@
 		echo $this->Form->input('ranking');
 		echo $this->Form->input('vitorias');
 		echo $this->Form->input('golos');
-		echo $this->Form->input('Invite');
 		echo $this->Form->input('Team');
 	?>
 	</fieldset>
