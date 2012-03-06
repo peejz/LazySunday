@@ -49,7 +49,7 @@
 	</dl>
 </div>
 
-<!-----------------INVITES---------------------->
+<!-----------------INVITES----------------------->
 <?php if($game['Game']['estado'] != 2): ?>
 <div class="invited">
     <h2><?php  echo __('Invited');?></h2>

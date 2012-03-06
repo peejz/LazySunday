@@ -77,12 +77,8 @@ class GamesController extends AppController {
                 }
             }
         } else {
-            foreach($team1_list as $nome => $golos){
-                $team1_list[$nome] = 0;
-            }
-            foreach($team2_list as $nome => $golos){
-                $team2_list[$nome] = 0;
-            }
+            foreach($team1_list as $nome => $golos){$team1_list[$nome] = 0;}
+            foreach($team2_list as $nome => $golos){$team2_list[$nome] = 0;}
         }
 
         //print_r($team1_list);
