@@ -49,14 +49,11 @@
 	</dl>
 </div>
 
-
-
-
-
-
-    <div class="invited">
+<!-----------------INVITES---------------------->
+<?php if($game['Game']['estado'] != 2): ?>
+<div class="invited">
     <h2><?php  echo __('Invited');?></h2>
-    <?php //echo $this->Html->nestedList($invites); ?>
+
     <table cellpadding = "0" cellspacing = "0">
         <tr>
             <th>Status</th>
@@ -91,14 +88,9 @@
 
         </tr>
         <?php endforeach; ?>
-
-    </table>
     <?php echo $this->Form->end('Submit'); ?>
+    </table>
     </div>
-
-
-
-
 
     <div class="notinvited">
     <h2><?php  echo __('Not Invited');?></h2>
@@ -117,7 +109,45 @@
         <?php endforeach; ?>
         <tr><td><?php echo $this->Form->end('Adicionar Jogador(es)'); ?></td><td></td></tr>
     </table>
-    </div>
+</div>
+<?php endif; ?>
 
 
+<?php if($game['Game']['estado'] == 2): ?>
+<div class="notinvited">
+    <h3><?php echo __('Equipas');?></h3>
+    <table cellpadding = "0" cellspacing = "0" class="goalstable">
+        <tr>
+            <th><?php echo __('Brancos'); ?></th>
+            <th style="text-align: right"><?php echo __('Golos'); ?></th>
+        </tr>
+        <?php foreach($team1_list as $nomejogador => $golos): ?>
+        <tr>
+            <td><?php echo $nomejogador; ?></td>
+            <td style="text-align: right"><?php echo $golos; ?></td>
+        </tr>
+        <?php endforeach; ?>
+        <tr>
+            <td><strong><?php echo 'Total'; ?></strong></td>
+            <td style="text-align: right"><strong><?php echo $team1_golos; ?></strong></td>
+        </tr>
+    </table>
+    <table cellpadding = "0" cellspacing = "0" class="goalstable">
+        <tr>
+            <th><?php echo __('Escuros'); ?></th>
+            <th style="text-align: right"><?php echo __('Golos'); ?></th>
+        </tr>
+        <?php foreach($team2_list as $nomejogador => $golos): ?>
+        <tr>
+            <td><?php echo $nomejogador; ?></td>
+            <td style="text-align: right"><?php echo $golos; ?></td>
+        </tr>
+        <?php endforeach; ?>
+        <tr>
+            <td><strong><?php echo 'Total'; ?></strong></td>
+            <td style="text-align: right"><strong><?php echo $team2_golos; ?></strong></td>
+        </tr>
+    </table>
+</div>
+<?php endif; ?>
 

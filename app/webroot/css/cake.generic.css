@@ -170,6 +170,10 @@ table {
 	margin-bottom: 10px;
 	width: 100%;
 }
+.goalstable {
+    width: 200px;
+}
+
 th {
 	border:0;
 	border-bottom:2px solid #555;
