@@ -8,6 +8,7 @@ App::uses('AppController', 'Controller');
 class GamesController extends AppController {
 
     public $uses = array('Game', 'Invite', 'Goal', 'Team', 'Player', 'PlayersTeam');
+    public $helpers = array('Time');
 
 /**
  * index method
@@ -15,8 +16,8 @@ class GamesController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Game->recursive = 0;
-		$this->set('games', $this->paginate());
+		$games = $this->Game->find('all', array('order' => array('Game.id' => 'desc')));
+		$this->set('games', $games);
 	}
 
 /**
@@ -55,6 +56,10 @@ class GamesController extends AppController {
         //$this->presencas();
 
 	}
+
+    public function formatDate(){
+
+    }
 
     public function updatePlayerStats($id = null) {
 
@@ -501,6 +506,12 @@ class GamesController extends AppController {
 
         //Invites - variaveis para a view
         $this->set($this->invites($id));
+    }
+
+    public function playerStats() {
+        $options = array('order' => array('Player.ranking' => 'desc'),
+                         'conditions' => array('Player.presencas >' => 1));
+        return $players = $this->Player->find('all', $options);
     }
 
 }

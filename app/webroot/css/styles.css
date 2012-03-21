@@ -160,3 +160,25 @@ h4{
     text-align: right;
     padding-right: 10px;
 }
+
+div.actions2 {
+    float:left;
+    width:20%;
+}
+div.view2 {
+    float:left;
+    padding:10px 2%;
+    width:25%;
+    white-space: nowrap;
+}
+
+div.index {
+}
+
+div.index table{
+    width: 100%;
+}
+
+div.index table td{
+    padding: 10px;
+}

@@ -35,7 +35,7 @@
     <div id="contentWrapper">
         <div id="sidebarWrapper">
             <div id="sidebarContent">
-                <h3>Stats:</h3>
+                <h3><?php echo $this->element('sidebar');?></h3>
             </div>
         </div>
         <div id="contentInnerWrapper">
