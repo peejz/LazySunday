@@ -1,132 +1,14 @@
-<div class="actions2">
-    <!--<ul>
-        <li><?php /*echo $this->Html->link(__('Edit Game'), array('action' => 'edit', $game['Game']['id'])); */?> </li>
-        <li><?php /*echo $this->Form->postLink(__('Delete Game'), array('action' => 'delete', $game['Game']['id']), null, __('Are you sure you want to delete # %s?', $game['Game']['id'])); */?> </li>
-        <li><?php /*echo $this->Html->link(__('List Games'), array('action' => 'index')); */?> </li>
-        <li><?php /*echo $this->Html->link(__('New Game'), array('action' => 'add')); */?> </li>
-        <li><?php /*echo $this->Html->link(__('List Goals'), array('controller' => 'goals', 'action' => 'index')); */?> </li>
-        <li><?php /*echo $this->Html->link(__('New Goal'), array('controller' => 'goals', 'action' => 'add')); */?> </li>
-        <li><?php /*echo $this->Html->link(__('List Invites'), array('controller' => 'invites', 'action' => 'index')); */?> </li>
-        <li><?php /*echo $this->Html->link(__('New Invite'), array('controller' => 'invites', 'action' => 'add')); */?> </li>
-        <li><?php /*echo $this->Html->link(__('List Teams'), array('controller' => 'teams', 'action' => 'index')); */?> </li>
-        <li><?php /*echo $this->Html->link(__('New Team'), array('controller' => 'teams', 'action' => 'add')); */?> </li>
-    </ul>-->
-    <ul>
-        <li><?php echo $this->Html->link(__('Admin'), array('action' => 'admin', $game['Game']['id'])); ?></li>
-    </ul>
 
-    <ul>
-        <?php foreach($list_games as $game_id => $game_date):
-
-        $game_date = date('d M, Y', strToTime($game_date));
-        if($game_id == $game['Game']['id']) {
-            $font_weight='bold';
-        } else {
-            $font_weight='normal';
-        }
-
-        ?>
-
-            <li font-weight="<?php echo $font_weight; ?>"><?php echo $this->Html->link(__($game_date), array('action' => 'view', $game_id)); ?></li>
-        <?php endforeach; ?>
-    </ul>
+<div class=teams>
+    <div class="team1"></div>
+    <div class="team2"></div>
 </div>
-
-<?php if($game['Game']['estado'] == 0): ?>
-<div class="games view2">
-    <h2><?php echo __('Teams'); ?></h2>
-    <h1><?php echo $this->Form->postLink('Aceitar', 'saveTeams', array('data' => array('game_id' => $game['Game']['id']))); ?></h1>
-    
-    <div>
-        <?php //print_r($generatedTeams); ?>
-        <table>
-            <tr>
-                <th>pos</th>
-                <th><?php echo $generatedTeams['team_1_ranking']; ?></th>
-                <th>Escuros</th>
-                <th>pres</th>
-            </tr>
-
-            <?php if($generatedTeams['team_1'] != null): ?>
-                <?php foreach($generatedTeams['team_1'] as $key => $player):?>
-                    <tr>
-                        <td><?php echo $key; ?>º</td>
-                        <td><?php echo $player['ranking']; ?></td>
-                        <td><?php echo $player['name']; ?></td>
-                        <td><?php echo $player['presencas']; ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-                
-        </table>
-    </div>
-
-    <div>
-        <table>
-            <tr>
-                <th>pos</th>
-                <th><?php echo $generatedTeams['team_2_ranking']; ?></th>
-                <th>Escuros</th>
-                <th>pres</th>
-            </tr>
-
-            <?php if($generatedTeams['team_2'] != null): ?>
-                <?php foreach($generatedTeams['team_2'] as $key => $player):?>
-                    <tr>
-                        <td><?php echo $key; ?>º</td>
-                        <td><?php echo $player['ranking']; ?></td>
-                        <td><?php echo $player['name']; ?></td>
-                        <td><?php echo $player['presencas']; ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-
-        </table>
-    </div>
-
-
-<!--<h2><?php /* echo __('Game');*/?></h2>
-	<dl>
-		<dt><?php /*echo __('Id'); */?></dt>
-		<dd>
-			<?php /*echo h($game['Game']['id']); */?>
-			&nbsp;
-		</dd>
-		<dt><?php /*echo __('Data'); */?></dt>
-		<dd>
-			<?php /*echo h($game['Game']['data']); */?>
-			&nbsp;
-		</dd>
-		<dt><?php /*echo __('Resultado'); */?></dt>
-		<dd>
-			<?php /*echo h($game['Game']['resultado']); */?>
-			&nbsp;
-		</dd>
-		<dt><?php /*echo __('Estado'); */?></dt>
-		<dd>
-			<?php /*echo h($game['Game']['estado']); */?>
-			&nbsp;
-		</dd>
-		<dt><?php /*echo __('Created'); */?></dt>
-		<dd>
-			<?php /*echo h($game['Game']['created']); */?>
-			&nbsp;
-		</dd>
-		<dt><?php /*echo __('Modified'); */?></dt>
-		<dd>
-			<?php /*echo h($game['Game']['modified']); */?>
-			&nbsp;
-		</dd>
-	</dl>-->
-</div>
-<?php endif; ?>
-
 <!-----------------INVITES----------------------->
 <?php if($game['Game']['estado'] != 2): ?>
-<div class="invited">
+<div class="games view">
     <h2><?php  echo __('Invited');?></h2>
 
-    <table cellpadding = "0" cellspacing = "0">
+    <table>
         <tr>
             <th>Status</th>
             <th>Ranking</th>
@@ -209,6 +91,100 @@
 
         </table>
     </div>
+</div>
+<?php endif; ?>
+
+
+<?php if($game['Game']['estado'] == 0): ?>
+<div class="games view">
+<!--    <h2>--><?php //echo __('Teams'); ?><!--</h2>-->
+
+
+    <div class="team">
+        <?php //print_r($generatedTeams); ?>
+        <table>
+            <tr>
+                <th>pos</th>
+                <th>Escuros</th>
+                <th><?php echo $generatedTeams['team_1_ranking']; ?></th>
+
+                <th>pres</th>
+            </tr>
+
+            <?php if($generatedTeams['team_1'] != null): ?>
+            <?php foreach($generatedTeams['team_1'] as $key => $player):?>
+                <tr>
+                    <td class="num"><?php echo $key; ?>º</td>
+                    <td class="player"><?php echo $player['name']; ?></td>
+                    <td class="rank"><?php echo $player['ranking']; ?></td>
+
+                    <td><?php echo $player['presencas']; ?></td>
+                </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+
+        </table>
+    </div>
+
+    <div class="team">
+        <table>
+            <tr>
+                <th>pos</th>
+                <th>Brancos</th>
+                <th><?php echo $generatedTeams['team_2_ranking']; ?></th>
+
+                <th>pres</th>
+            </tr>
+
+            <?php if($generatedTeams['team_2'] != null): ?>
+            <?php foreach($generatedTeams['team_2'] as $key => $player):?>
+                <tr>
+                    <td class="num"><?php echo $key; ?>º</td>
+                    <td class="player"><?php echo $player['name']; ?></td>
+                    <td class="rank"><?php echo $player['ranking']; ?></td>
+
+                    <td><?php echo $player['presencas']; ?></td>
+                </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+
+        </table>
+    </div>
+
+
+    <!--<h2><?php /* echo __('Game');*/?></h2>
+	<dl>
+		<dt><?php /*echo __('Id'); */?></dt>
+		<dd>
+			<?php /*echo h($game['Game']['id']); */?>
+			&nbsp;
+		</dd>
+		<dt><?php /*echo __('Data'); */?></dt>
+		<dd>
+			<?php /*echo h($game['Game']['data']); */?>
+			&nbsp;
+		</dd>
+		<dt><?php /*echo __('Resultado'); */?></dt>
+		<dd>
+			<?php /*echo h($game['Game']['resultado']); */?>
+			&nbsp;
+		</dd>
+		<dt><?php /*echo __('Estado'); */?></dt>
+		<dd>
+			<?php /*echo h($game['Game']['estado']); */?>
+			&nbsp;
+		</dd>
+		<dt><?php /*echo __('Created'); */?></dt>
+		<dd>
+			<?php /*echo h($game['Game']['created']); */?>
+			&nbsp;
+		</dd>
+		<dt><?php /*echo __('Modified'); */?></dt>
+		<dd>
+			<?php /*echo h($game['Game']['modified']); */?>
+			&nbsp;
+		</dd>
+	</dl>-->
 </div>
 <?php endif; ?>
 
