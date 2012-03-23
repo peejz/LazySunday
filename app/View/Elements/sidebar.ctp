@@ -6,9 +6,10 @@
     $i = 1;
     foreach ($allplayers as $player): ?>
     <tr>
-        <td><?php echo $i++; ?>º</td>
-        <td><?php echo $player['Player']['ranking']; ?></td>
-        <td><?php echo $player['Player']['nome']; ?></td>
+        <td class="num"><?php echo $i++; ?>º</td>
+        <td class="player"><?php echo $player['Player']['nome']; ?></td>
+        <td class="rank"><?php echo $player['Player']['ranking']; ?></td>
+
     </tr>
 <?php endforeach; ?>
 
