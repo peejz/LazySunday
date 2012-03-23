@@ -31,8 +31,9 @@
     </div>
 </div>
 
-<div id="outterWrapper">
+<div id="outerWrapper">
     <div id="contentWrapper">
+        <div id="noOverlapTop"></div>
         <div id="sidebarWrapper">
             <div id="sidebarContent">
                 <h3><?php echo $this->element('sidebar');?></h3>
@@ -45,6 +46,7 @@
                 <?php echo $content_for_layout; ?>
             </div>
         </div>
+        <div id="noOverlap"></div>
     </div>
 </div>
 <div id="footerWrapper">
