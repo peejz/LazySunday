@@ -20,7 +20,7 @@
 
         <?php   //echo $this->Form->input('gameid', array('value' =>$game['Game']['id'], 'type' => 'hidden' )); ?>
         <?php foreach($invites as $invite): ?>
-        <?php   echo $this->Form->Create(null, array('controller' => 'games', 'action' => 'updateInvites', 'url' => '/games/updateInvites/'.$game['Game']['id'])); ?>
+        <?php   echo $this->Form->Create(null, array('controller' => 'games', 'action' => 'updateInvites/'.$game['Game']['id'])); ?>
         <?php   $options = array('1' => 'sim', '0' => 'não');
                 //$answered = $invite['Invite']['answered'];
                 $answered = !is_null($invite['Invite']['available']);

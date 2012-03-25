@@ -488,13 +488,70 @@ class GamesController extends AppController {
         else {
             $teams['team_2'] = null;
             $teams['team_2_ranking'] = 0;
+
         }
+
+        //Team_id
+        $teams['team_1_id'] = $currentTeams[0]['Team']['id'];
+        $teams['team_2_id'] = $currentTeams[1]['Team']['id'];
+
 
         return $teams;
     }
 
     public function saveTeams() {
         $game_id = $this->request->data['game_id'];
+        $teams = $this->generateTeams($game_id);
+
+        for($i = 1; $i <= 2; $i++) {
+            //team count
+            $options = array('conditions' => array('team_id' => $teams['team_'.$i.'_id']));
+            echo ${'team_'.$i.'_count'} = $this->PlayersTeam->find('count', $options);
+
+            //validation
+            if(${'team_'.$i.'_count'} == 0) {
+                foreach ($teams['team_'.$i] as $teamplayer) {
+                    $saveteamplayer = array('PlayersTeam' => array('team_id' => $teams['team_'.$i.'_id'], 'player_id' => $teamplayer['id']));
+                    $this->PlayersTeam->create();
+                    $this->PlayersTeam->save($saveteamplayer);
+                    debug($saveteamplayer);
+                }
+            }
+        }
+
+        //Change game state to 1
+        $this->Game->id = $game_id;
+        $this->Game->save(array('Game' => array('estado' => 1)));
+
+    }
+
+    public function submitGoals($id) {
+        //debug($this->request->data);
+        $i = 1;
+        $teamGoals[1] = 0;
+        $teamGoals[2] = 0;
+
+        foreach($this->request->data['Game'] as $player_id => $goals) {
+            $playerGoals = array('Goal' => array('game_id' => $id, 'player_id' => $player_id, 'golos' => $goals));
+            $this->Goal->create();
+            $this->Goal->save($playerGoals);
+
+            //First 5 are from team 1, last five from team 2
+            if($i++ <= 5) {
+                $teamGoals[1] += $goals;
+            }
+            else{
+                $teamGoals[2] += $goals;
+            }
+
+        }
+        //saveTeam result
+        //$this->Team->id = ;
+        //$this->Team->save(array('Game' => array('estado' => 2, resultado => 'resultado')));
+        debug($teamGoals);
+        //Change game state to 2
+        //$this->Game->id = $game_id;
+        //$this->Game->save(array('Game' => array('estado' => 2, resultado => 'resultado')));
     }
 
     public function admin($id = null) {
@@ -506,6 +563,12 @@ class GamesController extends AppController {
 
         //Invites - variaveis para a view
         $this->set($this->invites($id));
+
+        //submitGoals
+        //Find Teams
+        $options = array('conditions' => array('Team.game_id' => $id));
+        $teams = $this->Team->find('all', $options);
+        $this->set('teams', $teams);
     }
 
     public function playerStats() {
