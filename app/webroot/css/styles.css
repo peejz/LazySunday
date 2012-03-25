@@ -1,51 +1,39 @@
+/* CSS Reset */
 * {
-    position: relative;
-    margin: auto;
+    vertical-align: baseline;
+    font-weight: inherit;
+    font-family: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    border: 0 none;
+    outline: 0;
+    padding: 0;
+    margin: 0;
 }
-#outterWrapper {
-    width: 960px;
-    margin-top: 0px;
-    margin-right: auto;
-    margin-bottom: 0px;
-    margin-left: auto;
-}
-body {
-    background-color: #FFFFFF;
+/****** Layout */
+html, body {
+    height: 100%;
     font-family: Arial, Helvetica, sans-serif;
+    color: #000;
+    background-image: url(../img/body_bg.gif);
 }
+#noOverlapTop {
+    clear: both;
+    height: 200px;
+}
+#noOverlap {
+    clear: both;
+    height: 50px;
+}
+
+/********* Header */
 #header {
     width: 100%;
     background-image: url(../img/header_soccer.jpg);
     height: 200px;
-    margin-left: auto;
+    background-position: center;
     margin-right: auto;
-    position: relative;
-}
-#contentWrapper {
-    width: 960px;
-    float: left;
-}
-#sidebarWrapper {
-    float: left;
-    width: 199px;
-    height: 600px;
-}
-#header #headerMenu #bottomMenu #menu li {
-    display: block;
-    float: left;
-    position: relative;
-    list-style: none;
-    padding: 0 5px 0 0;
-    margin: 0;
-}
-#content {
-    /*height: 700px;*/
-    border-radius: 8px 8px 8px 8px;
-    background-color: #E8E8E8;
-    margin: 5px;
-    padding: 10px;
-    overflow: auto;
-    text-align: center;
+    margin-left: auto;
 }
 #headerLogo {
     /* [disabled]margin-top: auto; */
@@ -56,17 +44,15 @@ body {
     /* [disabled]margin-bottom: auto; */
     position: relative;
 }
-/*body,td,th {
-    font-family: Arial, Helvetica, sans-serif;
-    color: #000;
-    background-image: url(../img/body_bg.gif);
-}*/
 #headerMenu {
     width:970px;
     height:100px;
     z-index:1;
     background-image: url(../img/header_menu.png);
     top: 42px;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
 }
 #topMenu {
     width: 970px;
@@ -87,6 +73,14 @@ body {
     font-family: 'LatoBold', Arial, Helvetica, sans-serif;
     text-shadow: 0 1px 1px white;
     font-weight: bold;
+}
+#header #headerMenu #bottomMenu #menu li {
+    display: block;
+    float: left;
+    position: relative;
+    list-style: none;
+    padding: 0 5px 0 0;
+    margin: 0;
 }
 #header #headerMenu #bottomMenu #menu li a {
     display: block;
@@ -110,14 +104,71 @@ body {
     text-transform: uppercase;
     padding-top: 5px;
 }
+
+/*********** Middle */
+#outerWrapper {
+    margin-top: -200px;
+    margin-right: auto;
+    margin-bottom: -50px;
+    margin-left: auto;
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    width: 960px;
+}
+#contentWrapper {
+    width: 100%;
+    overflow: auto;
+}
+#contentInnerWrapper {
+    width: 760px;
+    float: left;
+}
+#content {
+    /*height: 700px;*/
+    border-radius: 8px 8px 8px 8px;
+    background-color: #E8E8E8;
+    margin: 5px;
+    padding: 10px;
+    overflow: auto;
+    text-align: center;
+}
+#sidebarWrapper {
+    float: left;
+    width: 199px;
+    height: 600px;
+}
 #sidebarContent {
     padding: 5px;
     border-radius: 8px 8px 8px 8px;
     margin: 5px;
     background-color: #E8E8E8;
-    font-size: 3pt;
+    height: 400px;
     text-align: center;
 }
+
+/******** Footer */
+#footerWrapper {
+    height: 50px;
+    width: 960px;
+    margin-top: 0px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+}
+#footerContent {
+    border-radius: 8px 8px 0 0;
+    background-color: #000;
+    height: 50px;
+}
+#credits {
+    font-size: 12px;
+    line-height: 50px;
+    color: #FFF;
+    text-align: right;
+    padding-right: 10px;
+}
+/******** Fonts/Headings */
 h1,h2,h3,h4,h5,h6{
     font-weight:normal;
     font-family: Arial, Helvetica, sans-serif;
@@ -139,29 +190,7 @@ h4{
     font-size:10px;
     margin-bottom:10px;}
 
-#contentInnerWrapper {
-    width: 760px;
-    float: left;
-}
-#footerWrapper {
-    width: 960px;
-    margin-right: auto;
-    margin-left: auto;
-    overflow: auto;
-}
-#footerContent {
-    border-radius: 8px 8px 0 0;
-    background-color: #000;
-    height: 50px;
-}
-#credits {
-    font-size: 12px;
-    line-height: 50px;
-    color: #FFF;
-    text-align: right;
-    padding-right: 10px;
-}
-
+/******* Views */
 div.view {
     float:left;
     padding:10px 2%;
