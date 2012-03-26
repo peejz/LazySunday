@@ -538,20 +538,26 @@ class GamesController extends AppController {
 
             //First 5 are from team 1, last five from team 2
             if($i++ <= 5) {
-                $teamGoals[1] += $goals;
+                $teamGoals[0] += $goals;
             }
             else{
-                $teamGoals[2] += $goals;
+                $teamGoals[1] += $goals;
             }
 
         }
+
         //saveTeam result
-        //$this->Team->id = ;
-        //$this->Team->save(array('Game' => array('estado' => 2, resultado => 'resultado')));
-        debug($teamGoals);
+        $options = array('conditions' => array('Team.game_id' => $id));
+        $teams = $this->Team->find('all', $options);
+        foreach($teams as $key => $team) {
+            echo $this->Game->Team->id = $team['Team']['id'];
+            $teamScore = array('Team' => array('golos' => $teamGoals[$key]));
+            $this->Game->Team->save($teamScore);
+        };
+
         //Change game state to 2
-        //$this->Game->id = $game_id;
-        //$this->Game->save(array('Game' => array('estado' => 2, resultado => 'resultado')));
+        $this->Game->id = $id;
+        $this->Game->save(array('Game' => array('estado' => 2, resultado => $teamGoals[0].'-'.$teamGoals[1])));
     }
 
     public function admin($id = null) {

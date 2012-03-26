@@ -1,8 +1,11 @@
-
+<div><?php echo $this->Html->link(__('Admin'), array('action' => 'admin/', $game['Game']['id'])); ?></div>
+<?php echo count($generatedTeams['team_1']); ?>
+<?php if(count($generatedTeams['team_1']) == 5): ?>
 <div class=teams>
     <div class="team1"></div>
     <div class="team2"></div>
 </div>
+<?php endif; ?>
 <!-----------------INVITES----------------------->
 <?php if($game['Game']['estado'] != 2): ?>
 <div class="games view">
