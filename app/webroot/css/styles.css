@@ -293,7 +293,7 @@ div.equipa1 {
     top:125px;
     left:100px;
     color: white;
-
+    width: 150px;
 }
 
 div.equipa1_res {
@@ -307,7 +307,7 @@ div.equipa2 {
     position: relative;
     top:125px;
     left:100px;
-
+    width: 150px;
 }
 
 div.equipa2_res {
