@@ -1,11 +1,102 @@
 <div><?php echo $this->Html->link(__('Admin'), array('action' => 'admin/', $game['Game']['id'])); ?></div>
-<?php echo count($generatedTeams['team_1']); ?>
-<?php if(count($generatedTeams['team_1']) == 5): ?>
+<?php //if(count($generatedTeams['team_1']) == 5): ?>
 <div class=teams>
-    <div class="team1"></div>
-    <div class="team2"></div>
+
+    <!--- Team 1 --->
+    <div class="team1">
+
+        <!--- Jogo Terminado 1--->
+        <?php if($game['Game']['estado'] == 2): ?>
+            <div class="equipa1_res">
+                <?php echo $team_1_goals; ?>
+            </div>
+            <div class="equipa1">
+                <table>
+
+                    <?php foreach($team_1 as $nomejogador => $golos): ?>
+                    <tr>
+                        <td width=120px;><?php echo $nomejogador; ?></td>
+                        <td style="text-align: right"><?php echo $golos; ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+
+                </table>
+            </div>
+        <?php endif; ?>
+
+        <!--- Convocatória 1--->
+        <?php if($game['Game']['estado'] == 0): ?>
+            <div class="equipa1_res">
+                <?php echo $generatedTeams['team_1_ranking']; ?>
+            </div>
+            <div class="equipa1">
+                <?php //print_r($generatedTeams); ?>
+                <table>
+
+                    <?php if($generatedTeams['team_1'] != null): ?>
+                    <?php foreach($generatedTeams['team_1'] as $key => $player):?>
+                        <tr>
+                            <td class="num"><?php echo $key; ?>º</td>
+                            <td class="player"><?php echo $player['name']; ?></td>
+                            <td class="rank"><?php echo $player['ranking']; ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+
+                </table>
+            </div>
+        <?php endif; ?>
+    </div>
+
+
+    <!--- Team 2 --->
+    <div class="team2">
+
+            <!--- Jogo Terminado 2--->
+            <?php if($game['Game']['estado'] == 2): ?>
+                <div class="equipa2_res">
+                    <?php echo $team_2_goals; ?>
+                </div>
+                <div class="equipa2">
+                    <table>
+
+                        <?php foreach($team_2 as $nomejogador => $golos): ?>
+                        <tr>
+                            <td width=120px;><?php echo $nomejogador; ?></td>
+                            <td style="text-align: right"><?php echo $golos; ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+
+                    </table>
+                </div>
+            <?php endif; ?>
+
+            <!--- Convocatória 2--->
+            <?php if($game['Game']['estado'] == 0): ?>
+                <div class="equipa2_res">
+                    <?php echo $generatedTeams['team_2_ranking']; ?>
+                </div>
+                <div class="equipa2">
+                    <?php //print_r($generatedTeams); ?>
+                    <table>
+
+                        <?php if($generatedTeams['team_2'] != null): ?>
+                        <?php foreach($generatedTeams['team_2'] as $key => $player):?>
+                            <tr>
+                                <td class="num"><?php echo $key; ?>º</td>
+                                <td class="player"><?php echo $player['name']; ?></td>
+                                <td class="rank"><?php echo $player['ranking']; ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
+                    </table>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
 </div>
-<?php endif; ?>
+<?php //endif; ?>
 <!-----------------INVITES----------------------->
 <?php if($game['Game']['estado'] != 2): ?>
 <div class="games view">
@@ -55,46 +146,6 @@
     </div>
 
 
-<?php endif; ?>
-
-
-<?php if($game['Game']['estado'] == 2): ?>
-
-<div class="invited">
-    <h3><?php echo __('Equipas');?></h3>
-    <div class="equipa1">
-        <table>
-            <tr>
-                <th><?php echo __('Brancos'); ?></th>
-                <th><?php echo __($team_1_goals); ?></th>
-            </tr>
-
-            <?php foreach($team_1 as $nomejogador => $golos): ?>
-            <tr>
-                <td width=120px;><?php echo $nomejogador; ?></td>
-                <td style="text-align: right"><?php echo $golos; ?></td>
-            </tr>
-            <?php endforeach; ?>
-
-        </table>
-    </div>
-    <div  class="equipa2">
-        <table>
-            <tr>
-                <th><?php echo __($team_2_goals); ?></th>
-                <th><?php echo __('Escuros'); ?></th>
-            </tr>
-
-            <?php foreach($team_2 as $nomejogador => $golos): ?>
-            <tr>
-                <td style="text-align: right"><?php echo $golos; ?></td>
-                <td width=120px;><?php echo $nomejogador; ?></td>
-            </tr>
-            <?php endforeach; ?>
-
-        </table>
-    </div>
-</div>
 <?php endif; ?>
 
 

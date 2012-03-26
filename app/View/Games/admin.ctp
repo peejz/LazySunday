@@ -3,7 +3,6 @@
     <ul>
         <li><?php echo $this->Html->link(__('Update Pl Stats'), array('action' => 'updatePlayerStats', $game['Game']['id'])); ?></li>
         <li><?php echo $this->Html->link(__('View'), array('action' => 'view', $game['Game']['id'])); ?></li>
-        <li><?php echo $this->Html->link(__('New Game'), array('action' => 'add')); ?></li>
 
     </ul>
     <h1><?php echo $this->Form->postLink('Aceitar', 'saveTeams', array('data' => array('game_id' => $game['Game']['id']))); ?></h1>

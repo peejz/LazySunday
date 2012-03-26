@@ -271,6 +271,10 @@ div.teams {
  height: 400px;
 
 }
+div.teams table td{
+    padding: 2px;
+
+}
 div.team1 {
     float: left;
     background-image: url(../img/escuros.png);
@@ -282,4 +286,32 @@ div.team2 {
     background-image: url(../img/brancos.png);
     height: 318px;
     width: 363px;
+}
+
+div.equipa1 {
+    position: relative;
+    top:125px;
+    left:100px;
+    color: white;
+
+}
+
+div.equipa1_res {
+    position: relative;
+    top: 100px;
+    color: white;
+    font-size: 28pt;
+}
+
+div.equipa2 {
+    position: relative;
+    top:125px;
+    left:100px;
+
+}
+
+div.equipa2_res {
+    position: relative;
+    top: 100px;
+    font-size: 28pt;
 }
