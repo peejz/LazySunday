@@ -7,6 +7,11 @@
 			<th><?php echo $this->Paginator->sort('ranking');?></th>
 			<th><?php echo $this->Paginator->sort('vitorias');?></th>
 			<th><?php echo $this->Paginator->sort('golos');?></th>
+            <th><?php echo $this->Paginator->sort('golos_p_jogo');?></th>
+            <th><?php echo $this->Paginator->sort('equipa_m');?></th>
+            <th><?php echo $this->Paginator->sort('equipa_s');?></th>
+            <th><?php echo $this->Paginator->sort('equipa_m_p_jogo');?></th>
+            <th><?php echo $this->Paginator->sort('equipa_s_p_jogo');?></th>
 			<th class="actions"><?php echo __('Actions');?></th>
 	</tr>
 	<?php
@@ -17,6 +22,11 @@
 		<td><?php echo h($player['Player']['ranking']); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['vitorias']); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['golos']); ?>&nbsp;</td>
+        <td><?php echo h($player['Player']['golos_p_jogo']); ?>&nbsp;</td>
+        <td><?php echo h($player['Player']['equipa_m']); ?>&nbsp;</td>
+        <td><?php echo h($player['Player']['equipa_s']); ?>&nbsp;</td>
+        <td><?php echo h($player['Player']['equipa_m_p_jogo']); ?>&nbsp;</td>
+        <td><?php echo h($player['Player']['equipa_s_p_jogo']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $player['Player']['id'])); ?>
 		</td>
