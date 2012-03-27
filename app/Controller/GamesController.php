@@ -306,6 +306,7 @@ class GamesController extends AppController {
 		if ($this->request->is('post')) {
 
             $savegame['Game'] = array_slice($this->request->data['Game'], 0, 1);
+            $savegame['Game']['estado'] = 0;
 
             $saveplayers = array_slice($this->request->data['Game'], 1);
 
