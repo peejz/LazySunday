@@ -193,7 +193,7 @@ h4{
 /******* Views */
 div.view {
     float:left;
-    padding:10px 2%;
+    padding:5px;
     width:100%;
     white-space: nowrap;
 }

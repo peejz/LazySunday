@@ -1,5 +1,7 @@
 <div><h1><?php echo $this->Time->format('d M Y', $game['Game']['data']); ?></h1></div>
 <div><?php echo $this->Html->link(__('Admin'), array('action' => 'admin/', $game['Game']['id'])); ?></div>
+
+<!-----------------TEAMS--------------------->
 <?php //if(count($generatedTeams['team_1']) == 5): ?>
 <div class=teams>
 
@@ -96,10 +98,12 @@
             <?php endif; ?>
         </div>
     </div>
-</div>
+
 <?php //endif; ?>
+
+
 <!-----------------INVITES----------------------->
-<?php if($game['Game']['estado'] != 2): ?>
+<?php if($game['Game']['estado'] == 0): ?>
 <div class="games view">
     <h2><?php  echo __('Invited');?></h2>
 
@@ -145,8 +149,6 @@
         <?php endforeach; ?>
     </table>
     </div>
-
-
 <?php endif; ?>
 
 
@@ -206,40 +208,7 @@
         </table>
     </div>
 
-
-    <!--<h2><?php /* echo __('Game');*/?></h2>
-	<dl>
-		<dt><?php /*echo __('Id'); */?></dt>
-		<dd>
-			<?php /*echo h($game['Game']['id']); */?>
-			&nbsp;
-		</dd>
-		<dt><?php /*echo __('Data'); */?></dt>
-		<dd>
-			<?php /*echo h($game['Game']['data']); */?>
-			&nbsp;
-		</dd>
-		<dt><?php /*echo __('Resultado'); */?></dt>
-		<dd>
-			<?php /*echo h($game['Game']['resultado']); */?>
-			&nbsp;
-		</dd>
-		<dt><?php /*echo __('Estado'); */?></dt>
-		<dd>
-			<?php /*echo h($game['Game']['estado']); */?>
-			&nbsp;
-		</dd>
-		<dt><?php /*echo __('Created'); */?></dt>
-		<dd>
-			<?php /*echo h($game['Game']['created']); */?>
-			&nbsp;
-		</dd>
-		<dt><?php /*echo __('Modified'); */?></dt>
-		<dd>
-			<?php /*echo h($game['Game']['modified']); */?>
-			&nbsp;
-		</dd>
-	</dl>-->
 </div>
+
 <?php endif; ?>
 
