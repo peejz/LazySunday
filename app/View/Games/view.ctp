@@ -104,7 +104,6 @@
 
 <!-----------------INVITES----------------------->
 <?php if($game['Game']['estado'] == 0): ?>
-
     <div id="invbase">
         <?php foreach($invites as $invite): ?>
         <?php   echo $this->Form->Create(null, array('controller' => 'games', 'action' => 'updateInvites/'.$game['Game']['id'])); ?>
@@ -126,61 +125,15 @@
           <div class="ranking"><div class="rankingvalor" style="<?php echo 'width:'.$invite['Player']['ranking']*140;echo 'px'; ?>"></div></div>
           <div class="ranking_n"><?php echo $invite['Player']['ranking']; ?></div>
           <div class="player"><?php echo $invite['Player']['nome']; ?></div>
-          <div class="presence_off presence_txt">NA!</div>
-          <div class="presence_on presence_txt">OK!</div>
+          <div class="presence_off presence_txt"><?php echo $this->Form->button('NA', array('name' => $invite['Player']['id'], 'value' => 0, 'div' => false)); ?></div>
+          <div class="presence_on presence_txt"><?php echo $this->Form->button('OK', array('name' => $invite['Player']['id'], 'value' => 1, 'div' => false)); ?></div>
         </div>
         <?php echo $this->Form->end(); ?>
         <?php endforeach; ?>
      </div>
 <br/>
-<div class="games view">
-    <h3><?php  echo __('Invited');?></h3>
-
-    <table>
-        <tr>
-            <th>Status</th>
-            <th>Ranking</th>
-            <th>Player</th>
-            <th>Yes</th>
-            <th>No</th>
-
-        </tr>
-
-        <?php   //echo $this->Form->input('gameid', array('value' =>$game['Game']['id'], 'type' => 'hidden' )); ?>
-        <?php foreach($invites as $invite): ?>
-        <?php   echo $this->Form->Create(null, array('controller' => 'games', 'action' => 'updateInvites/'.$game['Game']['id'])); ?>
-        <?php   $options = array('1' => 'sim', '0' => 'não');
-                //$answered = $invite['Invite']['answered'];
-                $answered = !is_null($invite['Invite']['available']);
-                $valor = false;
-                if($answered) {
-                    if($invite['Invite']['available']) $valor = true;
-                } else {
-                    $valor = null;
-                }
-                $attributes = array('legend' => false, 'value' => $valor, 'separator' => ''); ?>
-        <tr>
-            <td><?php
-
-                if($valor) {$icon = 'available.png';}
-                else if(is_null($valor)) { $icon = 'question.png';}
-                else {$icon = 'not_available.png';}
-
-                echo $this->Html->image($icon, array('alt' => 'CakePHP')); ?></td>
-            <td><?php echo $invite['Player']['ranking']; ?></td>
-            <td><?php echo $invite['Player']['nome']; ?></td>
-<!--            <td>--><?php //$this->Form->radio('jogador'.$invite['Player']['id'], $options, $attributes); ?><!--</td>-->
-            <td><?php if($valor == false or $valor == null) {echo $this->Form->Submit('tick.png', array('name' => $invite['Player']['id'], 'value' => 1));} ?></td>
-            <td><?php if($valor === true or $valor === null) {echo $this->Form->Submit('cross.png', array('name' => $invite['Player']['id'], 'value' => 0));} ?></td>
-
-        </tr>
-        <?php echo $this->Form->end(); ?>
-        <?php endforeach; ?>
-    </table>
-    </div>
 <?php endif; ?>
-
-
+<br/>
 <?php if($game['Game']['estado'] == 0): ?>
 <div class="games view">
 <!--    <h2>--><?php //echo __('Teams'); ?><!--</h2>-->

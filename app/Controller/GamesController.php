@@ -444,6 +444,8 @@ class GamesController extends AppController {
 
         if($this->request->data) {
 
+            //print_r($this->request->data);
+
             end($this->request->data);
             $playerAvailability = each($this->request->data);
 

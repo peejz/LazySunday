@@ -268,7 +268,7 @@ div.team table td{
 }
 
 div.teams {
- height: 400px;
+ height: 330px;
 
 }
 div.teams table td{
@@ -337,8 +337,15 @@ div.equipa2_res {
 #invbase .player { font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: normal; color: #999; position: absolute; left: 280px; width: 200px; top: 12px; }
 
 #invbase .presence_off { position: absolute; height: 20px; width: 40px; top: 0px; background-color: #FFEFD7; margin: 10px; border: 1px solid #CCC; right: 0%; }
+#invbase .presence_off button { height: 20px; width: 40px; top: 0px; background-color: #FFEFD7; right: 0%; }
 #invbase .presence_txt { font-family: Verdana, Geneva, sans-serif; font-size: 12px; font-weight: bold; color: #CCC; line-height: 20px; text-align: center; cursor: pointer;}
+#invbase .presence_txt button { font-family: Verdana, Geneva, sans-serif; font-size: 12px; font-weight: bold; color: #CCC; line-height: 20px; text-align: center; cursor: pointer;}
 #invbase .presence_on { position: absolute; height: 20px; width: 40px; top: 0px; background-color: #CFC; margin: 10px; border: 1px solid #CCC; right: 50px; }
+#invbase .presence_on button { height: 20px; width: 40px; top: 0px; background-color: #CFC; right: 50px; }
 #invbase .presence_off:hover { background-color: #F90; }
+#invbase .presence_off button:hover { background-color: #F90; }
 #invbase .presence_txt:hover { color: #333; }
+#invbase .presence_txt button:hover { color: #333; }
 #invbase .presence_on:hover { background-color: #3F0; }
+#invbase .presence_on button:hover { background-color: #3F0; }
+
