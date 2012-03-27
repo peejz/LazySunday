@@ -104,8 +104,37 @@
 
 <!-----------------INVITES----------------------->
 <?php if($game['Game']['estado'] == 0): ?>
+
+    <div id="invbase">
+        <?php foreach($invites as $invite): ?>
+        <?php   echo $this->Form->Create(null, array('controller' => 'games', 'action' => 'updateInvites/'.$game['Game']['id'])); ?>
+        <?php
+            $answered = !is_null($invite['Invite']['available']);
+            $valor = false;
+            if($answered) {
+                if($invite['Invite']['available']) $valor = true;
+            } else {
+                $valor = null;
+            }
+?>
+        <div class="box">
+          <div class="state" style="<?php
+              if($valor) echo 'background-color: #00FF00';
+              elseif(is_null($valor)) echo 'background-color: #c3c3c3';
+              else echo 'background-color: #FF0000';
+              ?>"></div>
+          <div class="ranking"><div class="rankingvalor" style="<?php echo 'width:'.$invite['Player']['ranking']*140;echo 'px'; ?>"></div></div>
+          <div class="ranking_n"><?php echo $invite['Player']['ranking']; ?></div>
+          <div class="player"><?php echo $invite['Player']['nome']; ?></div>
+          <div class="presence_off presence_txt">NA!</div>
+          <div class="presence_on presence_txt">OK!</div>
+        </div>
+        <?php echo $this->Form->end(); ?>
+        <?php endforeach; ?>
+     </div>
+<br/>
 <div class="games view">
-    <h2><?php  echo __('Invited');?></h2>
+    <h3><?php  echo __('Invited');?></h3>
 
     <table>
         <tr>

@@ -297,7 +297,7 @@ class GamesController extends AppController {
 
     public function invites($id) {
         // ----- Invites
-        $options = array('order' => array('Invite.available' => 'desc'), 'conditions' => array('game_id' => $id));
+        $options = array('order' => array('Invite.available' => 'desc', 'Player.ranking' => 'desc'), 'conditions' => array('game_id' => $id));
         $invites = $this->Game->Invite->find('all', $options);
         $players = $this->Player->find('list');
 
