@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 26, 2012 at 09:27 PM
+-- Generation Time: Mar 27, 2012 at 03:32 AM
 -- Server version: 5.5.9
 -- PHP Version: 5.3.6
 
@@ -233,8 +233,10 @@ CREATE TABLE `players` (
   `vitorias` int(11) NOT NULL,
   `golos` int(11) NOT NULL,
   `golos_p_jogo` float NOT NULL,
-  `equipa_m` smallint(6) NOT NULL,
-  `equipa_s` smallint(6) NOT NULL,
+  `equipa_m` int(6) NOT NULL,
+  `equipa_m_p_jogo` float NOT NULL,
+  `equipa_s` int(6) NOT NULL,
+  `equipa_s_p_jogo` float NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -244,25 +246,25 @@ CREATE TABLE `players` (
 -- Dumping data for table `players`
 --
 
-INSERT INTO `players` VALUES(14, 'Peej', 8, 0.38, 3, 6, 0.75, 0, 0, '2012-02-24 01:46:18', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(15, 'Andre', 7, 0.71, 5, 11, 1.57, 0, 0, '2012-02-24 01:46:31', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(16, 'Vitorino', 7, 0.57, 4, 14, 2, 0, 0, '2012-02-24 01:46:43', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(17, 'Vazantes', 4, 0.25, 1, 10, 2.5, 0, 0, '2012-02-24 01:46:58', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(18, 'Ricardo', 6, 0.5, 3, 9, 1.5, 0, 0, '2012-02-24 01:47:08', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(19, 'Fresco', 7, 0.43, 3, 5, 0.71, 0, 0, '2012-02-24 01:47:21', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(20, 'Far', 8, 0.5, 4, 16, 2, 0, 0, '2012-02-24 01:47:37', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(21, 'Barroso', 7, 0.71, 5, 16, 2.29, 0, 0, '2012-02-24 01:47:45', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(22, 'Anselmo', 8, 0.5, 4, 1, 0.13, 0, 0, '2012-02-24 01:48:03', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(23, 'Bruno Gomes', 5, 0.4, 2, 6, 1.2, 0, 0, '2012-02-24 01:48:21', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(24, 'Nunao', 3, 0.33, 1, 1, 0.33, 0, 0, '2012-02-24 01:48:32', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(25, 'Louie', 4, 0.25, 1, 7, 1.75, 0, 0, '2012-02-24 01:49:04', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(26, 'Ico', 0, 0, 0, 0, 0, 0, 0, '2012-02-24 01:49:22', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(27, 'Júlio', 0, 0, 0, 0, 0, 0, 0, '2012-02-24 01:49:38', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(28, 'Nuno Anselmo', 1, 1, 1, 0, 0, 0, 0, '2012-02-24 01:49:53', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(29, 'Gaspar', 0, 0, 0, 0, 0, 0, 0, '2012-02-24 01:50:02', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(30, 'Afonso', 4, 0.5, 2, 7, 1.75, 0, 0, '2012-02-24 01:50:15', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(31, 'MDK', 0, 0, 0, 0, 0, 0, 0, '2012-02-24 01:50:23', '2012-03-26 19:41:34');
-INSERT INTO `players` VALUES(32, 'Rui', 1, 1, 1, 1, 1, 0, 0, '2012-03-05 02:42:43', '2012-03-26 19:41:34');
+INSERT INTO `players` VALUES(14, 'Peej', 8, 0.38, 3, 6, 1.2, 51, 10.2, 59, 11.8, '2012-02-24 01:46:18', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(15, 'Andre', 7, 0.71, 5, 11, 2.75, 48, 12, 37, 9.25, '2012-02-24 01:46:31', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(16, 'Vitorino', 7, 0.57, 4, 14, 3.5, 51, 12.75, 41, 10.25, '2012-02-24 01:46:43', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(17, 'Vazantes', 4, 0.25, 1, 10, 3.33, 36, 12, 39, 13, '2012-02-24 01:46:58', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(18, 'Ricardo', 6, 0.5, 3, 9, 2.25, 39, 9.75, 36, 9, '2012-02-24 01:47:08', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(19, 'Fresco', 7, 0.43, 3, 5, 1, 56, 11.2, 54, 10.8, '2012-02-24 01:47:21', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(20, 'Far', 8, 0.5, 4, 16, 3.2, 56, 11.2, 54, 10.8, '2012-02-24 01:47:37', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(21, 'Barroso', 7, 0.71, 5, 16, 4, 52, 13, 43, 10.75, '2012-02-24 01:47:45', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(22, 'Anselmo', 8, 0.5, 4, 1, 0.2, 54, 10.8, 56, 11.2, '2012-02-24 01:48:03', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(23, 'Bruno Gomes', 5, 0.4, 2, 6, 2, 32, 10.67, 38, 12.67, '2012-02-24 01:48:21', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(24, 'Nunao', 3, 0.33, 1, 1, 1, 11, 11, 14, 14, '2012-02-24 01:48:32', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(25, 'Louie', 4, 0.25, 1, 7, 1.75, 34, 8.5, 41, 10.25, '2012-02-24 01:49:04', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(26, 'Ico', 0, 0, 0, 0, 0, 0, 0, 0, 0, '2012-02-24 01:49:22', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(27, 'Julio', 0, 0, 0, 0, 0, 0, 0, 0, 0, '2012-02-24 01:49:38', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(28, 'Nuno Anselmo', 1, 1, 1, 0, 0, 0, 0, 0, 0, '2012-02-24 01:49:53', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(29, 'Gaspar', 0, 0, 0, 0, 0, 0, 0, 0, 0, '2012-02-24 01:50:02', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(30, 'Afonso', 4, 0.5, 2, 7, 3.5, 20, 10, 30, 15, '2012-02-24 01:50:15', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(31, 'MDK', 0, 0, 0, 0, 0, 0, 0, 0, 0, '2012-02-24 01:50:23', '2012-03-27 02:51:14');
+INSERT INTO `players` VALUES(32, 'Rui', 1, 1, 1, 1, 1, 10, 10, 8, 8, '2012-03-05 02:42:43', '2012-03-27 02:51:14');
 
 -- --------------------------------------------------------
 
