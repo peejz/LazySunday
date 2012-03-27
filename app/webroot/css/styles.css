@@ -349,3 +349,7 @@ div.equipa2_res {
 #invbase .presence_on:hover { background-color: #3F0; }
 #invbase .presence_on button:hover { background-color: #3F0; }
 
+#legendainvites { height: auto; position: relative; width: 100%; top: 20px;}
+#legendainvites .box { height: 40px; width: 95%; margin-top: 1%; margin-right: 1%; margin-bottom: 1%; margin-left: 1%; position: relative; }
+#legendainvites .state {float: right; height: 18px; width: 18px; left: 0px; top: 0px; background-color: #0FF; margin: 10px; border-radius: 10px 10px 10px 10px; border: 1px solid #CCC; }
+#legendainvites .desc { position: relative; top: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: normal; color: #999; line-height: 18px; float: right;}

@@ -131,6 +131,13 @@
         <?php echo $this->Form->end(); ?>
         <?php endforeach; ?>
      </div>
+     <div id="legendainvites">
+         <div class="box">
+             <div class="state" style="background-color: #00FF00"></div><div class="desc">Joga</div>
+             <div class="state" style="background-color: #FF0000"></div><div class="desc">Não Joga</div>
+             <div class="state" style="background-color: #c3c3c3"></div><div class="desc">Não respondeu</div>
+        </div>
+     </div>
 <br/>
 <?php endif; ?>
 <br/>
