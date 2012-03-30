@@ -1,6 +1,6 @@
 <div><h1><?php echo $this->Time->format('d M Y', $game['Game']['data']); ?></h1></div>
-<div><?php echo $this->Html->link(__('Admin'), array('action' => 'admin/', $game['Game']['id'])); ?></div>
-
+<!--<div>--><?php //echo $this->Html->link(__('Admin'), array('action' => 'admin/', $game['Game']['id'])); ?><!--</div>-->
+<br/>
 <!-----------------TEAMS--------------------->
 <?php //if(count($generatedTeams['team_1']) == 5): ?>
 <div class=teams>

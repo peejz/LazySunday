@@ -1,5 +1,5 @@
 <div class="players index">
-	<h2><?php echo __('Players');?></h2>
+	<h2><?php echo __('Jogadores');?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('nome');?></th>
@@ -28,7 +28,7 @@
         <td><?php echo h($player['Player']['equipa_m_p_jogo']); ?>&nbsp;</td>
         <td><?php echo h($player['Player']['equipa_s_p_jogo']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $player['Player']['id'])); ?>
+			<?php echo $this->Html->link(__('Ver'), array('action' => 'view', $player['Player']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

@@ -25,7 +25,7 @@
             <ul id="menu">
                 <li><a href="<?php echo $this->webroot; ?>Games">Jogos</a></li>
                 <li><a href="<?php echo $this->webroot; ?>Players">Jogadores</a></li>
-                <li><a href="<?php echo $this->webroot; ?>Players/Stats">Stats</a></li>
+                <li><a href="#">Stats</a></li>
             </ul>
         </div>
     </div>
@@ -51,7 +51,7 @@
 </div>
 <div id="footerWrapper">
     <div id="footerContent">
-        <div id="credits">LazyFoot - 2012</div>
+        <div id="credits"><u>LazySunday</u> beta...<?php echo date('F'); ?> 2012</div>
     </div>
 </div>
 </body>
