@@ -1,7 +1,7 @@
 <?php $data = $this->requestAction('Games/playerStats'); ?>
 
 <div class=sideTitle>Ranking:</div>
-<div class=sideHeuristica>(vitorias/presencas)</div>
+<!--<div class=sideHeuristica>(vitorias/presencas)</div>-->
 <div class=sideContent>
     <table class="sidebar">
         <?php

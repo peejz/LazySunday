@@ -142,6 +142,11 @@ class GamesController extends AppController {
         //golos por jogo
         foreach($all_players as $id => $player) {
             $all_players[$id]['golos_p_jogo'] = round($player['golos'] / ($player['presencas'] - $adjust[$id]), 2);
+
+            //save a variable with the average topScorer
+            if(($all_players[$id]['golos_p_jogo'] > $all_players['Top_goals_p_Game']) and ($all_players[$id]['presencas'] > 1)) {
+                $all_players['Top_goals_p_Game'] = $all_players[$id]['golos_p_jogo'];
+            }
         }
 
 
@@ -202,11 +207,11 @@ class GamesController extends AppController {
 
             //check if user has victories
             if(!isset($player_data['victorias'])){
-              $ranking = 0;
+              $vit_pre = 0;
               $player_data['victorias'] = 0;
             }
             else {
-            $ranking = round($player_data['victorias']/$player_data['presencas'], 2);
+            $vit_pre = round($player_data['victorias']/$player_data['presencas'], 3);
             }
 
             //check if user has goals
@@ -214,9 +219,14 @@ class GamesController extends AppController {
               $player_data['golos'] = 0;
             }
 
+            //generateRanking
+            $goalsRating = $player_data['golos_p_jogo'] / $all_players['Top_goals_p_Game'];
+            $ranking = round(0.75*$vit_pre + 0.25*$goalsRating, 3);
+
 
             $saveplayer = array('Player' => array('id' => $player_id,
                                                   'ranking' => $ranking,
+                                                  'vit_pre' => $vit_pre,
                                                   'golos' => $player_data['golos'],
                                                   'golos_p_jogo' => $player_data['golos_p_jogo'],
                                                   'presencas' => $player_data['presencas'],

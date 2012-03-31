@@ -6,6 +6,7 @@
 			<th><?php echo $this->Paginator->sort('presencas');?></th>
 			<th><?php echo $this->Paginator->sort('ranking');?></th>
 			<th><?php echo $this->Paginator->sort('vitorias');?></th>
+            <th><?php echo $this->Paginator->sort('vit_pre');?></th>
 			<th><?php echo $this->Paginator->sort('golos');?></th>
             <th><?php echo $this->Paginator->sort('golos_p_jogo');?></th>
             <th><?php echo $this->Paginator->sort('equipa_m');?></th>
@@ -21,6 +22,7 @@
 		<td><?php echo h($player['Player']['presencas']); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['ranking']); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['vitorias']); ?>&nbsp;</td>
+        <td><?php echo h($player['Player']['vit_pre']); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['golos']); ?>&nbsp;</td>
         <td><?php echo h($player['Player']['golos_p_jogo']); ?>&nbsp;</td>
         <td><?php echo h($player['Player']['equipa_m']); ?>&nbsp;</td>
