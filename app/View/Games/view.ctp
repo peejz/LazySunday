@@ -29,25 +29,28 @@
 
         <!--- Convocatória 1--->
         <?php if($game['Game']['estado'] == 0): ?>
-            <div class="equipa1_res">
-                <?php echo $generatedTeams['team_1_ranking']; ?>
-            </div>
-            <div class="equipa1">
-                <?php //print_r($generatedTeams); ?>
-                <table>
+            <?php if(isset($generatedTeams['team_1'])): ?>
+                <div class="equipa1_res">
+                    <?php echo $generatedTeams['team_1_ranking']; ?>
+                </div>
+                <div class="equipa1">
+                    <?php //print_r($generatedTeams); ?>
+                    <table>
 
-                    <?php if($generatedTeams['team_1'] != null): ?>
-                    <?php foreach($generatedTeams['team_1'] as $key => $player):?>
-                        <tr>
-                            <td class="num"><?php echo $key; ?>º</td>
-                            <td class="player"><?php echo $player['name']; ?></td>
-                            <td class="rank"><?php echo $player['ranking']; ?></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                        <?php if($generatedTeams['team_1'] != null): ?>
+                        <?php foreach($generatedTeams['team_1'] as $key => $player):?>
 
-                </table>
-            </div>
+                            <tr id=<?php if($player['available'] != 1) { echo 'escuros_null'; } ?>>
+                                <td class="num"><?php echo $key; ?>º</td>
+                                <td class="player"><?php echo $player['name']; ?></td>
+                                <td class="rank"><?php echo $player['ranking']; ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
+                    </table>
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
 
@@ -76,25 +79,27 @@
 
             <!--- Convocatória 2--->
             <?php if($game['Game']['estado'] == 0): ?>
-                <div class="equipa2_res">
-                    <?php echo $generatedTeams['team_2_ranking']; ?>
-                </div>
-                <div class="equipa2">
-                    <?php //print_r($generatedTeams); ?>
-                    <table>
+                <?php if(isset($generatedTeams['team_2'])): ?>
+                    <div class="equipa2_res">
+                        <?php echo $generatedTeams['team_2_ranking']; ?>
+                    </div>
+                    <div class="equipa2">
+                        <?php //print_r($generatedTeams); ?>
+                        <table>
 
-                        <?php if($generatedTeams['team_2'] != null): ?>
-                        <?php foreach($generatedTeams['team_2'] as $key => $player):?>
-                            <tr>
-                                <td class="num"><?php echo $key; ?>º</td>
-                                <td class="player"><?php echo $player['name']; ?></td>
-                                <td class="rank"><?php echo $player['ranking']; ?></td>
-                            </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
+                            <?php if($generatedTeams['team_2'] != null): ?>
+                            <?php foreach($generatedTeams['team_2'] as $key => $player):?>
+                                <tr id=<?php if($player['available'] != 1) { echo 'brancos_null'; } ?>>
+                                    <td class="num"><?php echo $key; ?>º</td>
+                                    <td class="player"><?php echo $player['name']; ?></td>
+                                    <td class="rank"><?php echo $player['ranking']; ?></td>
+                                </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
 
-                    </table>
-                </div>
+                        </table>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>
@@ -139,65 +144,5 @@
         </div>
      </div>
 <br/>
-<?php endif; ?>
-<br/>
-<?php if($game['Game']['estado'] == 0): ?>
-<div class="games view">
-<!--    <h2>--><?php //echo __('Teams'); ?><!--</h2>-->
-
-
-    <div class="team">
-        <?php //print_r($generatedTeams); ?>
-        <table>
-            <tr>
-                <th>pos</th>
-                <th>Escuros</th>
-                <th><?php echo $generatedTeams['team_1_ranking']; ?></th>
-
-                <th>pres</th>
-            </tr>
-
-            <?php if($generatedTeams['team_1'] != null): ?>
-            <?php foreach($generatedTeams['team_1'] as $key => $player):?>
-                <tr>
-                    <td class="num"><?php echo $key; ?>º</td>
-                    <td class="player"><?php echo $player['name']; ?></td>
-                    <td class="rank"><?php echo $player['ranking']; ?></td>
-
-                    <td><?php echo $player['presencas']; ?></td>
-                </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-
-        </table>
-    </div>
-
-    <div class="team">
-        <table>
-            <tr>
-                <th>pos</th>
-                <th>Brancos</th>
-                <th><?php echo $generatedTeams['team_2_ranking']; ?></th>
-
-                <th>pres</th>
-            </tr>
-
-            <?php if($generatedTeams['team_2'] != null): ?>
-            <?php foreach($generatedTeams['team_2'] as $key => $player):?>
-                <tr>
-                    <td class="num"><?php echo $key; ?>º</td>
-                    <td class="player"><?php echo $player['name']; ?></td>
-                    <td class="rank"><?php echo $player['ranking']; ?></td>
-
-                    <td><?php echo $player['presencas']; ?></td>
-                </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-
-        </table>
-    </div>
-
-</div>
-
 <?php endif; ?>
 

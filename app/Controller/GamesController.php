@@ -391,7 +391,7 @@ class GamesController extends AppController {
 
     public function invites($id) {
         // ----- Invites
-        $options = array('order' => array('Invite.available' => 'desc', 'Player.ranking' => 'desc'), 'conditions' => array('game_id' => $id));
+        $options = array('order' => array('Player.conv' => 'asc', 'Player.ranking' => 'desc'), 'conditions' => array('game_id' => $id));
         $invites = $this->Game->Invite->find('all', $options);
         $players = $this->Player->find('list');
 
@@ -407,45 +407,6 @@ class GamesController extends AppController {
         return array('invites' => $invites,
                      'notinvited' => $notinvited);
 
-    }
-/**
- * updateInvites method
- *
- * @param string $id
- * @return void
- */
-    public function updateInvites_old($id = null) {
-        $this->Game->id = $id;
-
-        $numInvites = count($this->request->data['Game']);
-        $invites = $this->request->data['Game'];
-        print_r($invites);
-        $i=0;
-        while($i != $numInvites) {
-            //echo key($invites);
-
-            $jogadorid = str_replace('jogador', '', key($invites));
-            //echo $jogadorid.' => '.$invites['jogador'.$jogadorid].'<br/>';
-
-            $options = array('conditions' => array('Invite.game_id' => $id, 'Invite.player_id' => $jogadorid));
-            $currentInvite = $this->Game->Invite->find('first', $options);
-
-            print_r($currentInvite['Invite']);
-
-            if($currentInvite['Invite']['available'] != $invites['jogador'.$jogadorid]) {
-                $currentInvite['Invite']['available'] = $invites['jogador'.$jogadorid];
-                if($this->Game->Invite->save($currentInvite)) {
-                    //$this->Session->setFlash(__('Invite for player '.$jogadorid.' has been updated!'));
-                } else {
-                    //$this->Session->setFlash(__('Could not update invite for player '.$jogadorid));
-                }
-            }
-
-            next($invites);
-            $i++;
-        }
-
-        $this->redirect('/games/view/'.$id);
     }
 
 
@@ -523,17 +484,47 @@ class GamesController extends AppController {
 
         //Array of Available Players
         $i = 0;
-        foreach($invitedPlayers['invites'] as $invite) {
-            if($invite['Invite']['available'] == 1)
-            $available_list[$i++] = array('id' => $invite['Player']['id'],
-                                          'name' => $invite['Player']['nome'],
-                                          'ranking' => $invite['Player']['ranking'],
-                                          'presencas' => $invite['Player']['presencas']);
-        }
+
+            foreach($invitedPlayers['invites'] as $invite) {
+
+                    if($invite['Invite']['available'] === null) {
+                        $available_list[$i++] = array('id' => $invite['Player']['id'],
+                                                        'name' => $invite['Player']['nome'],
+                                                        'ranking' => $invite['Player']['ranking'],
+                                                        'presencas' => $invite['Player']['presencas'],
+                                                        'available' => null);
+
+                    }
+                    elseif($invite['Invite']['available'] == 0) {
+
+                    }
+                    else {
+                    $available_list[$i++] = array('id' => $invite['Player']['id'],
+                                              'name' => $invite['Player']['nome'],
+                                              'ranking' => $invite['Player']['ranking'],
+                                              'presencas' => $invite['Player']['presencas'],
+                                              'available' => 1);
+                    }
+
+
+
+            }
+
 
         if(!isset($available_list)) {
             return null;
         }
+
+        //Creates empty spots in case players < 10
+        while(count($available_list) < 10) {
+            $available_list[$i++] = array('id' => 0,
+                'name' => '___?___   ',
+                'ranking' => null,
+                'presencas' => 0,
+                'available' => null);
+        }
+        //Cut the array so it has max 10 players
+        $available_list = array_slice($available_list, 0, 10);
 
         //Sort by ranking
         foreach ($available_list as $key => $row) {
@@ -545,7 +536,7 @@ class GamesController extends AppController {
 
 
 
-        //Sort into teams
+        /*//Sort into teams
         foreach ($available_list as $key => $player) {
             if($key == 0 or $key == 3 or $key == 5 or $key == 7 or $key == 9){
                 $teams['team_1'][$key + 1] = $player;
@@ -554,10 +545,46 @@ class GamesController extends AppController {
                 $teams['team_2'][$key + 1] = $player;
             }
 
+        }*/
+
+        if(count($available_list) >= 10)
+        {
+            //Sort into teams
+            $teams['team_1'][1] = $available_list[0];
+            $teams['team_2'][2] = $available_list[1];
+            $teams['team_2'][3] = $available_list[2];
+            $teams['team_1'][4] = $available_list[3];
+
+            $teams['team_1_ranking'] = $teams['team_1'][1]['ranking'] + $teams['team_1'][4]['ranking'];
+            $teams['team_2_ranking'] = $teams['team_2'][2]['ranking'] + $teams['team_2'][3]['ranking'];
+
+            for($i = 5; $i <= 9; $i += 2) {
+
+                //does a varition in case a player goes to either team
+                $var_1[1] = $teams['team_1_ranking'] + $available_list[$i]['ranking'];
+                $var_1[2] = $teams['team_2_ranking'] + $available_list[$i-1]['ranking'];
+                $var_2[1] = $teams['team_1_ranking'] + $available_list[$i-1]['ranking'];
+                $var_2[2] = $teams['team_2_ranking'] + $available_list[$i]['ranking'];
+
+                //if the variation is the smallest
+                if(abs($var_1[1] - $var_1[2]) < abs($var_2[1] - $var_2[2])) {
+                    $teams['team_1'][$i+1] = $available_list[$i];
+                    $teams['team_1_ranking'] += $available_list[$i]['ranking'];
+                    $teams['team_2'][$i] = $available_list[$i-1];
+                    $teams['team_2_ranking'] += $available_list[$i-1]['ranking'];
+
+                }
+                else {
+                    $teams['team_1'][$i] = $available_list[$i-1];
+                    $teams['team_1_ranking'] += $available_list[$i-1]['ranking'];
+                    $teams['team_2'][$i+1] = $available_list[$i];
+                    $teams['team_2_ranking'] += $available_list[$i]['ranking'];
+                }
+            }
         }
 
         //overall team ranking
-        if(isset($teams['team_1'])) {
+        /*if(isset($teams['team_1'])) {
             foreach($teams['team_1'] as $player){
                 if(!isset($teams['team_1_ranking'])) {
                   $teams['team_1_ranking'] = $player['ranking'];
@@ -586,7 +613,7 @@ class GamesController extends AppController {
             $teams['team_2'] = null;
             $teams['team_2_ranking'] = 0;
 
-        }
+        }*/
 
         //Team_id
         $teams['team_1_id'] = $currentTeams[0]['Team']['id'];
