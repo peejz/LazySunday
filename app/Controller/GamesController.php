@@ -7,7 +7,7 @@ App::uses('AppController', 'Controller');
  */
 class GamesController extends AppController {
 
-    public $uses = array('Game', 'Invite', 'Goal', 'Team', 'Player', 'PlayersTeam');
+    public $uses = array('Game', 'Invite', 'Goal', 'Team', 'Player', 'PlayersTeam', 'Rating');
     public $helpers = array('Time');
 
 /**
@@ -219,13 +219,13 @@ class GamesController extends AppController {
               $player_data['golos'] = 0;
             }
 
-            //generateRanking
+            //generaterating
             $goalsRating = $player_data['golos_p_jogo'] / $all_players['Top_goals_p_Game'];
-            $ranking = round(0.75*$vit_pre + 0.25*$goalsRating, 3);
+            $rating = round(0.75*$vit_pre + 0.25*$goalsRating, 3);
 
 
             $saveplayer = array('Player' => array('id' => $player_id,
-                                                  'ranking' => $ranking,
+                                                  'rating' => $rating,
                                                   'vit_pre' => $vit_pre,
                                                   'golos' => $player_data['golos'],
                                                   'golos_p_jogo' => $player_data['golos_p_jogo'],
@@ -391,7 +391,7 @@ class GamesController extends AppController {
 
     public function invites($id) {
         // ----- Invites
-        $options = array('order' => array('Player.conv' => 'asc', 'Player.ranking' => 'desc'), 'conditions' => array('game_id' => $id));
+        $options = array('order' => array('Player.conv' => 'asc', 'Player.rating' => 'desc'), 'conditions' => array('game_id' => $id));
         $invites = $this->Game->Invite->find('all', $options);
         $players = $this->Player->find('list');
 
@@ -490,7 +490,7 @@ class GamesController extends AppController {
                     if($invite['Invite']['available'] === null) {
                         $available_list[$i++] = array('id' => $invite['Player']['id'],
                                                         'name' => $invite['Player']['nome'],
-                                                        'ranking' => $invite['Player']['ranking'],
+                                                        'rating' => $invite['Player']['rating'],
                                                         'presencas' => $invite['Player']['presencas'],
                                                         'available' => null);
 
@@ -501,7 +501,7 @@ class GamesController extends AppController {
                     else {
                     $available_list[$i++] = array('id' => $invite['Player']['id'],
                                               'name' => $invite['Player']['nome'],
-                                              'ranking' => $invite['Player']['ranking'],
+                                              'rating' => $invite['Player']['rating'],
                                               'presencas' => $invite['Player']['presencas'],
                                               'available' => 1);
                     }
@@ -518,21 +518,21 @@ class GamesController extends AppController {
         //Creates empty spots in case players < 10
         while(count($available_list) < 10) {
             $available_list[$i++] = array('id' => 0,
-                'name' => '___?___   ',
-                'ranking' => null,
+                'name' => '__ ? __   ',
+                'rating' => null,
                 'presencas' => 0,
                 'available' => null);
         }
         //Cut the array so it has max 10 players
         $available_list = array_slice($available_list, 0, 10);
 
-        //Sort by ranking
+        //Sort by rating
         foreach ($available_list as $key => $row) {
             $player_id[$key]  = $row['id'];
-            $ranking[$key] = $row['ranking'];
+            $rating[$key] = $row['rating'];
         }
 
-        array_multisort($ranking, SORT_DESC, $player_id, SORT_ASC, $available_list);
+        array_multisort($rating, SORT_DESC, $player_id, SORT_ASC, $available_list);
 
 
 
@@ -555,63 +555,63 @@ class GamesController extends AppController {
             $teams['team_2'][3] = $available_list[2];
             $teams['team_1'][4] = $available_list[3];
 
-            $teams['team_1_ranking'] = $teams['team_1'][1]['ranking'] + $teams['team_1'][4]['ranking'];
-            $teams['team_2_ranking'] = $teams['team_2'][2]['ranking'] + $teams['team_2'][3]['ranking'];
+            $teams['team_1_rating'] = $teams['team_1'][1]['rating'] + $teams['team_1'][4]['rating'];
+            $teams['team_2_rating'] = $teams['team_2'][2]['rating'] + $teams['team_2'][3]['rating'];
 
             for($i = 5; $i <= 9; $i += 2) {
 
                 //does a varition in case a player goes to either team
-                $var_1[1] = $teams['team_1_ranking'] + $available_list[$i]['ranking'];
-                $var_1[2] = $teams['team_2_ranking'] + $available_list[$i-1]['ranking'];
-                $var_2[1] = $teams['team_1_ranking'] + $available_list[$i-1]['ranking'];
-                $var_2[2] = $teams['team_2_ranking'] + $available_list[$i]['ranking'];
+                $var_1[1] = $teams['team_1_rating'] + $available_list[$i]['rating'];
+                $var_1[2] = $teams['team_2_rating'] + $available_list[$i-1]['rating'];
+                $var_2[1] = $teams['team_1_rating'] + $available_list[$i-1]['rating'];
+                $var_2[2] = $teams['team_2_rating'] + $available_list[$i]['rating'];
 
                 //if the variation is the smallest
                 if(abs($var_1[1] - $var_1[2]) < abs($var_2[1] - $var_2[2])) {
                     $teams['team_1'][$i+1] = $available_list[$i];
-                    $teams['team_1_ranking'] += $available_list[$i]['ranking'];
+                    $teams['team_1_rating'] += $available_list[$i]['rating'];
                     $teams['team_2'][$i] = $available_list[$i-1];
-                    $teams['team_2_ranking'] += $available_list[$i-1]['ranking'];
+                    $teams['team_2_rating'] += $available_list[$i-1]['rating'];
 
                 }
                 else {
                     $teams['team_1'][$i] = $available_list[$i-1];
-                    $teams['team_1_ranking'] += $available_list[$i-1]['ranking'];
+                    $teams['team_1_rating'] += $available_list[$i-1]['rating'];
                     $teams['team_2'][$i+1] = $available_list[$i];
-                    $teams['team_2_ranking'] += $available_list[$i]['ranking'];
+                    $teams['team_2_rating'] += $available_list[$i]['rating'];
                 }
             }
         }
 
-        //overall team ranking
+        //overall team rating
         /*if(isset($teams['team_1'])) {
             foreach($teams['team_1'] as $player){
-                if(!isset($teams['team_1_ranking'])) {
-                  $teams['team_1_ranking'] = $player['ranking'];
+                if(!isset($teams['team_1_rating'])) {
+                  $teams['team_1_rating'] = $player['rating'];
                 }
                 else {
-                  $teams['team_1_ranking'] += $player['ranking'];
+                  $teams['team_1_rating'] += $player['rating'];
                 }
             }
         }
         else {
             $teams['team_1'] = null;
-            $teams['team_1_ranking'] = 0;
+            $teams['team_1_rating'] = 0;
         }
 
         if(isset($teams['team_2'])) {
             foreach($teams['team_2'] as $player){
-                if(!isset($teams['team_2_ranking'])) {
-                    $teams['team_2_ranking'] = $player['ranking'];
+                if(!isset($teams['team_2_rating'])) {
+                    $teams['team_2_rating'] = $player['rating'];
                 }
                 else {
-                    $teams['team_2_ranking'] += $player['ranking'];
+                    $teams['team_2_rating'] += $player['rating'];
                 }
             }
         }
         else {
             $teams['team_2'] = null;
-            $teams['team_2_ranking'] = 0;
+            $teams['team_2_rating'] = 0;
 
         }*/
 
@@ -702,10 +702,10 @@ class GamesController extends AppController {
     }
 
     public function playerStats() {
-        //ranking
-        $op_ranking = array('order' => array('Player.ranking' => 'desc'),
+        //rating
+        $op_rating = array('order' => array('Player.rating' => 'desc'),
                          'conditions' => array('Player.presencas >' => 1));
-        $players['rankingList'] = $this->Player->find('all', $op_ranking);
+        $players['ratingList'] = $this->Player->find('all', $op_rating);
 
         //topGoalscorer
         $op_topGoalscorer = array('order' => array('Player.golos_p_jogo' => 'desc'),
@@ -724,5 +724,6 @@ class GamesController extends AppController {
 
         return $players;
     }
+
 
 }

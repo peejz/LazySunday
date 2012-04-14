@@ -1,16 +1,16 @@
 <?php $data = $this->requestAction('Games/playerStats'); ?>
 
-<div class=sideTitle>Ranking:</div>
+<div class=sideTitle>rating:</div>
 <!--<div class=sideHeuristica>(vitorias/presencas)</div>-->
 <div class=sideContent>
     <table class="sidebar">
         <?php
         $i = 1;
-        foreach ($data['rankingList'] as $player): ?>
+        foreach ($data['ratingList'] as $player): ?>
             <tr>
                 <td class="num"><?php echo $i++; ?>º</td>
                 <td class="player"><?php echo $player['Player']['nome']; ?></td>
-                <td class="rank"><?php echo $player['Player']['ranking']; ?></td>
+                <td class="rank"><?php echo $player['Player']['rating']; ?></td>
 
             </tr>
             <?php endforeach; ?>

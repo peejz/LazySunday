@@ -30,7 +30,7 @@ html, body {
 #header {
     width: 100%;
     background-image: url(../img/header_soccer.jpg);
-    height: 200px;
+    height: 140px;
     background-position: center;
     margin-right: auto;
     margin-left: auto;
@@ -49,7 +49,7 @@ html, body {
     height:100px;
     z-index:1;
     background-image: url(../img/header_menu.png);
-    top: 42px;
+    top: 15px;
     margin-right: auto;
     margin-left: auto;
     position: relative;
@@ -355,8 +355,8 @@ div.index tr:nth-child(even)		{ background-color:#fff; }
 #invbase .state { position: absolute; height: 18px; width: 18px; left: 0px; top: 0px; background-color: #0FF; margin: 10px; border-radius: 10px 10px 10px 10px; border: 1px solid #CCC; }
 /*#invbase .state:hover { background-color: #F30; }*/
 
-#invbase .ranking { height: 18px; width: 140px; border: 1px solid #CCC; position: absolute; left: 60px; background-color: #E1FFFF; margin-top: 10px; margin-right: 20px; margin-bottom: 10px; top: 0px; }
-#invbase .rankingvalor {
+#invbase .rating { height: 18px; width: 140px; border: 1px solid #CCC; position: absolute; left: 60px; background-color: #E1FFFF; margin-top: 10px; margin-right: 20px; margin-bottom: 10px; top: 0px; }
+#invbase .ratingvalor {
     background-color: #ffc500;
     height: 18px;
     width: 40px;
@@ -365,7 +365,7 @@ div.index tr:nth-child(even)		{ background-color:#fff; }
     left: -1px;
     top: -1px;
 }
-#invbase .ranking_n { font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: #999; position: absolute; left: 220px; width: 50px; top: 10px; }
+#invbase .rating_n { font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: #999; position: absolute; left: 220px; width: 50px; top: 10px; }
 
 #invbase .player { font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: normal; color: #999; position: absolute; left: 280px; width: 200px; top: 12px; }
 
@@ -386,3 +386,8 @@ div.index tr:nth-child(even)		{ background-color:#fff; }
 #legendainvites .box { height: 40px; width: 95%; margin-top: 1%; margin-right: 1%; margin-bottom: 1%; margin-left: 1%; position: relative; }
 #legendainvites .state {float: right; height: 18px; width: 18px; left: 0px; top: 0px; background-color: #0FF; margin: 10px; border-radius: 10px 10px 10px 10px; border: 1px solid #CCC; }
 #legendainvites .desc { position: relative; top: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: normal; color: #999; line-height: 18px; float: right;}
+
+table.ratingstable {
+    float: left;
+    margin: 20px;
+}

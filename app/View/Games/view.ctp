@@ -31,7 +31,7 @@
         <?php if($game['Game']['estado'] == 0): ?>
             <?php if(isset($generatedTeams['team_1'])): ?>
                 <div class="equipa1_res">
-                    <?php echo $generatedTeams['team_1_ranking']; ?>
+                    <?php echo $generatedTeams['team_1_rating']; ?>
                 </div>
                 <div class="equipa1">
                     <?php //print_r($generatedTeams); ?>
@@ -43,7 +43,7 @@
                             <tr id=<?php if($player['available'] != 1) { echo 'escuros_null'; } ?>>
                                 <td class="num"><?php echo $key; ?>º</td>
                                 <td class="player"><?php echo $player['name']; ?></td>
-                                <td class="rank"><?php echo $player['ranking']; ?></td>
+                                <td class="rank"><?php echo $player['rating']; ?></td>
                             </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
@@ -81,7 +81,7 @@
             <?php if($game['Game']['estado'] == 0): ?>
                 <?php if(isset($generatedTeams['team_2'])): ?>
                     <div class="equipa2_res">
-                        <?php echo $generatedTeams['team_2_ranking']; ?>
+                        <?php echo $generatedTeams['team_2_rating']; ?>
                     </div>
                     <div class="equipa2">
                         <?php //print_r($generatedTeams); ?>
@@ -92,7 +92,7 @@
                                 <tr id=<?php if($player['available'] != 1) { echo 'brancos_null'; } ?>>
                                     <td class="num"><?php echo $key; ?>º</td>
                                     <td class="player"><?php echo $player['name']; ?></td>
-                                    <td class="rank"><?php echo $player['ranking']; ?></td>
+                                    <td class="rank"><?php echo $player['rating']; ?></td>
                                 </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
@@ -127,8 +127,8 @@
               elseif(is_null($valor)) echo 'background-color: #c3c3c3';
               else echo 'background-color: #FF0000';
               ?>"></div>
-          <div class="ranking"><div class="rankingvalor" style="<?php echo 'width:'.$invite['Player']['ranking']*140;echo 'px'; ?>"></div></div>
-          <div class="ranking_n"><?php echo $invite['Player']['ranking']; ?></div>
+          <div class="rating"><div class="ratingvalor" style="<?php echo 'width:'.$invite['Player']['rating']*0.08;echo 'px'; ?>"></div></div>
+          <div class="rating_n"><?php echo $invite['Player']['rating']; ?></div>
           <div class="player"><?php echo $invite['Player']['nome']; ?></div>
           <div class="presence_off presence_txt"><?php echo $this->Form->button('NA', array('name' => $invite['Player']['id'], 'value' => 0, 'div' => false)); ?></div>
           <div class="presence_on presence_txt"><?php echo $this->Form->button('OK', array('name' => $invite['Player']['id'], 'value' => 1, 'div' => false)); ?></div>
