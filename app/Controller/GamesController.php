@@ -638,22 +638,29 @@ class GamesController extends AppController {
                     $saveteamplayer = array('PlayersTeam' => array('team_id' => $teams['team_'.$i.'_id'], 'player_id' => $teamplayer['id']));
                     $this->PlayersTeam->create();
                     $this->PlayersTeam->save($saveteamplayer);
-                    debug($saveteamplayer);
+                    //debug($saveteamplayer);
                 }
             }
+
         }
 
         //Change game state to 1
         $this->Game->id = $game_id;
         $this->Game->save(array('Game' => array('estado' => 1)));
 
+        //Redirect
+        $this->redirect(array('action' => 'view', $game_id));
+
     }
 
     public function submitGoals($id) {
+
+        //variables
+        $teamGoals[0] = null;
+        $teamGoals[1] = null;
+
         //debug($this->request->data);
         $i = 1;
-        $teamGoals[1] = 0;
-        $teamGoals[2] = 0;
 
         foreach($this->request->data['Game'] as $player_id => $goals) {
             $playerGoals = array('Goal' => array('game_id' => $id, 'player_id' => $player_id, 'golos' => $goals));
@@ -682,6 +689,12 @@ class GamesController extends AppController {
         //Change game state to 2
         $this->Game->id = $id;
         $this->Game->save(array('Game' => array('estado' => 2, resultado => $teamGoals[0].'-'.$teamGoals[1])));
+
+        //Update Player Stats
+        $this->updatePlayerStats($id);
+
+        //Redirect
+        $this->redirect(array('action' => 'view', $id));
     }
 
     public function admin($id = null) {

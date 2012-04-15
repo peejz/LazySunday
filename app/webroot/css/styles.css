@@ -343,6 +343,45 @@ div.equipa2_res {
     font-size: 28pt;
 }
 
+/******* Admin **/
+ul
+{
+    list-style-type: none;
+}
+
+div.admin_sidebar {
+    float:left;
+    border-radius: 10px 10px 10px 10px;
+    background-color: white;
+    padding: 10px;
+}
+
+div.notinvited {
+    float:left;
+    padding: 10px;
+    margin-left: 50px;
+}
+
+div.submit_goals {
+    float:left;
+}
+
+div.adminTeam {
+    float:left;
+    padding: 10px;
+    margin-left: 50px;
+}
+
+div.adminTeam input{
+    width: 30px;
+}
+
+div.adminTeam table td{
+    padding: 3px;
+}
+
+
+
 /******* Players **/
 div.index tr:nth-child(odd)		{ background-color:#eee; }
 div.index tr:nth-child(even)		{ background-color:#fff; }
