@@ -46,11 +46,11 @@ class RatingsController extends AppController
 
             //$player['rating'] = 1200;
 
-        $saveplayer = array('Player' => array('id' => $player['Player']['id'],
-          //  'rating' => $player['rating'] + $ratingAdjByPlayer[$i]));
-         'rating' => 1200));
-        //debug($saveplayer);
-        $this->Player->save($saveplayer);
+            $saveplayer = array('Player' => array('id' => $player['Player']['id'],
+            //  'rating' => $player['rating'] + $ratingAdjByPlayer[$i]));
+            'ratingElo' => 1200));
+            //debug($saveplayer);
+            $this->Player->save($saveplayer);
         }
 
 
@@ -70,7 +70,7 @@ class RatingsController extends AppController
 
                 foreach($team['Player'] as $player) {
 
-                    $rating[$i] += $player['rating'];
+                    $rating[$i] += $player['ratingElo'];
 
                 }
                 $teamGoals[$i] = $team['Team']['golos'];
@@ -134,13 +134,13 @@ class RatingsController extends AppController
 
 
                     $saveplayer = array('Player' => array('id' => $player['id'],
-                                                          'rating' => $player['rating'] + $ratingAdjByPlayer[$i]));
+                                                          'ratingElo' => $player['ratingElo'] + $ratingAdjByPlayer[$i]));
                                                            // 'rating' => 1200));
                     //debug($saveplayer);
                     $this->Player->save($saveplayer);
 
 
-                    $players[$player['nome']] = ($player['rating'] + $ratingAdjByPlayer[$i])." ".$teamRating." "." adjust: ".$ratingAdjByPlayer[$i];
+                    $players[$player['nome']] = ($player['ratingElo'] + $ratingAdjByPlayer[$i])." ".$teamRating." "." adjust: ".$ratingAdjByPlayer[$i];
 
                 }
                 //$teamGoals[$i] = $team['Team']['golos'];

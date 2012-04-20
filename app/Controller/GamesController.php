@@ -10,6 +10,9 @@ class GamesController extends AppController {
     public $uses = array('Game', 'Invite', 'Goal', 'Team', 'Player', 'PlayersTeam', 'Rating');
     public $helpers = array('Time');
 
+    //Minimum number of attendances required to be accepted in the rating table
+    const N_MIN_PRE = 1;
+
 /**
  * index method
  *
@@ -42,9 +45,9 @@ class GamesController extends AppController {
         //Teams
         $this->set('generatedTeams', $this->generateTeams($id));
         }
-        elseif($game['Game']['estado'] == 1) {
-        $something = "";
-        }
+        //elseif($game['Game']['estado'] == 1) {
+        //$something = "";
+        //}
         else {
         //teams goals - variaveis para a view
         $this->set($this->teams_goals($id));
@@ -57,10 +60,205 @@ class GamesController extends AppController {
 
 	}
 
-    public function formatDate(){
+    /**
+     * teams_goals method
+     *
+     * @param string $id
+     * @return array
+     */
+    public function teams_goals($id){
+        // ----- Teams
+        $teamoptions = array('conditions' => array('game_id' => $id));
+        $teams = $this->Game->Team->find('all', $teamoptions);
+        $i = 1;
+        //if(count($teams) != 2) throw new NotFoundException(__('Teams dont exist.'));
+        foreach($teams as $team) {
+            foreach($team['Player'] as $player) {
+                ${'team'.$i.'_list'}[$player['nome']] = $player['id'];
+            }
+            ${'team_'.$i.'_golos'} = $team['Team']['golos'];
+            $i++;
+        }
+
+        // ----- Goals
+        $goaloptions = array('conditions' => array('game_id' => $id));
+        $goals = $this->Game->Goal->find('all', $goaloptions);
+        //if(count($goals <= 0)) throw new NotFoundException(__('Goals dont exist.'));
+        if($goals) {
+            foreach($goals as $goal) {
+                foreach($team1_list as $playername => $playerid) {
+                    if($goal['Goal']['player_id'] == $playerid){
+                        $team1_list[$playername] = $goal['Goal']['golos'];
+                    }
+                }
+                foreach($team2_list as $playername => $playerid) {
+                    if($goal['Goal']['player_id'] == $playerid){
+                        $team2_list[$playername] = $goal['Goal']['golos'];
+                    }
+                }
+            }
+        } else {
+            foreach($team1_list as $nome => $golos){$team1_list[$nome] = 0;}
+            foreach($team2_list as $nome => $golos){$team2_list[$nome] = 0;}
+        }
+
+        //print_r($team1_list);
+        //print_r($team2_list);
+        //echo $team1_golos;
+        //echo $team2_golos;
+
+        // [Nome] => Golos
+        // [Peej] => 3
+        // [Far] => 2
+        // [Fresco] => 5
+        // ...
+
+        // ----- Disponivel na View
+        return array('team_1' => $team1_list,
+            'team_2' => $team2_list,
+            'team_1_goals' => $team_1_golos,
+            'team_2_goals' => $team_2_golos);
+
 
     }
 
+/**
+ * invites method
+ *
+ * @param string $id
+ * @return array
+ */
+    public function invites($id) {
+        // ----- Invites
+        $options = array('order' => array('Player.conv' => 'asc', 'Player.rating' => 'desc'), 'conditions' => array('game_id' => $id));
+        $invites = $this->Game->Invite->find('all', $options);
+        $players = $this->Player->find('list');
+
+        foreach($invites as $invite) {
+            $invite_list[$invite['Invite']['player_id']] = null;
+        }
+        foreach($players as $key => $player) {
+            if(!array_key_exists($key, $invite_list)) {
+                $notinvited[$key] = $player;
+            }
+        }
+
+        return array('invites' => $invites,
+            'notinvited' => $notinvited);
+
+    }
+
+    /**
+     * add method
+     *
+     * @return void
+     */
+    public function add() {
+        if ($this->request->is('post')) {
+
+            $savegame['Game'] = array_slice($this->request->data['Game'], 0, 1);
+            $savegame['Game']['estado'] = 0;
+
+            $saveplayers = array_slice($this->request->data['Game'], 1);
+
+            $this->Game->create();
+            $gameid = $this->Game->save($savegame);
+
+            foreach($saveplayers as $key => $player) {
+                $saveplayer = array('Invite' => array(
+                    'game_id' => $gameid['Game']['id'],
+                    'player_id' => str_replace('jogador', '', $key)
+                ));
+                if($player) {
+                    $this->Invite->Create();
+                    if($this->Invite->save($saveplayer)) {
+                        $this->Session->setFlash(__('The game has been saved'));
+                    } else {
+                        $this->Session->setFlash(__('The game could not be saved. Please, try again.'));
+                    }
+                }
+            }
+            $this->redirect(array('action' => 'index'));
+        }
+
+        $players = $this->Player->find('list');
+        $this->set(compact('players'));
+    }
+
+    /**
+     * edit method
+     *
+     * @param string $id
+     * @return void
+     */
+    public function edit($id = null) {
+        $this->Game->id = $id;
+        if (!$this->Game->exists()) {
+            throw new NotFoundException(__('Invalid game'));
+        }
+        if ($this->request->is('post') || $this->request->is('put')) {
+            if ($this->Game->save($this->request->data)) {
+                $this->Session->setFlash(__('The game has been saved'));
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash(__('The game could not be saved. Please, try again.'));
+            }
+        } else {
+            $this->request->data = $this->Game->read(null, $id);
+        }
+    }
+
+    /**
+     * delete method
+     *
+     * @param string $id
+     * @return void
+     */
+    public function delete($id = null) {
+        if (!$this->request->is('post')) {
+            throw new MethodNotAllowedException();
+        }
+        $this->Game->id = $id;
+        if (!$this->Game->exists()) {
+            throw new NotFoundException(__('Invalid game'));
+        }
+        if ($this->Game->delete()) {
+            $this->Session->setFlash(__('Game deleted'));
+            $this->redirect(array('action' => 'index'));
+        }
+        $this->Session->setFlash(__('Game was not deleted'));
+        $this->redirect(array('action' => 'index'));
+    }
+
+/**
+ * admin method
+ *
+ * @param string $id
+ * @return void
+ */
+    public function admin($id = null) {
+        $this->Game->id = $id;
+        if (!$this->Game->exists()) {
+            throw new NotFoundException(__('Invalid game'));
+        }
+        $this->set('game', $this->Game->read(null, $id));
+
+        //Invites - variaveis para a view
+        $this->set($this->invites($id));
+
+        //submitGoals
+        //Find Teams
+        $options = array('conditions' => array('Team.game_id' => $id));
+        $teams = $this->Team->find('all', $options);
+        $this->set('teams', $teams);
+    }
+
+/**
+ * updatePlayerStats method
+ *
+ * @param string $id
+ * @return void
+ */
     public function updatePlayerStats($id = null) {
 
         $players = $this->Player->find('all');
@@ -137,15 +335,23 @@ class GamesController extends AppController {
                         29 => 0,
                         30 => 2,
                         31 => 0,
-                        32 => 0);
+                        32 => 0,
+                        33 => 0);
 
         //golos por jogo
+        $top_goals_p_Game = 0;
+
         foreach($all_players as $id => $player) {
-            $all_players[$id]['golos_p_jogo'] = round($player['golos'] / ($player['presencas'] - $adjust[$id]), 2);
+            if(isset($player['golos']) and $player['golos'] != 0) {
+              $all_players[$id]['golos_p_jogo'] = round($player['golos'] / ($player['presencas'] - $adjust[$id]), 2);
+            }
+            else {
+              $all_players[$id]['golos_p_jogo'] = 0;
+            }
 
             //save a variable with the average topScorer
-            if(($all_players[$id]['golos_p_jogo'] > $all_players['Top_goals_p_Game']) and ($all_players[$id]['presencas'] > 1)) {
-                $all_players['Top_goals_p_Game'] = $all_players[$id]['golos_p_jogo'];
+            if(($all_players[$id]['golos_p_jogo'] > $top_goals_p_Game) and ($all_players[$id]['presencas'] > self::N_MIN_PRE)) {
+                $top_goals_p_Game = $all_players[$id]['golos_p_jogo'];
             }
         }
 
@@ -165,6 +371,10 @@ class GamesController extends AppController {
             $player_id = $player['Player']['id'];
 
             foreach($player['Team'] as $team) {
+
+                //declare variables
+                $all_players[$player_id]['equipa_m'] = 0;
+                $all_players[$player_id]['equipa_s'] = 0;
 
                  if(!array_search($gameTeams[$team['game_id']][0]['id'], $ignoreTeams)) {
                     if($gameTeams[$team['game_id']][0]['id'] == $team['id']) {
@@ -188,17 +398,26 @@ class GamesController extends AppController {
             }
 
             //marcados por jogo
-            $all_players[$player_id]['equipa_m_p_jogo'] = round($all_players[$player_id]['equipa_m'] /
+            if(($all_players[$player_id]['presencas'] - $adjust[$player_id]) == 0){
+            $all_players[$player_id]['equipa_m_p_jogo'] = 0;
+            $all_players[$player_id]['equipa_s_p_jogo'] = 0;
+            }
+            else{
+                //marcados por jogo
+                $all_players[$player_id]['equipa_m_p_jogo'] = round($all_players[$player_id]['equipa_m'] /
                 ($all_players[$player_id]['presencas'] - $adjust[$player_id]), 2);
 
-            //sofridos por jogo
-            $all_players[$player_id]['equipa_s_p_jogo'] = round($all_players[$player_id]['equipa_s'] /
-                ($all_players[$player_id]['presencas'] - $adjust[$player_id]), 2);
+                //sofridos por jogo
+                $all_players[$player_id]['equipa_s_p_jogo'] = round($all_players[$player_id]['equipa_s'] /
+                    ($all_players[$player_id]['presencas'] - $adjust[$player_id]), 2);
+            }
+
+
 
         }
 
 
-        debug($all_players);
+        //debug($all_players);
 
         //debug($gameTeams);
 
@@ -220,7 +439,7 @@ class GamesController extends AppController {
             }
 
             //generaterating
-            $goalsRating = $player_data['golos_p_jogo'] / $all_players['Top_goals_p_Game'];
+            $goalsRating = $player_data['golos_p_jogo'] / $top_goals_p_Game;
             $rating = round(0.75*$vit_pre + 0.25*$goalsRating, 3);
 
 
@@ -240,175 +459,9 @@ class GamesController extends AppController {
 
         }
 
-        $this->redirect(array('action' => 'view', $id));
+        //$this->redirect(array('action' => 'view', $id));
 
     }
-
- /**
- * teams_goals method
- *
- * @param string $id
- * @return array
- */
-
-    public function teams_goals($id){
-        // ----- Teams
-        $teamoptions = array('conditions' => array('game_id' => $id));
-        $teams = $this->Game->Team->find('all', $teamoptions);
-        $i = 1;
-        //if(count($teams) != 2) throw new NotFoundException(__('Teams dont exist.'));
-        foreach($teams as $team) {
-            foreach($team['Player'] as $player) {
-                ${'team'.$i.'_list'}[$player['nome']] = $player['id'];
-            }
-            ${'team_'.$i.'_golos'} = $team['Team']['golos'];
-            $i++;
-        }
-
-        // ----- Goals
-        $goaloptions = array('conditions' => array('game_id' => $id));
-        $goals = $this->Game->Goal->find('all', $goaloptions);
-        //if(count($goals <= 0)) throw new NotFoundException(__('Goals dont exist.'));
-        if($goals) {
-            foreach($goals as $goal) {
-                foreach($team1_list as $playername => $playerid) {
-                    if($goal['Goal']['player_id'] == $playerid){
-                        $team1_list[$playername] = $goal['Goal']['golos'];
-                    }
-                }
-                foreach($team2_list as $playername => $playerid) {
-                    if($goal['Goal']['player_id'] == $playerid){
-                        $team2_list[$playername] = $goal['Goal']['golos'];
-                    }
-                }
-            }
-        } else {
-            foreach($team1_list as $nome => $golos){$team1_list[$nome] = 0;}
-            foreach($team2_list as $nome => $golos){$team2_list[$nome] = 0;}
-        }
-
-        //print_r($team1_list);
-        //print_r($team2_list);
-        //echo $team1_golos;
-        //echo $team2_golos;
-
-        // [Nome] => Golos
-        // [Peej] => 3
-        // [Far] => 2
-        // [Fresco] => 5
-        // ...
-
-        // ----- Disponivel na View
-        return array('team_1' => $team1_list,
-                     'team_2' => $team2_list,
-                     'team_1_goals' => $team_1_golos,
-                     'team_2_goals' => $team_2_golos);
-
-
-    }
-
-/**
- * add method
- *
- * @return void
- */
-	public function add() {
-		if ($this->request->is('post')) {
-
-            $savegame['Game'] = array_slice($this->request->data['Game'], 0, 1);
-            $savegame['Game']['estado'] = 0;
-
-            $saveplayers = array_slice($this->request->data['Game'], 1);
-
-			$this->Game->create();
-            $gameid = $this->Game->save($savegame);
-
-            foreach($saveplayers as $key => $player) {
-                $saveplayer = array('Invite' => array(
-                    'game_id' => $gameid['Game']['id'],
-                    'player_id' => str_replace('jogador', '', $key)
-                ));
-                if($player) {
-                    $this->Invite->Create();
-                    if($this->Invite->save($saveplayer)) {
-                        $this->Session->setFlash(__('The game has been saved'));
-                    } else {
-                        $this->Session->setFlash(__('The game could not be saved. Please, try again.'));
-                    }
-                }
-            }
-            //$this->redirect(array('action' => 'index'));
-		}
-
-        $players = $this->Player->find('list');
-        $this->set(compact('players'));
-	}
-
-/**
- * edit method
- *
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
-		$this->Game->id = $id;
-		if (!$this->Game->exists()) {
-			throw new NotFoundException(__('Invalid game'));
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Game->save($this->request->data)) {
-				$this->Session->setFlash(__('The game has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The game could not be saved. Please, try again.'));
-			}
-		} else {
-			$this->request->data = $this->Game->read(null, $id);
-		}
-	}
-
-/**
- * delete method
- *
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->Game->id = $id;
-		if (!$this->Game->exists()) {
-			throw new NotFoundException(__('Invalid game'));
-		}
-		if ($this->Game->delete()) {
-			$this->Session->setFlash(__('Game deleted'));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Session->setFlash(__('Game was not deleted'));
-		$this->redirect(array('action' => 'index'));
-	}
-
-    public function invites($id) {
-        // ----- Invites
-        $options = array('order' => array('Player.conv' => 'asc', 'Player.rating' => 'desc'), 'conditions' => array('game_id' => $id));
-        $invites = $this->Game->Invite->find('all', $options);
-        $players = $this->Player->find('list');
-
-        foreach($invites as $invite) {
-            $invite_list[$invite['Invite']['player_id']] = null;
-        }
-        foreach($players as $key => $player) {
-            if(!array_key_exists($key, $invite_list)) {
-                $notinvited[$key] = $player;
-            }
-        }
-
-        return array('invites' => $invites,
-                     'notinvited' => $notinvited);
-
-    }
-
 
     public function updateInvites($id = null) {
 
@@ -466,6 +519,12 @@ class GamesController extends AppController {
         $this->redirect('/games/view/'.$id);
     }
 
+/**
+ * generateTeams method
+ *
+ * @param string $id
+ * @return void
+ */
     public function generateTeams($id = null) {
 
         //Find Teams
@@ -630,7 +689,7 @@ class GamesController extends AppController {
         for($i = 1; $i <= 2; $i++) {
             //team count
             $options = array('conditions' => array('team_id' => $teams['team_'.$i.'_id']));
-            echo ${'team_'.$i.'_count'} = $this->PlayersTeam->find('count', $options);
+            ${'team_'.$i.'_count'} = $this->PlayersTeam->find('count', $options);
 
             //validation
             if(${'team_'.$i.'_count'} == 0) {
@@ -681,37 +740,20 @@ class GamesController extends AppController {
         $options = array('conditions' => array('Team.game_id' => $id));
         $teams = $this->Team->find('all', $options);
         foreach($teams as $key => $team) {
-            echo $this->Game->Team->id = $team['Team']['id'];
+            $this->Game->Team->id = $team['Team']['id'];
             $teamScore = array('Team' => array('golos' => $teamGoals[$key]));
             $this->Game->Team->save($teamScore);
         };
 
         //Change game state to 2
         $this->Game->id = $id;
-        $this->Game->save(array('Game' => array('estado' => 2, resultado => $teamGoals[0].'-'.$teamGoals[1])));
+        $this->Game->save(array('Game' => array('estado' => 2, 'resultado' => $teamGoals[0].'-'.$teamGoals[1])));
 
         //Update Player Stats
         $this->updatePlayerStats($id);
 
         //Redirect
         $this->redirect(array('action' => 'view', $id));
-    }
-
-    public function admin($id = null) {
-        $this->Game->id = $id;
-        if (!$this->Game->exists()) {
-            throw new NotFoundException(__('Invalid game'));
-        }
-        $this->set('game', $this->Game->read(null, $id));
-
-        //Invites - variaveis para a view
-        $this->set($this->invites($id));
-
-        //submitGoals
-        //Find Teams
-        $options = array('conditions' => array('Team.game_id' => $id));
-        $teams = $this->Team->find('all', $options);
-        $this->set('teams', $teams);
     }
 
     public function playerStats() {

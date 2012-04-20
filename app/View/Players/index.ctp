@@ -2,17 +2,18 @@
 	<h2><?php echo __('Jogadores');?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('nome');?></th>
-			<th><?php echo $this->Paginator->sort('presencas');?></th>
-			<th><?php echo $this->Paginator->sort('ranking');?></th>
-			<th><?php echo $this->Paginator->sort('vitorias');?></th>
-            <th><?php echo $this->Paginator->sort('vit_pre');?></th>
-			<th><?php echo $this->Paginator->sort('golos');?></th>
-            <th><?php echo $this->Paginator->sort('golos_p_jogo');?></th>
-            <th><?php echo $this->Paginator->sort('equipa_m');?></th>
-            <th><?php echo $this->Paginator->sort('equipa_s');?></th>
-            <th><?php echo $this->Paginator->sort('equipa_m_p_jogo');?></th>
-            <th><?php echo $this->Paginator->sort('equipa_s_p_jogo');?></th>
+			<th><h2><?php echo $this->Paginator->sort('nome', 'Nome');?></h2></th>
+			<th><h2><?php echo $this->Paginator->sort('presencas', 'Pre');?></h2></th>
+			<th><h2><?php echo $this->Paginator->sort('rating', 'R');?></h2></th>
+            <th><h2><?php echo $this->Paginator->sort('ratingElo','R Elo');?></h2></th>
+			<th><h2><?php echo $this->Paginator->sort('vitorias','V');?></h2></th>
+            <th><h2><?php echo $this->Paginator->sort('vit_pre','V/P');?></h2></th>
+			<th><h2><?php echo $this->Paginator->sort('golos', 'G');?></h2></th>
+            <th><h2><?php echo $this->Paginator->sort('golos_p_jogo','G/J');?></h2></th>
+            <th><h2><?php echo $this->Paginator->sort('equipa_m','EM');?></h2></th>
+            <th><h2><?php echo $this->Paginator->sort('equipa_s','ES');?></h2></th>
+            <th><h2><?php echo $this->Paginator->sort('equipa_m_p_jogo','EM/J');?></h2></th>
+            <th><h2><?php echo $this->Paginator->sort('equipa_s_p_jogo','ES/J');?></h2></th>
 			<th class="actions"><?php echo __('Actions');?></th>
 	</tr>
 	<?php
@@ -20,7 +21,8 @@
 	<tr>
 		<td><?php echo h($player['Player']['nome']); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['presencas']); ?>&nbsp;</td>
-		<td><?php echo h($player['Player']['ranking']); ?>&nbsp;</td>
+		<td><?php echo h($player['Player']['rating']); ?>&nbsp;</td>
+        <td><?php echo h($player['Player']['ratingElo']); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['vitorias']); ?>&nbsp;</td>
         <td><?php echo h($player['Player']['vit_pre']); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['golos']); ?>&nbsp;</td>

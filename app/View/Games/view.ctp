@@ -9,7 +9,7 @@
     <div class="team1">
 
         <!--- Jogo Terminado 1--->
-        <?php if($game['Game']['estado'] == 2): ?>
+        <?php if($game['Game']['estado'] != 0): ?>
             <div class="equipa1_res">
                 <?php echo $team_1_goals; ?>
             </div>
@@ -59,7 +59,7 @@
     <div class="team2">
 
             <!--- Jogo Terminado 2--->
-            <?php if($game['Game']['estado'] == 2): ?>
+            <?php if($game['Game']['estado'] != 0): ?>
                 <div class="equipa2_res">
                     <?php echo $team_2_goals; ?>
                 </div>
@@ -127,7 +127,7 @@
               elseif(is_null($valor)) echo 'background-color: #c3c3c3';
               else echo 'background-color: #FF0000';
               ?>"></div>
-          <div class="rating"><div class="ratingvalor" style="<?php echo 'width:'.$invite['Player']['rating']*0.08;echo 'px'; ?>"></div></div>
+          <div class="rating"><div class="ratingvalor" style="<?php echo 'width:'.$invite['Player']['rating']*140;echo 'px'; ?>"></div></div>
           <div class="rating_n"><?php echo $invite['Player']['rating']; ?></div>
           <div class="player"><?php echo $invite['Player']['nome']; ?></div>
           <div class="presence_off presence_txt"><?php echo $this->Form->button('NA', array('name' => $invite['Player']['id'], 'value' => 0, 'div' => false)); ?></div>

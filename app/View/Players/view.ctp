@@ -16,9 +16,9 @@
 			<?php echo h($player['Player']['presencas']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Ranking'); ?></dt>
+		<dt><?php echo __('Rating'); ?></dt>
 		<dd>
-			<?php echo h($player['Player']['ranking']); ?>
+			<?php echo h($player['Player']['rating']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Vitorias'); ?></dt>
