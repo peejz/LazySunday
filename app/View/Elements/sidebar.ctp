@@ -1,6 +1,12 @@
 <?php $data = $this->requestAction('Games/playerStats'); ?>
 
-<div class=sideTitle>rating:</div>
+<div class=sideTitle>golos marcados</div>
+<div class=sideContent>
+    <?php echo $data['allGoals']; ?>
+
+</div>
+
+<div class=sideTitle>rating: (min <?php echo $data['n_min_pre']; ?> presenças)</div>
 <!--<div class=sideHeuristica>(vitorias/presencas)</div>-->
 <div class=sideContent>
     <table class="sidebar">

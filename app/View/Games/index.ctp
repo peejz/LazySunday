@@ -5,7 +5,7 @@
         </tr>
         <?php foreach ($games as $game): ?>
             <tr>
-                <td><?php echo $this->Html->link(__('Ver'), array('action' => 'view', $game['Game']['id'])); ?>&nbsp;</td>
+                <td><h1><?php echo $this->Html->link(__('>>>'), array('action' => 'view', $game['Game']['id'])); ?>&nbsp;</h1></td>
                 <td><?php echo $this->Time->format('d M, Y', $game['Game']['data']); ?>&nbsp;</td>
                 <td><?php echo $game['Game']['resultado']; ?>&nbsp;</td>
                 <td>

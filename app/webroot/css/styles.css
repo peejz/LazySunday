@@ -17,6 +17,8 @@ html, body {
     color: #000;
     background-image: url(../img/body_bg.gif);
 }
+
+
 #noOverlapTop {
     clear: both;
     height: 200px;
@@ -206,7 +208,7 @@ div.index table{
 }
 
 div.index table td{
-    padding: 10px;
+    padding: 7px;
 }
 
 #escuros_null{
@@ -430,3 +432,6 @@ table.ratingstable {
     float: left;
     margin: 20px;
 }
+
+a:link, a:visited { color:green; }
+a:hover { color: #b62121; }

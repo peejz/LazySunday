@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.9
+-- version 3.3.9.2
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 06, 2012 at 07:32 PM
--- Server version: 5.1.56
--- PHP Version: 5.2.9
+-- Generation Time: Apr 20, 2012 at 12:48 PM
+-- Server version: 5.5.9
+-- PHP Version: 5.3.6
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -17,7 +16,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `joaofar_lazysunday`
+-- Database: `lazysunday`
 --
 
 -- --------------------------------------------------------
@@ -26,7 +25,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `games`
 --
 
-CREATE TABLE IF NOT EXISTS `games` (
+CREATE TABLE `games` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `data` datetime NOT NULL,
   `resultado` text NOT NULL,
@@ -34,23 +33,23 @@ CREATE TABLE IF NOT EXISTS `games` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
 
 --
 -- Dumping data for table `games`
 --
 
-INSERT INTO `games` (`id`, `data`, `resultado`, `estado`, `created`, `modified`) VALUES
-(8, '2012-02-05 18:30:00', '0-1', '2', '2012-02-24 01:52:32', '2012-03-05 02:47:13'),
-(9, '2012-02-12 18:30:00', '1-0', '2', '2012-02-24 02:01:42', '2012-03-05 02:47:08'),
-(10, '2012-02-19 18:30:00', '1-0', '2', '2012-02-24 02:02:17', '2012-03-05 02:46:52'),
-(11, '2012-02-26 18:30:00', '10-8', '2', '2012-02-24 02:02:53', '2012-03-05 02:46:46'),
-(23, '2012-03-04 18:30:00', '7-10', '2', '2012-03-05 02:47:50', '2012-03-05 02:48:31'),
-(24, '2012-03-11 18:30:00', '10-5', '2', '2012-03-05 03:17:55', '2012-03-05 03:18:13'),
-(25, '2012-03-18 18:30:00', '20-15', '2', '2012-03-16 20:00:54', '2012-03-25 15:25:20'),
-(26, '2012-03-25 18:30:00', '14-11', '2', '2012-03-25 16:23:40', '2012-03-25 21:52:54'),
-(29, '2012-04-01 18:30:00', '7-8', '2', '2012-03-26 04:47:02', '2012-04-01 15:49:07'),
-(30, '2012-04-08 18:30:00', '', '0', '2012-04-06 12:17:34', '2012-04-06 12:17:34');
+INSERT INTO `games` VALUES(8, '2012-02-05 18:30:00', '0-1', '2', '2012-02-24 01:52:32', '2012-03-05 02:47:13');
+INSERT INTO `games` VALUES(9, '2012-02-12 18:30:00', '1-0', '2', '2012-02-24 02:01:42', '2012-03-05 02:47:08');
+INSERT INTO `games` VALUES(10, '2012-02-19 18:30:00', '1-0', '2', '2012-02-24 02:02:17', '2012-03-05 02:46:52');
+INSERT INTO `games` VALUES(11, '2012-02-26 18:30:00', '10-8', '2', '2012-02-24 02:02:53', '2012-03-05 02:46:46');
+INSERT INTO `games` VALUES(23, '2012-03-04 18:30:00', '7-10', '2', '2012-03-05 02:47:50', '2012-03-05 02:48:31');
+INSERT INTO `games` VALUES(24, '2012-03-11 18:30:00', '10-5', '2', '2012-03-05 03:17:55', '2012-03-05 03:18:13');
+INSERT INTO `games` VALUES(25, '2012-03-18 18:30:00', '20-15', '2', '2012-03-16 20:00:54', '2012-03-25 15:25:20');
+INSERT INTO `games` VALUES(26, '2012-03-25 18:30:00', '14-11', '2', '2012-03-25 16:23:40', '2012-03-25 21:52:54');
+INSERT INTO `games` VALUES(29, '2012-04-01 18:30:00', '7-8', '2', '2012-03-26 04:47:02', '2012-04-01 15:49:07');
+INSERT INTO `games` VALUES(30, '2012-04-08 18:30:00', '9-14', '2', '2012-04-06 12:17:34', '2012-04-10 23:16:31');
+INSERT INTO `games` VALUES(31, '2012-04-15 18:30:00', '10-11', '2', '2012-04-13 10:45:42', '2012-04-15 15:29:07');
 
 -- --------------------------------------------------------
 
@@ -58,79 +57,98 @@ INSERT INTO `games` (`id`, `data`, `resultado`, `estado`, `created`, `modified`)
 -- Table structure for table `goals`
 --
 
-CREATE TABLE IF NOT EXISTS `goals` (
+CREATE TABLE `goals` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `player_id` int(10) unsigned NOT NULL,
   `game_id` int(10) unsigned NOT NULL,
   `golos` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=96 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=116 ;
 
 --
 -- Dumping data for table `goals`
 --
 
-INSERT INTO `goals` (`id`, `player_id`, `game_id`, `golos`) VALUES
-(16, 32, 11, 1),
-(17, 14, 11, 1),
-(18, 19, 11, 3),
-(19, 18, 11, 3),
-(20, 23, 11, 2),
-(21, 21, 11, 2),
-(22, 15, 11, 3),
-(23, 20, 11, 3),
-(24, 25, 11, 0),
-(25, 22, 11, 0),
-(26, 16, 23, 2),
-(27, 14, 23, 0),
-(28, 19, 23, 2),
-(29, 20, 23, 2),
-(30, 23, 23, 1),
-(31, 21, 23, 5),
-(32, 15, 23, 1),
-(33, 18, 23, 2),
-(34, 25, 23, 2),
-(35, 22, 23, 0),
-(36, 14, 24, 1),
-(37, 15, 24, 3),
-(38, 16, 24, 0),
-(39, 17, 24, 3),
-(40, 18, 24, 1),
-(41, 19, 24, 0),
-(42, 20, 24, 3),
-(43, 22, 24, 1),
-(44, 25, 24, 3),
-(45, 30, 24, 0),
-(66, 15, 25, 4),
-(67, 21, 25, 6),
-(68, 20, 25, 4),
-(69, 16, 25, 6),
-(70, 19, 25, 0),
-(71, 22, 25, 0),
-(72, 30, 25, 7),
-(73, 17, 25, 3),
-(74, 23, 25, 3),
-(75, 14, 25, 2),
-(76, 21, 26, 3),
-(77, 16, 26, 6),
-(78, 18, 26, 3),
-(79, 19, 26, 0),
-(80, 14, 26, 2),
-(81, 20, 26, 4),
-(82, 22, 26, 0),
-(83, 24, 26, 1),
-(84, 17, 26, 4),
-(85, 25, 26, 2),
-(86, 21, 29, 1),
-(87, 20, 29, 3),
-(88, 22, 29, 1),
-(89, 14, 29, 0),
-(90, 25, 29, 2),
-(91, 15, 29, 1),
-(92, 16, 29, 2),
-(93, 18, 29, 2),
-(94, 19, 29, 2),
-(95, 24, 29, 1);
+INSERT INTO `goals` VALUES(16, 32, 11, 1);
+INSERT INTO `goals` VALUES(17, 14, 11, 1);
+INSERT INTO `goals` VALUES(18, 19, 11, 3);
+INSERT INTO `goals` VALUES(19, 18, 11, 3);
+INSERT INTO `goals` VALUES(20, 23, 11, 2);
+INSERT INTO `goals` VALUES(21, 21, 11, 2);
+INSERT INTO `goals` VALUES(22, 15, 11, 3);
+INSERT INTO `goals` VALUES(23, 20, 11, 3);
+INSERT INTO `goals` VALUES(24, 25, 11, 0);
+INSERT INTO `goals` VALUES(25, 22, 11, 0);
+INSERT INTO `goals` VALUES(26, 16, 23, 2);
+INSERT INTO `goals` VALUES(27, 14, 23, 0);
+INSERT INTO `goals` VALUES(28, 19, 23, 2);
+INSERT INTO `goals` VALUES(29, 20, 23, 2);
+INSERT INTO `goals` VALUES(30, 23, 23, 1);
+INSERT INTO `goals` VALUES(31, 21, 23, 5);
+INSERT INTO `goals` VALUES(32, 15, 23, 1);
+INSERT INTO `goals` VALUES(33, 18, 23, 2);
+INSERT INTO `goals` VALUES(34, 25, 23, 2);
+INSERT INTO `goals` VALUES(35, 22, 23, 0);
+INSERT INTO `goals` VALUES(36, 14, 24, 1);
+INSERT INTO `goals` VALUES(37, 15, 24, 3);
+INSERT INTO `goals` VALUES(38, 16, 24, 0);
+INSERT INTO `goals` VALUES(39, 17, 24, 3);
+INSERT INTO `goals` VALUES(40, 18, 24, 1);
+INSERT INTO `goals` VALUES(41, 19, 24, 0);
+INSERT INTO `goals` VALUES(42, 20, 24, 3);
+INSERT INTO `goals` VALUES(43, 22, 24, 1);
+INSERT INTO `goals` VALUES(44, 25, 24, 3);
+INSERT INTO `goals` VALUES(45, 30, 24, 0);
+INSERT INTO `goals` VALUES(66, 15, 25, 4);
+INSERT INTO `goals` VALUES(67, 21, 25, 6);
+INSERT INTO `goals` VALUES(68, 20, 25, 4);
+INSERT INTO `goals` VALUES(69, 16, 25, 6);
+INSERT INTO `goals` VALUES(70, 19, 25, 0);
+INSERT INTO `goals` VALUES(71, 22, 25, 0);
+INSERT INTO `goals` VALUES(72, 30, 25, 7);
+INSERT INTO `goals` VALUES(73, 17, 25, 3);
+INSERT INTO `goals` VALUES(74, 23, 25, 3);
+INSERT INTO `goals` VALUES(75, 14, 25, 2);
+INSERT INTO `goals` VALUES(76, 21, 26, 3);
+INSERT INTO `goals` VALUES(77, 16, 26, 6);
+INSERT INTO `goals` VALUES(78, 18, 26, 3);
+INSERT INTO `goals` VALUES(79, 19, 26, 0);
+INSERT INTO `goals` VALUES(80, 14, 26, 2);
+INSERT INTO `goals` VALUES(81, 20, 26, 4);
+INSERT INTO `goals` VALUES(82, 22, 26, 0);
+INSERT INTO `goals` VALUES(83, 24, 26, 1);
+INSERT INTO `goals` VALUES(84, 17, 26, 4);
+INSERT INTO `goals` VALUES(85, 25, 26, 2);
+INSERT INTO `goals` VALUES(86, 21, 29, 1);
+INSERT INTO `goals` VALUES(87, 20, 29, 3);
+INSERT INTO `goals` VALUES(88, 22, 29, 1);
+INSERT INTO `goals` VALUES(89, 14, 29, 0);
+INSERT INTO `goals` VALUES(90, 25, 29, 2);
+INSERT INTO `goals` VALUES(91, 15, 29, 1);
+INSERT INTO `goals` VALUES(92, 16, 29, 2);
+INSERT INTO `goals` VALUES(93, 18, 29, 2);
+INSERT INTO `goals` VALUES(94, 19, 29, 2);
+INSERT INTO `goals` VALUES(95, 24, 29, 1);
+INSERT INTO `goals` VALUES(96, 15, 30, 1);
+INSERT INTO `goals` VALUES(97, 20, 30, 2);
+INSERT INTO `goals` VALUES(98, 23, 30, 3);
+INSERT INTO `goals` VALUES(99, 14, 30, 2);
+INSERT INTO `goals` VALUES(100, 33, 30, 1);
+INSERT INTO `goals` VALUES(101, 31, 30, 2);
+INSERT INTO `goals` VALUES(102, 21, 30, 1);
+INSERT INTO `goals` VALUES(103, 16, 30, 4);
+INSERT INTO `goals` VALUES(104, 17, 30, 6);
+INSERT INTO `goals` VALUES(105, 25, 30, 1);
+INSERT INTO `goals` VALUES(106, 16, 31, 4);
+INSERT INTO `goals` VALUES(107, 18, 31, 1);
+INSERT INTO `goals` VALUES(108, 17, 31, 2);
+INSERT INTO `goals` VALUES(109, 24, 31, 2);
+INSERT INTO `goals` VALUES(110, 22, 31, 1);
+INSERT INTO `goals` VALUES(111, 21, 31, 3);
+INSERT INTO `goals` VALUES(112, 15, 31, 2);
+INSERT INTO `goals` VALUES(113, 34, 31, 1);
+INSERT INTO `goals` VALUES(114, 19, 31, 1);
+INSERT INTO `goals` VALUES(115, 14, 31, 4);
 
 -- --------------------------------------------------------
 
@@ -138,7 +156,7 @@ INSERT INTO `goals` (`id`, `player_id`, `game_id`, `golos`) VALUES
 -- Table structure for table `invites`
 --
 
-CREATE TABLE IF NOT EXISTS `invites` (
+CREATE TABLE `invites` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `game_id` int(10) unsigned NOT NULL,
   `player_id` int(10) unsigned NOT NULL,
@@ -146,105 +164,116 @@ CREATE TABLE IF NOT EXISTS `invites` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=136 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=150 ;
 
 --
 -- Dumping data for table `invites`
 --
 
-INSERT INTO `invites` (`id`, `game_id`, `player_id`, `available`, `created`, `modified`) VALUES
-(13, 11, 14, 1, '2012-03-02 16:09:34', '2012-03-02 16:09:34'),
-(14, 11, 15, 1, '2012-03-02 16:09:40', '2012-03-02 16:09:40'),
-(15, 11, 16, 1, '2012-03-02 16:09:44', '2012-03-02 16:09:44'),
-(16, 11, 17, 1, '2012-03-02 16:09:50', '2012-03-02 16:09:50'),
-(17, 11, 18, 1, '2012-03-02 16:09:55', '2012-03-02 16:09:55'),
-(18, 11, 19, 1, '2012-03-02 16:10:03', '2012-03-02 16:10:03'),
-(20, 11, 20, 1, '2012-03-02 16:10:29', '2012-03-02 16:10:29'),
-(21, 11, 29, 0, '2012-03-03 23:25:05', '2012-03-03 23:25:05'),
-(22, 11, 28, 0, '2012-03-03 23:27:30', '2012-03-03 23:27:30'),
-(42, 22, 14, 0, '2012-03-04 01:31:25', '2012-03-04 01:31:25'),
-(43, 22, 15, 1, '2012-03-04 01:31:25', '2012-03-04 01:31:25'),
-(44, 22, 16, NULL, '2012-03-04 01:31:25', '2012-03-04 01:31:25'),
-(45, 0, 0, 0, '2012-03-04 17:51:51', '2012-03-04 17:51:51'),
-(46, 0, 0, 0, '2012-03-04 17:52:22', '2012-03-04 17:52:22'),
-(47, 0, 0, 0, '2012-03-04 17:52:43', '2012-03-04 17:52:44'),
-(48, 0, 0, 0, '2012-03-04 17:53:15', '2012-03-04 17:53:15'),
-(49, 0, 0, 0, '2012-03-04 17:53:47', '2012-03-04 17:53:48'),
-(50, 0, 0, 0, '2012-03-04 17:54:00', '2012-03-04 17:54:01'),
-(51, 22, 17, NULL, '2012-03-04 18:06:55', '2012-03-04 18:06:55'),
-(52, 22, 19, 1, '2012-03-04 18:06:55', '2012-03-04 18:06:55'),
-(53, 22, 18, 1, '2012-03-04 18:07:06', '2012-03-04 18:07:06'),
-(54, 24, 14, 1, '2012-03-05 03:17:55', '2012-03-05 03:17:55'),
-(55, 24, 15, 0, '2012-03-05 03:17:55', '2012-03-05 03:17:55'),
-(56, 24, 16, 0, '2012-03-05 03:17:55', '2012-03-05 03:17:55'),
-(57, 24, 18, 1, '2012-03-05 03:17:55', '2012-03-05 03:17:55'),
-(58, 24, 19, 1, '2012-03-05 03:17:55', '2012-03-05 03:17:55'),
-(59, 24, 20, 1, '2012-03-05 03:17:55', '2012-03-05 03:17:55'),
-(60, 24, 21, 1, '2012-03-05 03:17:55', '2012-03-05 03:17:55'),
-(61, 24, 22, 0, '2012-03-05 03:17:55', '2012-03-05 03:17:55'),
-(62, 24, 24, 1, '2012-03-05 03:17:55', '2012-03-05 03:17:55'),
-(63, 24, 25, 0, '2012-03-05 03:17:55', '2012-03-05 03:17:55'),
-(64, 24, 17, 0, '2012-03-16 02:55:14', '2012-03-16 02:55:14'),
-(65, 25, 14, 1, '2012-03-16 20:00:54', '2012-03-16 20:00:54'),
-(66, 25, 16, 1, '2012-03-16 20:00:54', '2012-03-16 20:00:54'),
-(67, 25, 17, 1, '2012-03-16 20:00:54', '2012-03-16 20:00:54'),
-(68, 25, 18, 0, '2012-03-16 20:00:54', '2012-03-16 20:00:54'),
-(69, 25, 19, 1, '2012-03-16 20:00:54', '2012-03-16 20:00:54'),
-(70, 25, 20, 1, '2012-03-16 20:00:54', '2012-03-16 20:00:54'),
-(71, 25, 21, 1, '2012-03-16 20:00:54', '2012-03-16 20:00:54'),
-(72, 25, 22, 1, '2012-03-16 20:00:54', '2012-03-16 20:00:54'),
-(73, 25, 24, 0, '2012-03-16 20:00:54', '2012-03-16 20:00:54'),
-(74, 25, 25, 0, '2012-03-16 20:00:54', '2012-03-16 20:00:54'),
-(75, 25, 15, 1, '2012-03-17 01:58:22', '2012-03-17 01:58:22'),
-(76, 25, 30, 1, '2012-03-17 02:22:30', '2012-03-17 02:22:30'),
-(77, 25, 26, NULL, '2012-03-17 02:54:05', '2012-03-17 02:54:05'),
-(78, 25, 23, 1, '2012-03-17 02:58:53', '2012-03-17 02:58:53'),
-(79, 25, 27, NULL, '2012-03-17 02:58:53', '2012-03-17 02:58:53'),
-(80, 25, 32, NULL, '2012-03-18 04:26:24', '2012-03-18 04:26:24'),
-(81, 26, 14, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40'),
-(82, 26, 16, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40'),
-(83, 26, 17, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40'),
-(84, 26, 18, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40'),
-(85, 26, 19, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40'),
-(86, 26, 20, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40'),
-(87, 26, 21, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40'),
-(88, 26, 22, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40'),
-(89, 26, 24, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40'),
-(90, 26, 25, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40'),
-(91, 27, 14, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39'),
-(92, 27, 16, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39'),
-(93, 27, 17, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39'),
-(94, 27, 18, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39'),
-(95, 27, 19, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39'),
-(96, 27, 20, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39'),
-(97, 27, 21, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39'),
-(98, 27, 22, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39'),
-(99, 27, 24, 0, '2012-03-25 23:01:39', '2012-03-25 23:01:39'),
-(100, 27, 25, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39'),
-(101, 27, 15, 1, '2012-03-25 23:03:30', '2012-03-25 23:03:30'),
-(102, 27, 23, NULL, '2012-03-25 23:03:30', '2012-03-25 23:03:30'),
-(114, 29, 14, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57'),
-(115, 29, 16, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57'),
-(116, 29, 17, 0, '2012-03-31 03:17:57', '2012-03-31 03:17:57'),
-(117, 29, 18, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57'),
-(118, 29, 19, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57'),
-(119, 29, 20, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57'),
-(120, 29, 21, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57'),
-(121, 29, 22, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57'),
-(122, 29, 24, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57'),
-(123, 29, 25, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57'),
-(124, 29, 15, 1, '2012-03-31 08:19:43', '2012-03-31 08:19:43'),
-(125, 30, 14, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34'),
-(126, 30, 15, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34'),
-(127, 30, 16, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34'),
-(128, 30, 17, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34'),
-(129, 30, 18, NULL, '2012-04-06 12:17:34', '2012-04-06 12:17:34'),
-(130, 30, 19, 0, '2012-04-06 12:17:34', '2012-04-06 12:17:34'),
-(131, 30, 20, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34'),
-(132, 30, 21, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34'),
-(133, 30, 23, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34'),
-(134, 30, 25, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34'),
-(135, 30, 30, 0, '2012-04-06 12:17:34', '2012-04-06 12:17:34');
+INSERT INTO `invites` VALUES(13, 11, 14, 1, '2012-03-02 16:09:34', '2012-03-02 16:09:34');
+INSERT INTO `invites` VALUES(14, 11, 15, 1, '2012-03-02 16:09:40', '2012-03-02 16:09:40');
+INSERT INTO `invites` VALUES(15, 11, 16, 1, '2012-03-02 16:09:44', '2012-03-02 16:09:44');
+INSERT INTO `invites` VALUES(16, 11, 17, 1, '2012-03-02 16:09:50', '2012-03-02 16:09:50');
+INSERT INTO `invites` VALUES(17, 11, 18, 1, '2012-03-02 16:09:55', '2012-03-02 16:09:55');
+INSERT INTO `invites` VALUES(18, 11, 19, 1, '2012-03-02 16:10:03', '2012-03-02 16:10:03');
+INSERT INTO `invites` VALUES(20, 11, 20, 1, '2012-03-02 16:10:29', '2012-03-02 16:10:29');
+INSERT INTO `invites` VALUES(21, 11, 29, 0, '2012-03-03 23:25:05', '2012-03-03 23:25:05');
+INSERT INTO `invites` VALUES(22, 11, 28, 0, '2012-03-03 23:27:30', '2012-03-03 23:27:30');
+INSERT INTO `invites` VALUES(42, 22, 14, 0, '2012-03-04 01:31:25', '2012-03-04 01:31:25');
+INSERT INTO `invites` VALUES(43, 22, 15, 1, '2012-03-04 01:31:25', '2012-03-04 01:31:25');
+INSERT INTO `invites` VALUES(44, 22, 16, NULL, '2012-03-04 01:31:25', '2012-03-04 01:31:25');
+INSERT INTO `invites` VALUES(45, 0, 0, 0, '2012-03-04 17:51:51', '2012-03-04 17:51:51');
+INSERT INTO `invites` VALUES(46, 0, 0, 0, '2012-03-04 17:52:22', '2012-03-04 17:52:22');
+INSERT INTO `invites` VALUES(47, 0, 0, 0, '2012-03-04 17:52:43', '2012-03-04 17:52:44');
+INSERT INTO `invites` VALUES(48, 0, 0, 0, '2012-03-04 17:53:15', '2012-03-04 17:53:15');
+INSERT INTO `invites` VALUES(49, 0, 0, 0, '2012-03-04 17:53:47', '2012-03-04 17:53:48');
+INSERT INTO `invites` VALUES(50, 0, 0, 0, '2012-03-04 17:54:00', '2012-03-04 17:54:01');
+INSERT INTO `invites` VALUES(51, 22, 17, NULL, '2012-03-04 18:06:55', '2012-03-04 18:06:55');
+INSERT INTO `invites` VALUES(52, 22, 19, 1, '2012-03-04 18:06:55', '2012-03-04 18:06:55');
+INSERT INTO `invites` VALUES(53, 22, 18, 1, '2012-03-04 18:07:06', '2012-03-04 18:07:06');
+INSERT INTO `invites` VALUES(54, 24, 14, 1, '2012-03-05 03:17:55', '2012-03-05 03:17:55');
+INSERT INTO `invites` VALUES(55, 24, 15, 0, '2012-03-05 03:17:55', '2012-03-05 03:17:55');
+INSERT INTO `invites` VALUES(56, 24, 16, 0, '2012-03-05 03:17:55', '2012-03-05 03:17:55');
+INSERT INTO `invites` VALUES(57, 24, 18, 1, '2012-03-05 03:17:55', '2012-03-05 03:17:55');
+INSERT INTO `invites` VALUES(58, 24, 19, 1, '2012-03-05 03:17:55', '2012-03-05 03:17:55');
+INSERT INTO `invites` VALUES(59, 24, 20, 1, '2012-03-05 03:17:55', '2012-03-05 03:17:55');
+INSERT INTO `invites` VALUES(60, 24, 21, 1, '2012-03-05 03:17:55', '2012-03-05 03:17:55');
+INSERT INTO `invites` VALUES(61, 24, 22, 0, '2012-03-05 03:17:55', '2012-03-05 03:17:55');
+INSERT INTO `invites` VALUES(62, 24, 24, 1, '2012-03-05 03:17:55', '2012-03-05 03:17:55');
+INSERT INTO `invites` VALUES(63, 24, 25, 0, '2012-03-05 03:17:55', '2012-03-05 03:17:55');
+INSERT INTO `invites` VALUES(64, 24, 17, 0, '2012-03-16 02:55:14', '2012-03-16 02:55:14');
+INSERT INTO `invites` VALUES(65, 25, 14, 1, '2012-03-16 20:00:54', '2012-03-16 20:00:54');
+INSERT INTO `invites` VALUES(66, 25, 16, 1, '2012-03-16 20:00:54', '2012-03-16 20:00:54');
+INSERT INTO `invites` VALUES(67, 25, 17, 1, '2012-03-16 20:00:54', '2012-03-16 20:00:54');
+INSERT INTO `invites` VALUES(68, 25, 18, 0, '2012-03-16 20:00:54', '2012-03-16 20:00:54');
+INSERT INTO `invites` VALUES(69, 25, 19, 1, '2012-03-16 20:00:54', '2012-03-16 20:00:54');
+INSERT INTO `invites` VALUES(70, 25, 20, 1, '2012-03-16 20:00:54', '2012-03-16 20:00:54');
+INSERT INTO `invites` VALUES(71, 25, 21, 1, '2012-03-16 20:00:54', '2012-03-16 20:00:54');
+INSERT INTO `invites` VALUES(72, 25, 22, 1, '2012-03-16 20:00:54', '2012-03-16 20:00:54');
+INSERT INTO `invites` VALUES(73, 25, 24, 0, '2012-03-16 20:00:54', '2012-03-16 20:00:54');
+INSERT INTO `invites` VALUES(74, 25, 25, 0, '2012-03-16 20:00:54', '2012-03-16 20:00:54');
+INSERT INTO `invites` VALUES(75, 25, 15, 1, '2012-03-17 01:58:22', '2012-03-17 01:58:22');
+INSERT INTO `invites` VALUES(76, 25, 30, 1, '2012-03-17 02:22:30', '2012-03-17 02:22:30');
+INSERT INTO `invites` VALUES(77, 25, 26, NULL, '2012-03-17 02:54:05', '2012-03-17 02:54:05');
+INSERT INTO `invites` VALUES(78, 25, 23, 1, '2012-03-17 02:58:53', '2012-03-17 02:58:53');
+INSERT INTO `invites` VALUES(79, 25, 27, NULL, '2012-03-17 02:58:53', '2012-03-17 02:58:53');
+INSERT INTO `invites` VALUES(80, 25, 32, NULL, '2012-03-18 04:26:24', '2012-03-18 04:26:24');
+INSERT INTO `invites` VALUES(81, 26, 14, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40');
+INSERT INTO `invites` VALUES(82, 26, 16, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40');
+INSERT INTO `invites` VALUES(83, 26, 17, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40');
+INSERT INTO `invites` VALUES(84, 26, 18, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40');
+INSERT INTO `invites` VALUES(85, 26, 19, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40');
+INSERT INTO `invites` VALUES(86, 26, 20, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40');
+INSERT INTO `invites` VALUES(87, 26, 21, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40');
+INSERT INTO `invites` VALUES(88, 26, 22, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40');
+INSERT INTO `invites` VALUES(89, 26, 24, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40');
+INSERT INTO `invites` VALUES(90, 26, 25, 1, '2012-03-25 16:23:40', '2012-03-25 16:23:40');
+INSERT INTO `invites` VALUES(91, 27, 14, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39');
+INSERT INTO `invites` VALUES(92, 27, 16, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39');
+INSERT INTO `invites` VALUES(93, 27, 17, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39');
+INSERT INTO `invites` VALUES(94, 27, 18, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39');
+INSERT INTO `invites` VALUES(95, 27, 19, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39');
+INSERT INTO `invites` VALUES(96, 27, 20, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39');
+INSERT INTO `invites` VALUES(97, 27, 21, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39');
+INSERT INTO `invites` VALUES(98, 27, 22, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39');
+INSERT INTO `invites` VALUES(99, 27, 24, 0, '2012-03-25 23:01:39', '2012-03-25 23:01:39');
+INSERT INTO `invites` VALUES(100, 27, 25, 1, '2012-03-25 23:01:39', '2012-03-25 23:01:39');
+INSERT INTO `invites` VALUES(101, 27, 15, 1, '2012-03-25 23:03:30', '2012-03-25 23:03:30');
+INSERT INTO `invites` VALUES(102, 27, 23, NULL, '2012-03-25 23:03:30', '2012-03-25 23:03:30');
+INSERT INTO `invites` VALUES(114, 29, 14, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57');
+INSERT INTO `invites` VALUES(115, 29, 16, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57');
+INSERT INTO `invites` VALUES(116, 29, 17, 0, '2012-03-31 03:17:57', '2012-03-31 03:17:57');
+INSERT INTO `invites` VALUES(117, 29, 18, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57');
+INSERT INTO `invites` VALUES(118, 29, 19, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57');
+INSERT INTO `invites` VALUES(119, 29, 20, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57');
+INSERT INTO `invites` VALUES(120, 29, 21, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57');
+INSERT INTO `invites` VALUES(121, 29, 22, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57');
+INSERT INTO `invites` VALUES(122, 29, 24, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57');
+INSERT INTO `invites` VALUES(123, 29, 25, 1, '2012-03-31 03:17:57', '2012-03-31 03:17:57');
+INSERT INTO `invites` VALUES(124, 29, 15, 1, '2012-03-31 08:19:43', '2012-03-31 08:19:43');
+INSERT INTO `invites` VALUES(125, 30, 14, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34');
+INSERT INTO `invites` VALUES(126, 30, 15, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34');
+INSERT INTO `invites` VALUES(127, 30, 16, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34');
+INSERT INTO `invites` VALUES(128, 30, 17, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34');
+INSERT INTO `invites` VALUES(129, 30, 18, 0, '2012-04-06 12:17:34', '2012-04-06 12:17:34');
+INSERT INTO `invites` VALUES(130, 30, 19, 0, '2012-04-06 12:17:34', '2012-04-06 12:17:34');
+INSERT INTO `invites` VALUES(131, 30, 20, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34');
+INSERT INTO `invites` VALUES(132, 30, 21, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34');
+INSERT INTO `invites` VALUES(133, 30, 23, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34');
+INSERT INTO `invites` VALUES(134, 30, 25, 1, '2012-04-06 12:17:34', '2012-04-06 12:17:34');
+INSERT INTO `invites` VALUES(135, 30, 30, 0, '2012-04-06 12:17:34', '2012-04-06 12:17:34');
+INSERT INTO `invites` VALUES(136, 30, 31, 1, '2012-04-08 06:40:05', '2012-04-08 06:40:05');
+INSERT INTO `invites` VALUES(137, 30, 33, 1, '2012-04-08 08:23:48', '2012-04-08 08:23:48');
+INSERT INTO `invites` VALUES(138, 31, 14, 1, '2012-04-13 10:45:42', '2012-04-13 10:45:42');
+INSERT INTO `invites` VALUES(139, 31, 15, 1, '2012-04-13 10:45:42', '2012-04-13 10:45:42');
+INSERT INTO `invites` VALUES(140, 31, 16, 1, '2012-04-13 10:45:42', '2012-04-13 10:45:42');
+INSERT INTO `invites` VALUES(141, 31, 17, 1, '2012-04-13 10:45:42', '2012-04-13 10:45:42');
+INSERT INTO `invites` VALUES(142, 31, 18, 1, '2012-04-13 10:45:42', '2012-04-13 10:45:42');
+INSERT INTO `invites` VALUES(143, 31, 19, 1, '2012-04-13 10:45:42', '2012-04-13 10:45:42');
+INSERT INTO `invites` VALUES(144, 31, 21, 1, '2012-04-13 10:45:42', '2012-04-13 10:45:42');
+INSERT INTO `invites` VALUES(145, 31, 22, 1, '2012-04-13 10:45:42', '2012-04-13 10:45:42');
+INSERT INTO `invites` VALUES(147, 31, 24, 1, '2012-04-13 10:45:42', '2012-04-13 10:45:42');
+INSERT INTO `invites` VALUES(149, 31, 34, 1, '2012-04-13 17:17:26', '2012-04-13 17:17:26');
 
 -- --------------------------------------------------------
 
@@ -252,12 +281,13 @@ INSERT INTO `invites` (`id`, `game_id`, `player_id`, `available`, `created`, `mo
 -- Table structure for table `players`
 --
 
-CREATE TABLE IF NOT EXISTS `players` (
+CREATE TABLE `players` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nome` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `conv` int(11) NOT NULL,
   `presencas` int(11) NOT NULL,
-  `ranking` float NOT NULL,
+  `rating` float NOT NULL,
+  `ratingElo` int(11) NOT NULL,
   `vitorias` int(11) NOT NULL,
   `vit_pre` float NOT NULL,
   `golos` int(11) NOT NULL,
@@ -269,32 +299,30 @@ CREATE TABLE IF NOT EXISTS `players` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
 
 --
 -- Dumping data for table `players`
 --
 
-INSERT INTO `players` (`id`, `nome`, `conv`, `presencas`, `ranking`, `vitorias`, `vit_pre`, `golos`, `golos_p_jogo`, `equipa_m`, `equipa_m_p_jogo`, `equipa_s`, `equipa_s_p_jogo`, `created`, `modified`) VALUES
-(14, 'Peej', 1, 9, 0.321, 3, 0.333, 6, 1, 58, 9.67, 67, 11.17, '2012-02-24 01:46:18', '2012-04-01 15:49:50'),
-(15, 'Andre', 11, 8, 0.734, 6, 0.75, 12, 2.4, 56, 11.2, 44, 8.8, '2012-02-24 01:46:31', '2012-04-01 15:49:50'),
-(16, 'Vitorino', 2, 8, 0.697, 5, 0.625, 16, 3.2, 59, 11.8, 48, 9.6, '2012-02-24 01:46:43', '2012-04-01 15:49:50'),
-(17, 'Vazantes', 10, 4, 0.425, 1, 0.25, 10, 3.33, 36, 12, 39, 13, '2012-02-24 01:46:58', '2012-04-01 15:49:50'),
-(18, 'Ricardo', 3, 7, 0.585, 4, 0.571, 11, 2.2, 47, 9.4, 43, 8.6, '2012-02-24 01:47:08', '2012-04-01 15:49:50'),
-(19, 'Fresco', 4, 8, 0.459, 4, 0.5, 7, 1.17, 64, 10.67, 61, 10.17, '2012-02-24 01:47:21', '2012-04-01 15:49:50'),
-(20, 'Far', 5, 9, 0.559, 4, 0.444, 19, 3.17, 63, 10.5, 62, 10.33, '2012-02-24 01:47:37', '2012-04-01 15:49:50'),
-(21, 'Barroso', 6, 8, 0.712, 5, 0.625, 17, 3.4, 59, 11.8, 51, 10.2, '2012-02-24 01:47:45', '2012-04-01 15:49:50'),
-(22, 'Anselmo', 7, 9, 0.357, 4, 0.444, 2, 0.33, 61, 10.17, 64, 10.67, '2012-02-24 01:48:03', '2012-04-01 15:49:50'),
-(23, 'Bruno Gomes', 13, 5, 0.443, 2, 0.4, 6, 2, 32, 10.67, 38, 12.67, '2012-02-24 01:48:21', '2012-04-01 15:49:50'),
-(24, 'Nunao', 8, 4, 0.446, 2, 0.5, 2, 1, 19, 9.5, 21, 10.5, '2012-02-24 01:48:32', '2012-04-01 15:49:50'),
-(25, 'Louie', 9, 5, 0.279, 1, 0.2, 9, 1.8, 41, 8.2, 49, 9.8, '2012-02-24 01:49:04', '2012-04-01 15:49:50'),
-(26, 'Ico', 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2012-02-24 01:49:22', '2012-04-01 15:49:50'),
-(27, 'Julio', 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2012-02-24 01:49:38', '2012-04-01 15:49:50'),
-(28, 'Nuno Anselmo', 16, 1, 0.75, 1, 1, 0, 0, 0, 0, 0, 0, '2012-02-24 01:49:53', '2012-04-01 15:49:50'),
-(29, 'Gaspar', 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2012-02-24 01:50:02', '2012-04-01 15:49:50'),
-(30, 'Afonso', 12, 4, 0.625, 2, 0.5, 7, 3.5, 20, 10, 30, 15, '2012-02-24 01:50:15', '2012-04-01 15:49:50'),
-(31, 'MDK', 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2012-02-24 01:50:23', '2012-04-01 15:49:50'),
-(32, 'Rui', 18, 1, 0.821, 1, 1, 1, 1, 10, 10, 8, 8, '2012-03-05 02:42:43', '2012-04-01 15:49:50');
+INSERT INTO `players` VALUES(14, 'Peej', 1, 11, 0.377, 861, 4, 0.364, 12, 1.5, 78, 9.75, 91, 11.38, '2012-02-24 01:46:18', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(15, 'Andre', 11, 10, 0.674, 1602, 7, 0.7, 15, 2.14, 76, 10.86, 68, 9.71, '2012-02-24 01:46:31', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(16, 'Vitorino', 2, 10, 0.688, 1495, 6, 0.6, 24, 3.43, 83, 11.86, 68, 9.71, '2012-02-24 01:46:43', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(17, 'Vazantes', 10, 6, 0.5, 1097, 2, 0.333, 18, 3.6, 60, 12, 59, 11.8, '2012-02-24 01:46:58', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(18, 'Ricardo', 3, 8, 0.514, 1280, 4, 0.5, 12, 2, 57, 9.5, 54, 9, '2012-02-24 01:47:08', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(19, 'Fresco', 4, 9, 0.496, 1083, 5, 0.556, 8, 1.14, 75, 10.71, 71, 10.14, '2012-02-24 01:47:21', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(20, 'Far', 5, 10, 0.508, 1068, 4, 0.4, 21, 3, 72, 10.29, 76, 10.86, '2012-02-24 01:47:37', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(21, 'Barroso', 6, 10, 0.733, 1819, 7, 0.7, 21, 3, 84, 12, 70, 10, '2012-02-24 01:47:45', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(22, 'Anselmo', 7, 10, 0.33, 1053, 4, 0.4, 3, 0.43, 71, 10.14, 75, 10.71, '2012-02-24 01:48:03', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(23, 'Bruno G.', 13, 6, 0.406, 918, 2, 0.333, 9, 2.25, 41, 10.25, 52, 13, '2012-02-24 01:48:21', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(24, 'Nunao', 8, 5, 0.392, 963, 2, 0.4, 4, 1.33, 29, 9.67, 32, 10.67, '2012-02-24 01:48:32', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(25, 'Louie', 9, 6, 0.366, 973, 2, 0.333, 10, 1.67, 55, 9.17, 58, 9.67, '2012-02-24 01:49:04', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(28, 'Nuno A.', 16, 1, 0.75, 1282, 1, 1, 0, 0, 0, 0, 0, 0, '2012-02-24 01:49:53', '2012-04-20 12:23:38');
+INSERT INTO `players` VALUES(30, 'Afonso', 12, 4, 0.618, 1101, 2, 0.5, 7, 3.5, 20, 10, 30, 15, '2012-02-24 01:50:15', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(31, 'MDK', 19, 1, 0.889, 1334, 1, 1, 2, 2, 14, 14, 9, 9, '2012-02-24 01:50:23', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(32, 'Rui', 18, 1, 0.819, 1400, 1, 1, 1, 1, 10, 10, 8, 8, '2012-03-05 02:42:43', '2012-04-20 12:23:38');
+INSERT INTO `players` VALUES(33, 'Diogo (G.)', 20, 1, 0.069, 1066, 0, 0, 1, 1, 9, 9, 14, 14, '2012-04-08 00:00:00', '2012-04-20 12:23:39');
+INSERT INTO `players` VALUES(34, 'Lobao', 21, 1, 0.819, 1205, 1, 1, 1, 1, 11, 11, 10, 10, '2012-04-13 17:04:32', '2012-04-20 12:23:39');
 
 -- --------------------------------------------------------
 
@@ -302,108 +330,127 @@ INSERT INTO `players` (`id`, `nome`, `conv`, `presencas`, `ranking`, `vitorias`,
 -- Table structure for table `players_teams`
 --
 
-CREATE TABLE IF NOT EXISTS `players_teams` (
+CREATE TABLE `players_teams` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `player_id` int(11) NOT NULL,
   `team_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=162 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=182 ;
 
 --
 -- Dumping data for table `players_teams`
 --
 
-INSERT INTO `players_teams` (`id`, `player_id`, `team_id`) VALUES
-(47, 14, 5),
-(48, 15, 5),
-(49, 17, 5),
-(50, 18, 5),
-(51, 21, 5),
-(52, 16, 6),
-(53, 20, 6),
-(54, 22, 6),
-(55, 23, 6),
-(56, 24, 6),
-(57, 14, 7),
-(58, 15, 7),
-(59, 20, 7),
-(60, 21, 7),
-(61, 30, 7),
-(62, 16, 8),
-(63, 18, 8),
-(64, 19, 8),
-(65, 22, 8),
-(66, 24, 8),
-(72, 14, 10),
-(73, 16, 10),
-(74, 19, 10),
-(75, 20, 10),
-(76, 23, 10),
-(77, 14, 11),
-(78, 18, 11),
-(79, 19, 11),
-(80, 23, 11),
-(81, 32, 11),
-(82, 15, 12),
-(83, 20, 12),
-(84, 21, 12),
-(85, 22, 12),
-(86, 25, 12),
-(87, 14, 13),
-(88, 16, 13),
-(89, 19, 13),
-(90, 20, 13),
-(91, 23, 13),
-(92, 15, 14),
-(93, 18, 14),
-(94, 21, 14),
-(95, 22, 14),
-(96, 25, 14),
-(97, 15, 30),
-(98, 16, 30),
-(99, 17, 30),
-(100, 20, 30),
-(101, 22, 30),
-(102, 14, 31),
-(103, 18, 31),
-(104, 19, 31),
-(105, 25, 31),
-(106, 30, 31),
-(107, 15, 9),
-(108, 21, 9),
-(109, 22, 9),
-(110, 28, 9),
-(111, 30, 9),
-(132, 15, 32),
-(133, 21, 32),
-(134, 20, 32),
-(135, 16, 32),
-(136, 19, 32),
-(137, 22, 33),
-(138, 30, 33),
-(139, 17, 33),
-(140, 23, 33),
-(141, 14, 33),
-(142, 21, 34),
-(143, 16, 34),
-(144, 18, 34),
-(145, 19, 34),
-(146, 14, 34),
-(147, 20, 35),
-(148, 22, 35),
-(149, 24, 35),
-(150, 17, 35),
-(151, 25, 35),
-(152, 21, 38),
-(153, 20, 38),
-(154, 22, 38),
-(155, 14, 38),
-(156, 25, 38),
-(157, 15, 39),
-(158, 16, 39),
-(159, 18, 39),
-(160, 19, 39),
-(161, 24, 39);
+INSERT INTO `players_teams` VALUES(47, 14, 5);
+INSERT INTO `players_teams` VALUES(48, 15, 5);
+INSERT INTO `players_teams` VALUES(49, 17, 5);
+INSERT INTO `players_teams` VALUES(50, 18, 5);
+INSERT INTO `players_teams` VALUES(51, 21, 5);
+INSERT INTO `players_teams` VALUES(52, 16, 6);
+INSERT INTO `players_teams` VALUES(53, 20, 6);
+INSERT INTO `players_teams` VALUES(54, 22, 6);
+INSERT INTO `players_teams` VALUES(55, 23, 6);
+INSERT INTO `players_teams` VALUES(56, 24, 6);
+INSERT INTO `players_teams` VALUES(57, 14, 7);
+INSERT INTO `players_teams` VALUES(58, 15, 7);
+INSERT INTO `players_teams` VALUES(59, 20, 7);
+INSERT INTO `players_teams` VALUES(60, 21, 7);
+INSERT INTO `players_teams` VALUES(61, 30, 7);
+INSERT INTO `players_teams` VALUES(62, 16, 8);
+INSERT INTO `players_teams` VALUES(63, 18, 8);
+INSERT INTO `players_teams` VALUES(64, 19, 8);
+INSERT INTO `players_teams` VALUES(65, 22, 8);
+INSERT INTO `players_teams` VALUES(66, 24, 8);
+INSERT INTO `players_teams` VALUES(72, 14, 10);
+INSERT INTO `players_teams` VALUES(73, 16, 10);
+INSERT INTO `players_teams` VALUES(74, 19, 10);
+INSERT INTO `players_teams` VALUES(75, 20, 10);
+INSERT INTO `players_teams` VALUES(76, 23, 10);
+INSERT INTO `players_teams` VALUES(77, 14, 11);
+INSERT INTO `players_teams` VALUES(78, 18, 11);
+INSERT INTO `players_teams` VALUES(79, 19, 11);
+INSERT INTO `players_teams` VALUES(80, 23, 11);
+INSERT INTO `players_teams` VALUES(81, 32, 11);
+INSERT INTO `players_teams` VALUES(82, 15, 12);
+INSERT INTO `players_teams` VALUES(83, 20, 12);
+INSERT INTO `players_teams` VALUES(84, 21, 12);
+INSERT INTO `players_teams` VALUES(85, 22, 12);
+INSERT INTO `players_teams` VALUES(86, 25, 12);
+INSERT INTO `players_teams` VALUES(87, 14, 13);
+INSERT INTO `players_teams` VALUES(88, 16, 13);
+INSERT INTO `players_teams` VALUES(89, 19, 13);
+INSERT INTO `players_teams` VALUES(90, 20, 13);
+INSERT INTO `players_teams` VALUES(91, 23, 13);
+INSERT INTO `players_teams` VALUES(92, 15, 14);
+INSERT INTO `players_teams` VALUES(93, 18, 14);
+INSERT INTO `players_teams` VALUES(94, 21, 14);
+INSERT INTO `players_teams` VALUES(95, 22, 14);
+INSERT INTO `players_teams` VALUES(96, 25, 14);
+INSERT INTO `players_teams` VALUES(97, 15, 30);
+INSERT INTO `players_teams` VALUES(98, 16, 30);
+INSERT INTO `players_teams` VALUES(99, 17, 30);
+INSERT INTO `players_teams` VALUES(100, 20, 30);
+INSERT INTO `players_teams` VALUES(101, 22, 30);
+INSERT INTO `players_teams` VALUES(102, 14, 31);
+INSERT INTO `players_teams` VALUES(103, 18, 31);
+INSERT INTO `players_teams` VALUES(104, 19, 31);
+INSERT INTO `players_teams` VALUES(105, 25, 31);
+INSERT INTO `players_teams` VALUES(106, 30, 31);
+INSERT INTO `players_teams` VALUES(107, 15, 9);
+INSERT INTO `players_teams` VALUES(108, 21, 9);
+INSERT INTO `players_teams` VALUES(109, 22, 9);
+INSERT INTO `players_teams` VALUES(110, 28, 9);
+INSERT INTO `players_teams` VALUES(111, 30, 9);
+INSERT INTO `players_teams` VALUES(132, 15, 32);
+INSERT INTO `players_teams` VALUES(133, 21, 32);
+INSERT INTO `players_teams` VALUES(134, 20, 32);
+INSERT INTO `players_teams` VALUES(135, 16, 32);
+INSERT INTO `players_teams` VALUES(136, 19, 32);
+INSERT INTO `players_teams` VALUES(137, 22, 33);
+INSERT INTO `players_teams` VALUES(138, 30, 33);
+INSERT INTO `players_teams` VALUES(139, 17, 33);
+INSERT INTO `players_teams` VALUES(140, 23, 33);
+INSERT INTO `players_teams` VALUES(141, 14, 33);
+INSERT INTO `players_teams` VALUES(142, 21, 34);
+INSERT INTO `players_teams` VALUES(143, 16, 34);
+INSERT INTO `players_teams` VALUES(144, 18, 34);
+INSERT INTO `players_teams` VALUES(145, 19, 34);
+INSERT INTO `players_teams` VALUES(146, 14, 34);
+INSERT INTO `players_teams` VALUES(147, 20, 35);
+INSERT INTO `players_teams` VALUES(148, 22, 35);
+INSERT INTO `players_teams` VALUES(149, 24, 35);
+INSERT INTO `players_teams` VALUES(150, 17, 35);
+INSERT INTO `players_teams` VALUES(151, 25, 35);
+INSERT INTO `players_teams` VALUES(152, 21, 38);
+INSERT INTO `players_teams` VALUES(153, 20, 38);
+INSERT INTO `players_teams` VALUES(154, 22, 38);
+INSERT INTO `players_teams` VALUES(155, 14, 38);
+INSERT INTO `players_teams` VALUES(156, 25, 38);
+INSERT INTO `players_teams` VALUES(157, 15, 39);
+INSERT INTO `players_teams` VALUES(158, 16, 39);
+INSERT INTO `players_teams` VALUES(159, 18, 39);
+INSERT INTO `players_teams` VALUES(160, 19, 39);
+INSERT INTO `players_teams` VALUES(161, 24, 39);
+INSERT INTO `players_teams` VALUES(162, 15, 40);
+INSERT INTO `players_teams` VALUES(163, 20, 40);
+INSERT INTO `players_teams` VALUES(164, 31, 41);
+INSERT INTO `players_teams` VALUES(165, 23, 40);
+INSERT INTO `players_teams` VALUES(166, 14, 40);
+INSERT INTO `players_teams` VALUES(167, 21, 41);
+INSERT INTO `players_teams` VALUES(168, 16, 41);
+INSERT INTO `players_teams` VALUES(169, 33, 40);
+INSERT INTO `players_teams` VALUES(170, 17, 41);
+INSERT INTO `players_teams` VALUES(171, 25, 41);
+INSERT INTO `players_teams` VALUES(172, 16, 42);
+INSERT INTO `players_teams` VALUES(173, 18, 42);
+INSERT INTO `players_teams` VALUES(174, 17, 42);
+INSERT INTO `players_teams` VALUES(175, 24, 42);
+INSERT INTO `players_teams` VALUES(176, 22, 42);
+INSERT INTO `players_teams` VALUES(177, 21, 43);
+INSERT INTO `players_teams` VALUES(178, 15, 43);
+INSERT INTO `players_teams` VALUES(179, 34, 43);
+INSERT INTO `players_teams` VALUES(180, 19, 43);
+INSERT INTO `players_teams` VALUES(181, 14, 43);
 
 -- --------------------------------------------------------
 
@@ -411,41 +458,38 @@ INSERT INTO `players_teams` (`id`, `player_id`, `team_id`) VALUES
 -- Table structure for table `teams`
 --
 
-CREATE TABLE IF NOT EXISTS `teams` (
+CREATE TABLE `teams` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `game_id` int(11) unsigned NOT NULL,
   `golos` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=42 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
 
 --
 -- Dumping data for table `teams`
 --
 
-INSERT INTO `teams` (`id`, `game_id`, `golos`, `created`, `modified`) VALUES
-(5, 8, 0, '2012-02-24 01:53:59', '2012-03-05 02:34:35'),
-(6, 8, 1, '2012-02-24 01:54:32', '2012-03-05 02:34:52'),
-(7, 9, 1, '2012-02-24 02:07:07', '2012-03-05 02:35:07'),
-(8, 9, 0, '2012-02-24 02:07:34', '2012-03-05 02:35:14'),
-(9, 10, 1, '2012-02-24 02:08:20', '2012-03-17 01:51:42'),
-(10, 10, 0, '2012-02-24 02:08:43', '2012-03-05 02:41:06'),
-(11, 11, 10, '2012-03-05 02:44:56', '2012-03-05 02:44:56'),
-(12, 11, 8, '2012-03-05 02:45:39', '2012-03-05 02:45:39'),
-(13, 23, 7, '2012-03-05 02:55:38', '2012-03-05 02:55:38'),
-(14, 23, 10, '2012-03-05 02:56:10', '2012-03-05 02:56:10'),
-(30, 24, 10, '2012-03-16 04:42:18', '2012-03-16 20:02:40'),
-(31, 24, 5, '2012-03-16 04:42:18', '2012-03-16 20:03:14'),
-(32, 25, 20, '2012-03-16 20:12:37', '2012-03-16 20:12:37'),
-(33, 25, 15, '2012-03-16 20:12:37', '2012-03-16 20:12:37'),
-(34, 26, 14, '2012-03-25 16:23:50', '2012-03-25 16:23:50'),
-(35, 26, 11, '2012-03-25 16:23:50', '2012-03-25 16:23:50'),
-(38, 29, 7, '2012-03-26 04:47:06', '2012-04-01 15:49:07'),
-(39, 29, 8, '2012-03-26 04:47:06', '2012-04-01 15:49:07'),
-(40, 30, 0, '2012-04-06 12:17:45', '2012-04-06 12:17:45'),
-(41, 30, 0, '2012-04-06 12:17:45', '2012-04-06 12:17:45');
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+INSERT INTO `teams` VALUES(5, 8, 0, '2012-02-24 01:53:59', '2012-03-05 02:34:35');
+INSERT INTO `teams` VALUES(6, 8, 1, '2012-02-24 01:54:32', '2012-03-05 02:34:52');
+INSERT INTO `teams` VALUES(7, 9, 1, '2012-02-24 02:07:07', '2012-03-05 02:35:07');
+INSERT INTO `teams` VALUES(8, 9, 0, '2012-02-24 02:07:34', '2012-03-05 02:35:14');
+INSERT INTO `teams` VALUES(9, 10, 1, '2012-02-24 02:08:20', '2012-03-17 01:51:42');
+INSERT INTO `teams` VALUES(10, 10, 0, '2012-02-24 02:08:43', '2012-03-05 02:41:06');
+INSERT INTO `teams` VALUES(11, 11, 10, '2012-03-05 02:44:56', '2012-03-05 02:44:56');
+INSERT INTO `teams` VALUES(12, 11, 8, '2012-03-05 02:45:39', '2012-03-05 02:45:39');
+INSERT INTO `teams` VALUES(13, 23, 7, '2012-03-05 02:55:38', '2012-03-05 02:55:38');
+INSERT INTO `teams` VALUES(14, 23, 10, '2012-03-05 02:56:10', '2012-03-05 02:56:10');
+INSERT INTO `teams` VALUES(30, 24, 10, '2012-03-16 04:42:18', '2012-03-16 20:02:40');
+INSERT INTO `teams` VALUES(31, 24, 5, '2012-03-16 04:42:18', '2012-03-16 20:03:14');
+INSERT INTO `teams` VALUES(32, 25, 20, '2012-03-16 20:12:37', '2012-03-16 20:12:37');
+INSERT INTO `teams` VALUES(33, 25, 15, '2012-03-16 20:12:37', '2012-03-16 20:12:37');
+INSERT INTO `teams` VALUES(34, 26, 14, '2012-03-25 16:23:50', '2012-03-25 16:23:50');
+INSERT INTO `teams` VALUES(35, 26, 11, '2012-03-25 16:23:50', '2012-03-25 16:23:50');
+INSERT INTO `teams` VALUES(38, 29, 7, '2012-03-26 04:47:06', '2012-04-01 15:49:07');
+INSERT INTO `teams` VALUES(39, 29, 8, '2012-03-26 04:47:06', '2012-04-01 15:49:07');
+INSERT INTO `teams` VALUES(40, 30, 9, '2012-04-06 12:17:45', '2012-04-10 23:16:31');
+INSERT INTO `teams` VALUES(41, 30, 14, '2012-04-06 12:17:45', '2012-04-10 23:16:31');
+INSERT INTO `teams` VALUES(42, 31, 10, '2012-04-13 10:45:48', '2012-04-15 15:29:07');
+INSERT INTO `teams` VALUES(43, 31, 11, '2012-04-13 10:45:48', '2012-04-15 15:29:07');

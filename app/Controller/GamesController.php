@@ -7,11 +7,11 @@ App::uses('AppController', 'Controller');
  */
 class GamesController extends AppController {
 
-    public $uses = array('Game', 'Invite', 'Goal', 'Team', 'Player', 'PlayersTeam', 'Rating');
+
     public $helpers = array('Time');
 
     //Minimum number of attendances required to be accepted in the rating table
-    const N_MIN_PRE = 1;
+    const N_MIN_PRE = 5;
 
 /**
  * index method
@@ -757,25 +757,35 @@ class GamesController extends AppController {
     }
 
     public function playerStats() {
+        //min presencas
+        $players['n_min_pre'] = self::N_MIN_PRE;
+
         //rating
         $op_rating = array('order' => array('Player.rating' => 'desc'),
-                         'conditions' => array('Player.presencas >' => 1));
+                         'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
         $players['ratingList'] = $this->Player->find('all', $op_rating);
 
         //topGoalscorer
-        $op_topGoalscorer = array('order' => array('Player.golos_p_jogo' => 'desc'),
-            'conditions' => array('Player.presencas >' => 1));
+        $op_topGoalscorer = array('order' => array('Player.golos_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
+            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
         $players['topGoalscorer'] = $this->Player->find('first', $op_topGoalscorer);
 
         //offensiveInfluence
-        $op_offensive = array('order' => array('Player.equipa_m_p_jogo' => 'desc'),
-            'conditions' => array('Player.presencas >' => 1));
+        $op_offensive = array('order' => array('Player.equipa_m_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
+            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
         $players['offensiveInfluence'] = $this->Player->find('first', $op_offensive);
 
         //defensiveInfluence
         $op_defensive = array('order' => array('Player.equipa_s_p_jogo' => 'asc'),
-            'conditions' => array('Player.presencas >' => 1));
+            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
         $players['defensiveInfluence'] = $this->Player->find('first', $op_defensive);
+
+        //allGoals
+        $goals = $this->Goal->find('all');
+        $players['allGoals'] = 0;
+        foreach ($goals as $goal) {
+            $players['allGoals'] += $goal['Goal']['golos'];
+        }
 
         return $players;
     }
