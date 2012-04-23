@@ -25,7 +25,7 @@
             <ul id="menu">
                 <li><a href="<?php echo $this->webroot; ?>Games">Jogos</a></li>
                 <li><a href="<?php echo $this->webroot; ?>Players">Jogadores</a></li>
-                <li><a href="#">Stats</a></li>
+<!--                <li><a href="#">Stats</a></li>-->
             </ul>
         </div>
     </div>

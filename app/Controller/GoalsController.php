@@ -99,4 +99,53 @@ class GoalsController extends AppController {
 		$this->Session->setFlash(__('Goal was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+/**
+ * submitGoals method
+ *
+ * @param string $id
+ * @return void
+ */
+    public function submitGoals($id) {
+
+        //variables
+        $teamGoals[0] = null;
+        $teamGoals[1] = null;
+
+        $i = 1;
+
+        foreach($this->request->data['Game'] as $player_id => $goals) {
+            $playerGoals = array('Goal' => array('game_id' => $id, 'player_id' => $player_id, 'golos' => $goals));
+            $this->Goal->create();
+            $this->Goal->save($playerGoals);
+
+            //First 5 are from team 1, last five from team 2
+            if($i++ <= 5) {
+                $teamGoals[0] += $goals;
+            }
+            else{
+                $teamGoals[1] += $goals;
+            }
+
+        }
+
+        //saveTeam result
+        $options = array('conditions' => array('Team.game_id' => $id));
+        $teams = $this->Team->find('all', $options);
+        foreach($teams as $key => $team) {
+            $this->Game->Team->id = $team['Team']['id'];
+            $teamScore = array('Team' => array('golos' => $teamGoals[$key]));
+            $this->Game->Team->save($teamScore);
+        };
+
+        //Change game state to 2
+        $this->Game->id = $id;
+        $this->Game->save(array('Game' => array('estado' => 2, 'resultado' => $teamGoals[0].'-'.$teamGoals[1])));
+
+        //Update Player Stats
+        $this->Player->updateStats();
+
+        //Redirect
+        $this->redirect(array('controller' => 'Games', 'action' => 'view', $id));
+    }
 }

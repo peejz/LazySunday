@@ -111,7 +111,7 @@
 <?php if($game['Game']['estado'] == 0): ?>
     <div id="invbase">
         <?php foreach($invites as $invite): ?>
-        <?php   echo $this->Form->Create(null, array('controller' => 'games', 'action' => 'updateInvites/'.$game['Game']['id'])); ?>
+        <?php   echo $this->Form->Create('Invite', array('action' => 'updateInvites/'.$game['Game']['id'])); ?>
         <?php
             $answered = !is_null($invite['Invite']['available']);
             $valor = false;

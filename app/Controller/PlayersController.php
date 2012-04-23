@@ -97,4 +97,56 @@ class PlayersController extends AppController {
 		$this->Session->setFlash(__('Player was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+/**
+ * sidebarStats method
+ *
+ * @param string $id
+ * @return array
+ */
+    public function sidebarStats() {
+        //min presencas
+        $players['n_min_pre'] = self::N_MIN_PRE;
+
+        //rating
+        $op_rating = array('order' => array('Player.rating' => 'desc'),
+            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
+        $players['ratingList'] = $this->Player->find('all', $op_rating);
+
+        //topGoalscorer
+        $op_topGoalscorer = array('order' => array('Player.golos_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
+            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
+        $players['topGoalscorer'] = $this->Player->find('first', $op_topGoalscorer);
+
+        //offensiveInfluence
+        $op_offensive = array('order' => array('Player.equipa_m_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
+            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
+        $players['offensiveInfluence'] = $this->Player->find('first', $op_offensive);
+
+        //defensiveInfluence
+        $op_defensive = array('order' => array('Player.equipa_s_p_jogo' => 'asc'),
+            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
+        $players['defensiveInfluence'] = $this->Player->find('first', $op_defensive);
+
+        //allGoals
+        $goals = $this->Goal->find('all');
+        $players['allGoals'] = 0;
+        foreach ($goals as $goal) {
+            $players['allGoals'] += $goal['Goal']['golos'];
+        }
+
+        return $players;
+    }
+
+/**
+ * updateStats method
+ *
+ * @param string $id
+ * @return array
+ */
+    public function updateStats() {
+        $this->Player->updateStats();
+    }
+
+
 }

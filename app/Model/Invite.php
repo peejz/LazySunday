@@ -64,4 +64,30 @@ class Invite extends AppModel {
 			'order' => ''
 		)
 	);
+
+
+/**
+ * invites method
+ *
+ * @param string $id
+ * @return array
+ */
+    public function invites($id) {
+        $options = array('order' => array('Player.conv' => 'asc', 'Player.rating' => 'desc'), 'conditions' => array('game_id' => $id));
+        $invites = $this->find('all', $options);
+        $players = $this->Player->find('list');
+
+        foreach($invites as $invite) {
+            $invite_list[$invite['Invite']['player_id']] = null;
+        }
+        foreach($players as $key => $player) {
+            if(!array_key_exists($key, $invite_list)) {
+                $notinvited[$key] = $player;
+            }
+        }
+
+        return array('invites' => $invites,
+                     'notinvited' => $notinvited);
+
+    }
 }

@@ -99,4 +99,43 @@ class TeamsController extends AppController {
 		$this->Session->setFlash(__('Team was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+/**
+ * saveTeams method
+ *
+ * @param string $id
+ * @return array
+ */
+    public function saveTeams($id) {
+        //fetch genereated teams
+        $teams = $this->Team->generate($id, $this->Invite->invites($id));
+
+        //check if there are 10 players who said yes, otherwise exit
+        if($teams['available'] != 10){
+            throw new ForbiddenException(__('Só podes gravar equipas com 10 jogadores'));
+        }
+
+        for($i = 1; $i <= 2; $i++) {
+            //team count
+            $options = array('conditions' => array('team_id' => $teams['team_'.$i.'_id']));
+            ${'team_'.$i.'_count'} = $this->PlayersTeam->find('count', $options);
+
+            //validation
+            if(${'team_'.$i.'_count'} == 0) {
+                foreach ($teams['team_'.$i] as $teamPlayer) {
+                    $player = array('PlayersTeam' => array('team_id' => $teams['team_'.$i.'_id'], 'player_id' => $teamPlayer['id']));
+                    $this->PlayersTeam->create();
+                    $this->PlayersTeam->save($player);
+                }
+            }
+        }
+
+        //change game state to 1
+        $this->Game->id = $id;
+        $this->Game->save(array('Game' => array('estado' => 1)));
+
+        //redirect
+        $this->redirect(array('controller' => 'Games', 'action' => 'view', $id));
+
+    }
 }

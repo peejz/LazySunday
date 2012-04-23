@@ -2,9 +2,9 @@
     <h2>Admin</h2>
     <ul>
         <li><?php echo $this->Html->link(__('Back to View'), array('action' => 'view', $game['Game']['id'])); ?></li>
-        <li><?php echo $this->Html->link(__('Update Pl Stats'), array('action' => 'updatePlayerStats', $game['Game']['id'])); ?></li>
+        <li><?php echo $this->Html->link(__('Update Pl Stats'), array('controller' => 'Players', 'action' => 'updateStats')); ?></li>
         <?php if($game['Game']['estado'] == 0): ?>
-            <li><?php echo $this->Form->postLink('Gravar Equipas', 'saveTeams', array('data' => array('game_id' => $game['Game']['id']))); ?></li>
+            <li><?php echo $this->Form->postLink('Gravar Equipas','/teams/saveTeams/'.$game['Game']['id']); ?></li>
         <?php endif; ?>
     </ul>
 
@@ -18,7 +18,7 @@
                 <th>Convidar</th>
                 <th>Jogador</th>
             </tr>
-            <?php echo $this->Form->Create(null, array('url' => '/games/addInvites/'.$game['Game']['id'])); ?>
+            <?php echo $this->Form->Create(null, array('url' => '/Invites/addInvites/'.$game['Game']['id'])); ?>
             <?php foreach($notinvited as $key => $player): ?>
 
             <tr>
@@ -35,7 +35,7 @@
     <div class="submit_goals">
         <?php //debug($teams); ?>
 
-        <?php echo $this->Form->Create(null, array('controller' => 'games', 'action' => 'submitGoals', 'url' => '/games/submitGoals/'.$game['Game']['id'])); ?>
+        <?php echo $this->Form->Create(null, array('url' => '/Goals/submitGoals/'.$game['Game']['id'])); ?>
             <?php for($i=0; $i <= 1; $i++):?>
                 <div class="adminTeam">
                 <table>

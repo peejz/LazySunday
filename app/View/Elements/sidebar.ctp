@@ -1,4 +1,4 @@
-<?php $data = $this->requestAction('Games/playerStats'); ?>
+<?php $data = $this->requestAction('Players/sidebarStats'); ?>
 
 <div class=sideTitle>golos marcados</div>
 <div class=sideContent>

@@ -100,4 +100,62 @@ class InvitesController extends AppController {
 		$this->Session->setFlash(__('Invite was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+/**
+ * addInvites method
+ *
+ * @param string $id
+ * @return void
+ */
+    public function addInvites($id = null) {
+        $this->Game->id = $id;
+
+        $invites = $this->request->data['Game'];
+
+        foreach($invites as $key => $invite) {
+            $jogadorId = str_replace('jogador', '', $key);
+
+            if($invite) {
+                $saveInvite = array('Invite' => array('game_id' => $id, 'player_id' => $jogadorId, 'available' => null));
+
+                $this->Invite->Create();
+                if($this->Invite->save($saveInvite)) {
+                    //$this->Session->setFlash(__('The invite has been saved'));
+                } else {
+                    //$this->Session->setFlash(__('The invite could not be saved. Please, try again.'));
+                }
+            }
+        }
+
+        $this->redirect('/games/view/'.$id);
+    }
+
+/**
+ * updateInvites method
+ *
+ * @param string $id
+ * @return void
+ */
+    public function updateInvites($id = null) {
+
+
+        if($this->request->data) {
+
+            end($this->request->data);
+            $playerAvailability = each($this->request->data);
+
+            $options = array('conditions' => array('Invite.game_id' => $id, 'Invite.player_id' => $playerAvailability['key']));
+            $currentInvite = $this->Invite->find('first', $options);
+
+            if($currentInvite['Invite']['available'] != $playerAvailability['value']) {
+                $currentInvite['Invite']['available'] = $playerAvailability['value'];
+                $this->Invite->save($currentInvite);
+            }
+        }
+
+        $this->redirect('/games/view/'.$id);
+
+    }
 }
+
+

@@ -34,10 +34,12 @@ class AppController extends Controller {
 
     public $uses = array('Game', 'Invite', 'Goal', 'Team', 'Player', 'PlayersTeam', 'Rating');
 
+    //Minimum number of attendances required to be accepted in the rating table
+    const N_MIN_PRE = 5;
+    //echo Configure::read('LazySunday.n_min_pre');
+
     function beforeFilter() {
-        //create session variables with data from database
-        if(!is_array($this->Session->read('players'))) {
-            $this->Session->write('players', $this->Player->find('all'));
-        }
+
+
     }
 }
