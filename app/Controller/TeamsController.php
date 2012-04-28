@@ -138,4 +138,5 @@ class TeamsController extends AppController {
         $this->redirect(array('controller' => 'Games', 'action' => 'view', $id));
 
     }
+
 }
