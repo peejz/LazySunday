@@ -152,8 +152,9 @@ class Team extends AppModel {
 
         array_multisort($rating, SORT_DESC, $player_id, SORT_ASC, $availableList);
 
+        //return $availableList;
 
-        if(count($availableList) >= 10)
+        /*if(count($availableList) >= 10)
         {
             //Sort into teams
             $teams['team_1'][1] = $availableList[0];
@@ -187,7 +188,65 @@ class Team extends AppModel {
                     $teams['team_2_rating'] += $availableList[$i]['rating'];
                 }
             }
+        }*/
+
+        $ratingTotal = 0;
+        $i = 1;
+        //Find the overall rating of the 10 players
+        foreach($availableList as $player) {
+            $ratingTotal += $player['rating'];
+            $players[$i++] = $player;
         }
+        //ideal ranking for each team
+        $idealTeamRating = $ratingTotal / 2;
+
+
+        $len = count($players);
+        $bestComb = $ratingTotal;
+        //do all combinations of players and save the best one
+        for ($i = 1; $i < $len - 2; $i++)
+        {
+            for ($j = $i + 1; $j < $len - 1; $j++)
+            {
+                for ($k = $j + 1; $k < $len; $k++) {
+
+                    for ($m = $k + 1; $m < $len; $m++) {
+
+                        for ($n = $m + 1; $n < $len; $n++) {
+                            //Team Rating
+                            $teamRating = $players[$i]['rating'] + $players[$j]['rating'] + $players[$k]['rating'] + $players[$m]['rating'] + $players[$n]['rating'];
+                            //If the difference between this Team rating and the ideal rating is smaller, save as best combination
+                            if(abs($idealTeamRating - $teamRating) < $bestComb) {
+                                $bestComb = abs($idealTeamRating - $teamRating);
+
+                                unset($teams['team_1']);
+                                $teams['team_1'][$i] = $players[$i];
+                                $teams['team_1'][$j] = $players[$j];
+                                $teams['team_1'][$k] = $players[$k];
+                                $teams['team_1'][$m] = $players[$m];
+                                $teams['team_1'][$n] = $players[$n];
+
+                                $teams['team_1_rating'] = $teamRating;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        //remove players from team_1 from the available list to end up with team 2
+        for ($i = 1; $i <= 10; $i++) {
+            foreach($teams['team_1'] as $key => $team_1){
+                if(isset($players[$i]) and ($i == $key)){
+
+                    unset($players[$i]);
+                }
+            }
+        }
+        //setup variables for team_2
+        $teams['team_2'] = $players;
+        $teams['team_2_rating'] = $ratingTotal - $teams['team_1_rating'];
 
         //Team_id
         $teams['team_1_id'] = $currentTeams[0]['Team']['id'];
