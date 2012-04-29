@@ -138,15 +138,15 @@ class PlayersController extends AppController {
         return $players;
     }
 
-/**
- * updateStats method
- *
- * @param string $id
- * @return array
- */
-    public function updateStats() {
+    /**
+     * updateStats method
+     *
+     * @param string $id
+     * @return array
+     */
+    public function stats() {
         $this->Player->updateStats();
+        $this->redirect(array('action' => 'index'));
     }
-
 
 }

@@ -315,7 +315,19 @@ const N_MIN_PRE = 5;
 
             //generaterating
             $goalsRating = $data['golos_p_jogo'] / $top_goals_p_Game;
+            //in case player has less than N_MIN_PRE
+            //e.g. player did 1 game and won
+            //$estimate = (5 - 1)/5 * 0.5
+            //$real = 1/5 * 0.876
+            if($data['presencas'] < self::N_MIN_PRE){
+                $estimate = ((self::N_MIN_PRE - $data['presencas'])/self::N_MIN_PRE)*0.5;
+                $real = ($data['presencas']/self::N_MIN_PRE)*$vit_pre;
+                $vit_pre = $estimate + $real;
+
+            }
+
             $rating = round(0.75*$vit_pre + 0.25*$goalsRating, 3);
+
 
 
             $saveplayer = array('Player' => array('id' => $id,
