@@ -1,7 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
 App::uses('CakeEmail', 'Network/Email');
-App::uses('CakeTime', 'Utility');
 /**
  * Invites Controller
  *
