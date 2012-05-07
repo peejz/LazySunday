@@ -1,5 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
+App::uses('CakeTime', 'Utility');
 /**
  * Invites Controller
  *
@@ -7,6 +9,7 @@ App::uses('AppController', 'Controller');
  */
 class InvitesController extends AppController {
 
+    public $helpers = array('Time');
 
 /**
  * index method
@@ -155,6 +158,46 @@ class InvitesController extends AppController {
 
         $this->redirect('/games/view/'.$id);
 
+    }
+
+/**
+ * sendEmails method
+ *
+ * @param string $id - game_id
+ * @return void
+ *
+ * Envia por email o template da convocatoria para todos os jogadores
+ * convidados para um jogo.
+ */
+    public function sendEmails($id = null) {
+        $invites = $this->Invite->invites($id);
+
+        //debug($invites['invites'][0]);
+
+        // init
+        $email = new CakeEmail('gmail');
+        $email->template('convocatoria', 'pbento');
+        $email->emailFormat('html');
+        $email->from(array('lazyfoot.noreply@gmail.com' => 'Lazyfoot Mailer'));
+        $email->subject('Foste convocado!');
+
+        // viewVars
+        $email->viewVars(array('gameLink' => FULL_BASE_URL.'/Games/view/'.$id));
+
+        // a data e' a mesma para todos os invites
+        // TODO: formatar a data
+        $gameDateSql = $invites['invites'][0]['Game']['data'];
+        //echo $this->Time->format('d M, Y', $gameDateSql);
+        $email->viewVars(array('gameDate' => $gameDateSql));
+
+        //$email->to('pedrorodrigues@gmail.com');
+        //$email->send();
+
+        // not tested
+        foreach($invites['invites'] as $invite) {
+            $email->to($invite['Player']['email']);
+            $email->send();
+        }
     }
 }
 
