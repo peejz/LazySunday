@@ -1,3 +1,5 @@
-<div id="emailContent" style="height: 77px; width: 174px; position: relative; top: 44px; left: 10px; padding-top: 50px; padding-left: 15px; text-align: center;">
-<?php echo $passedVar; ?>
-</div>
+<a href="<?php echo $gameLink; ?>" target="_blank" style="color: #000; text-decoration: none;">
+    <h3 style="color: #000; font-size: 16px; font-weight: bold; text-decoration: none; margin-top: 10px;"><?php echo $gameDate; ?></h3>
+    <p></p>
+    <h1 style="color: #000; font-size: 14px; font-weight: bold; text-decoration: underline;">Confirma aqui a tua presença!</h1>
+</a>
