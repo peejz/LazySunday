@@ -10,9 +10,10 @@
     echo $this->Html->meta('icon');
 
     echo $this->Html->css('styles');
-
-    echo $scripts_for_layout;
     ?>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="<?php echo $this->webroot; ?>js/highcharts.js" type="text/javascript"></script>
+    <?php echo $scripts_for_layout; ?>
 </head>
 
 <body>
@@ -51,7 +52,7 @@
 </div>
 <div id="footerWrapper">
     <div id="footerContent">
-        <div id="credits"><u>LazySunday</u> beta...<?php echo date('F'); ?> 2012</div>
+        <div id="credits"><u>LazyFoot</u> beta...<?php echo date('F'); ?> 2012</div>
     </div>
 </div>
 </body>
