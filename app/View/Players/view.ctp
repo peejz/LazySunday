@@ -23,7 +23,7 @@ foreach($playerEvo as $evo) {
                 },
                 min: 0,
                 max: 1,
-                tickInterval: 0.2
+                tickInterval: 0.5
             },
             xAxis: {
                 categories: []
