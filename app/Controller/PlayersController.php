@@ -7,7 +7,14 @@ App::uses('AppController', 'Controller');
  */
 class PlayersController extends AppController {
 
+    public function beforeFilter() {
 
+        if ($this->action == 'view')
+        {
+            //$this->Player->setPlayersRankingEvo();
+
+        }
+    }
 /**
  * index method
  *
@@ -30,6 +37,8 @@ class PlayersController extends AppController {
 			throw new NotFoundException(__('Invalid player'));
 		}
 		$this->set('player', $this->Player->read(null, $id));
+
+        $this->set('playerEvo', $this->Player->getPlayerRankingEvo($id));
 	}
 
 /**

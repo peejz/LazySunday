@@ -343,13 +343,99 @@ const N_MIN_PRE = 5;
                 'equipa_s_p_jogo' => $data['equipa_s_p_jogo']));
             $this->save($saveplayer);
 
-
+            //array_push($rankingEvolution[$i], $saveplayer);
         }
 
         //$this->redirect(array('action' => 'view', $id));
 
     }
 
+/**
+ * getPlayerRankingEvo devolve um array com o historico de um jogador.
+ * o tamanho deste array e' igual ao nr de jogos em que o jogador participou.
+ *
+ * @param string $id - player_id
+ * @return array $playerEvo
+ */
+    public function getPlayerRankingEvo($id=null) {
+        $playerEvo = array();
+        $player = $this->read(null, $id);
 
+        //$player['Player']['presencas'] = 0;
+        $player['Player']['presencas'] = 0;
+        $player['Player']['rating'] = 0;
+        $player['Player']['ratingElo'] = 0;
+        $player['Player']['vitorias'] = 0;
+        $player['Player']['vit_pre'] = 0;
+        $player['Player']['golos'] = 0;
+        $player['Player']['golos_p_jogo'] = 0;
+        $player['Player']['equipa_m'] = 0;
+        $player['Player']['equipa_m_p_jogo'] = 0;
+        $player['Player']['equipa_s'] = 0;
+        $player['Player']['equipa_s_p_jogo'] = 0;
+
+
+        // jogos terminados
+        $games = ClassRegistry::init('Game')->find('list', array('conditions' => array('Game.estado' => 2)));
+        // para cada jogo
+        foreach($games as $gameId => $game) {
+            //echo "gameid=".$gameId.'<br/>';
+
+            // encontrar as equipas onde jogou e actualizar o seu ranking
+            $options = array('conditions' => array('game_id' => $gameId));
+            $teams = $this->Team->find('all', $options);
+
+            // para cada equipa
+            foreach($teams as $team) {
+
+                // se jogou
+                if($this->belongsToTeam($team, $player)) {
+
+                    // actualizar presencas do jogador
+                    $player['Player']['presencas'] += 1;
+
+                    // actualizar vitorias do jogador se a equipa ganhou
+                    if($this->isTeamWinner($team)) {
+                        $player['Player']['vitorias'] += 1;
+                    }
+
+                    // actualizar ranking
+                    $player['Player']['rating'] = round($player['Player']['vitorias']/$player['Player']['presencas'], 3);
+
+                    //debug($player);
+
+                    // adicionar este jogador/ranking ao array $evo
+                    array_push($playerEvo, $player);
+                }
+            }
+        }
+
+        return $playerEvo;
+    }
+
+/**
+ * verifica se um jogador percente a uma equipa
+ *
+ * @param array $team, array $player
+ * @return bool
+ */
+    private function belongsToTeam($team, $player) {
+        foreach($team['Player'] as $teamPlayer) {
+            if($teamPlayer['id'] == $player['Player']['id']) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+/**
+ * verifica se uma equipa foi vencedora
+ *
+ * @param array $team
+ * @return bool
+ */
+    private function isTeamWinner($team) {
+        if($team['Team']['winner']) { return true; } else { return false; }
+    }
 
 }
