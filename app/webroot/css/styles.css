@@ -435,3 +435,8 @@ table.ratingstable {
 
 a:link, a:visited { color:green; }
 a:hover { color: #b62121; }
+
+.playerGraph {
+    height: 200px;
+    margin-top: 20px;
+}
