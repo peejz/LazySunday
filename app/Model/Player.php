@@ -125,6 +125,7 @@ class Player extends AppModel {
 //Minimum number of attendances required to be accepted in the rating table
 const N_MIN_PRE = 5;
 
+
 /**
  * presencas method
  *
