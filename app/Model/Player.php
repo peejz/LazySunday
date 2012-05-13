@@ -126,6 +126,69 @@ class Player extends AppModel {
 const N_MIN_PRE = 5;
 
 /**
+ * presencas method
+ *
+ * @param string $id
+ * @return int
+ */
+    public function presencas($id = null) {
+        $options = array('conditions' => array('player_id' => $id));
+        return $this->PlayersTeam->find('count', $options);
+    }
+
+/**
+ * wins method
+ *
+ * @param string $id
+ * @return int
+ */
+    public function wins($id = null) {
+        $options = array('conditions' => array('player_id' => $id));
+        $presencas = $this->PlayersTeam->find('all', $options);
+
+        $wins = 0;
+        foreach($presencas as $team){
+        $options = array('conditions' => array('Team.id' => $team['PlayersTeam']['team_id'], 'winner' => 1));
+            if($this->Team->find('first', $options)) {
+                $wins += 1;
+            }
+
+        }
+
+        return $wins;
+    }
+
+/**
+ * goals method
+ *
+ * @param string $id
+ * @return int
+ */
+    public function goals($id = null) {
+        $options = array('conditions' => array('player_id' => $id));
+        $goals = $this->Goal->find('all', $options);
+
+        $total = 0;
+        foreach($goals as $goal) {
+            $total += $goal['Goal']['golos'];
+        }
+
+        return $total;
+    }
+
+/**
+ * bestGoalAverage method
+ *
+ * @param string $id
+ * @return float
+ */
+    public function bestGoalAverage() {
+        $options = array('order' => array('Player.golos_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
+            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
+        return $this->find('first', $options);
+    }
+
+/**
  * updateStats method
  *
  * @param string $id
@@ -171,7 +234,7 @@ const N_MIN_PRE = 5;
             $options = array('conditions' => array('player_id' => $player['Player']['id']));
             $allPlayers[$player['Player']['id']]['presencas'] = $this->PlayersTeam->find('count', $options);
 
-            //vitorias
+
 
 
             //golos
