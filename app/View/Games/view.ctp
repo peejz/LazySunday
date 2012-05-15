@@ -127,7 +127,7 @@
               elseif(is_null($valor)) echo 'background-color: #c3c3c3';
               else echo 'background-color: #FF0000';
               ?>"></div>
-          <div class="rating"><div class="ratingvalor" style="<?php echo 'width:'.$invite['Player']['rating']*140;echo 'px'; ?>"></div></div>
+          <div class="rating"><div class="ratingvalor" style="<?php echo 'width:'.$invite['Player']['rating']*0.140;echo 'px'; ?>"></div></div>
           <div class="rating_n"><?php echo $invite['Player']['rating']; ?></div>
           <div class="player"><?php echo $invite['Player']['nome']; ?></div>
           <div class="presence_off presence_txt"><?php echo $this->Form->button('NA', array('name' => $invite['Player']['id'], 'value' => 0, 'div' => false)); ?></div>

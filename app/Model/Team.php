@@ -255,7 +255,11 @@ class Team extends AppModel {
         return $teams;
     }
 
+    public function players($id = null){
 
+        $options = array('conditions' => array('team_id' => $id));
+        return $this->PlayersTeam->find('all', $options);
+    }
 
 
 
