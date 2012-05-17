@@ -127,14 +127,37 @@ const N_MIN_PRE = 5;
 
 
 /**
- * presencas method
+ * countPresencas method
  *
  * @param string $id
  * @return int
  */
-    public function presencas($id = null) {
-        $options = array('conditions' => array('player_id' => $id));
-        return $this->PlayersTeam->find('count', $options);
+    public function countPresencas($id = null, $gameID = null) {
+        //find all presencas
+        if(!isset($gameID)){
+            $options = array('conditions' => array('player_id' => $id));
+            return $this->PlayersTeam->find('count', $options);
+        }
+        //find presencas until designated gameID
+        else{
+
+            //data
+            $player = $this->findById($id);
+            //debug($player);
+
+            //var
+            $presencas = 0;
+
+            //
+            foreach($player['Team'] as $team){
+                if($team['game_id'] <= $gameID){
+                $presencas += 1;
+                }
+            }
+
+            return $presencas;
+        }
+
     }
 
 /**
@@ -143,7 +166,7 @@ const N_MIN_PRE = 5;
  * @param string $id
  * @return int
  */
-    public function wins($id = null) {
+    public function countWins($id = null) {
         $options = array('conditions' => array('player_id' => $id));
         $presencas = $this->PlayersTeam->find('all', $options);
 
@@ -159,13 +182,15 @@ const N_MIN_PRE = 5;
         return $wins;
     }
 
+
+
 /**
  * goals method
  *
  * @param string $id
  * @return int
  */
-    public function goals($id = null) {
+    public function countGoals($id = null) {
         $options = array('conditions' => array('player_id' => $id));
         $goals = $this->Goal->find('all', $options);
 
@@ -187,6 +212,145 @@ const N_MIN_PRE = 5;
         $options = array('order' => array('Player.golos_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
             'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
         return $this->find('first', $options);
+
+    }
+
+/**
+ * goalEvo method
+ *
+ * @param string $id
+ * @return array
+ *
+ * key   gameID
+ * value bestGoalAverage at that time
+ */
+
+    public function goalEvo(){
+        //data
+        $allGoals = $this->Goal->find('all');
+
+        //cycle through all goals and create and array with this form $array[gameID][playerID][current]
+        //                                                                                    [total]
+        //                                                                                    [golos_p_jogo]
+        foreach($allGoals as $goal){
+
+            //variables
+            $gameID = $goal['Goal']['game_id'];
+            $playerID = $goal['Goal']['player_id'];
+            $golos = $goal['Goal']['golos'];
+
+            //data
+            $player = $this->findById($playerID);
+
+            //playerGoals Array keeps the total of goals game by game
+            if(!isset($playerGoals[$playerID])){
+                $playerGoals[$playerID] = $golos;
+            }
+            else{
+                $playerGoals[$playerID] += $golos;
+            }
+
+            //save array
+            $gameList[$gameID][$playerID]['current'] = $golos;
+            $gameList[$gameID][$playerID]['total'] = $playerGoals[$playerID];
+            $gameList[$gameID][$playerID]['golos_p_jogo'] = round($playerGoals[$playerID] /
+                                                                (($this->countPresencas($playerID, $gameID)) - $player['Player']['adjust']), 2);
+
+        }
+
+        //cycle trhough previous array and create $goalEvo[gameID][bestGoalAverage]
+        foreach($gameList as $gameID => $game){
+
+            $bestGoal['average'] = 0;
+
+            foreach($game as $playerID => $player){
+                if($player['golos_p_jogo'] > $bestGoal['average']){
+                    $bestGoal['average'] = $player['golos_p_jogo'];
+                    $bestGoal['id'] = $playerID;
+                }
+
+            }
+
+            if(isset($goalEvoID)){
+                $lastEntry = end($goalEvoID);
+                $key = key($lastEntry);
+                $value = $lastEntry[$key];
+
+
+                if(!array_key_exists($key, $game)){
+                    if($value > $bestGoal['average']){
+                        $bestGoal['average'] = $value;
+                        $bestGoal['id'] = $key;
+                    }
+                }
+            }
+
+            //var used for loop
+            $goalEvoID[$gameID] = array($bestGoal['id'] => $bestGoal['average']);
+            //return var
+            $goalEvo[$gameID] = $bestGoal['average'];
+
+        }
+
+        //return end($goalEvo_);
+        return $goalEvo;
+    }
+
+/**
+ * equipaMS method
+ *
+ * @param string $id
+ * @return array
+ */
+    public function equipaMS($id = null) {
+
+        //data
+        $player = $this->findById($id);
+        $presencas = $this->countPresencas($id);
+        $games = ClassRegistry::init('Game')->find('all');
+        $ignoreTeams = array(5, 6, 7, 8, 9, 10);
+
+        //init var
+        $equipaMS['M'] = 0;
+        $equipaMS['S'] = 0;
+
+        //create arrays of the games played by this player and the teams he belonged to
+        foreach($player['Team'] as $team){
+            if(!in_array($team['id'], $ignoreTeams)) {
+            $gamesPlayed[] = $team['game_id'];
+            $teamsPlayed[] = $team['id'];
+            }
+        }
+
+        //in case player is not on any teams return 0
+        if(!isset($teamsPlayed)){
+            return array('M' => 0, 'S' => 0, 'M_p_jogo' => 0, 'S_p_jogo' => 0);
+        }
+
+        //cycle game by game
+        foreach($games as $game){
+            //cycle both teams of that game
+            foreach($game['Team'] as $team){
+                //If the player played in this game...
+                if((!in_array($team['id'], $ignoreTeams)) and (in_array($team['game_id'], $gamesPlayed) )) {
+
+                    //... and played in this team
+                   if(in_array($team['id'], $teamsPlayed)){
+                       $equipaMS['M'] += $team['golos'];
+                   }
+                   else{
+                       $equipaMS['S'] += $team['golos'];
+                   }
+                }
+
+            }
+        }
+
+        //Calculate p_jogo
+        $equipaMS['M_p_jogo'] = round($equipaMS['M']/($presencas - $player['Player']['adjust']), 2);
+        $equipaMS['S_p_jogo'] = round($equipaMS['S']/($presencas - $player['Player']['adjust']), 2);
+
+        return $equipaMS;
     }
 
 /**
@@ -197,168 +361,41 @@ const N_MIN_PRE = 5;
  */
     public function updateStats() {
 
+        //player array
         $players = $this->find('all');
-        $games = ClassRegistry::init('Game')->find('list');
 
-        foreach($games as $gameId => $game) {
-            $options = array('conditions' => array('game_id' => $gameId));
-            $teams = $this->Team->find('all', $options);
-
-
-            //find winning team
-            if($teams[0]['Team']['golos'] > $teams[1]['Team']['golos']) {
-                $winningTeam = $teams[0];
-            }
-            elseif($teams[0]['Team']['golos'] < $teams[1]['Team']['golos']){
-                $winningTeam = $teams[1];
-            }
-            //find players from winning teams
-            $options = array('conditions' => array('team_id' => $winningTeam['Team']['id']));
-            $winningPlayers = $this->PlayersTeam->find('all', $options);
-
-            //sum victories
-            if(!($teams[0]['Team']['golos'] == 0 and $teams[1]['Team']['golos'] == 0)) {
-                foreach($winningPlayers as $player) {
-                    if(!isset($allPlayers[$player['PlayersTeam']['player_id']]['victorias'])) {
-                        $allPlayers[$player['PlayersTeam']['player_id']]['victorias'] = 1;
-                    }
-                    else {
-                        $allPlayers[$player['PlayersTeam']['player_id']]['victorias'] += 1;
-                    }
-                }
-            }
-        }
-
+        //construct allPlayers array
         foreach($players as $player) {
+            //var
+            $playerID = $player['Player']['id'];
 
-            //presenças
-            $options = array('conditions' => array('player_id' => $player['Player']['id']));
-            $allPlayers[$player['Player']['id']]['presencas'] = $this->PlayersTeam->find('count', $options);
+            $allPlayers[$playerID]['victorias'] = $this->countWins($playerID);
+            $allPlayers[$playerID]['golos'] = $this->countGoals($playerID);
+            $allPlayers[$playerID]['presencas'] = $this->countPresencas($playerID);
 
-
-
-
-            //golos
-            $options = array('conditions' => array('player_id' => $player['Player']['id']));
-            foreach($this->Goal->find('all', $options) as $goal) {
-                if(!isset($allPlayers[$player['Player']['id']]['golos'])) {
-                    $allPlayers[$player['Player']['id']]['golos'] = $goal['Goal']['golos'];
-                }
-                else {
-                    $allPlayers[$player['Player']['id']]['golos'] += $goal['Goal']['golos'];
-                }
-
-            }
-        }
-
-        //adjustment array
-        //games where no goals where saved, only the winning team
-        $adjust = array(14 => 3,
-            15 => 3,
-            16 => 3,
-            17 => 1,
-            18 => 2,
-            19 => 2,
-            20 => 3,
-            21 => 3,
-            22 => 3,
-            23 => 2,
-            24 => 2,
-            25 => 0,
-            26 => 0,
-            27 => 0,
-            28 => 1,
-            29 => 0,
-            30 => 2,
-            31 => 0,
-            32 => 0,
-            33 => 0,
-            34 => 0,
-            35 => 0);
-
-        //golos por jogo
-        $top_goals_p_Game = 0;
-
-        foreach($allPlayers as $id => $player) {
-            if(isset($player['golos']) and $player['golos'] != 0) {
-                $allPlayers[$id]['golos_p_jogo'] = round($player['golos'] / ($player['presencas'] - $adjust[$id]), 2);
+            if($allPlayers[$playerID]['golos'] != 0) {
+                $allPlayers[$playerID]['golos_p_jogo'] = round($allPlayers[$playerID]['golos'] /
+                                                              ($allPlayers[$playerID]['presencas'] - $player['Player']['adjust']), 2);
             }
             else {
-                $allPlayers[$id]['golos_p_jogo'] = 0;
+                $allPlayers[$playerID]['golos_p_jogo'] = 0;
             }
 
-            //save a variable with the average topScorer
-            if(($allPlayers[$id]['golos_p_jogo'] > $top_goals_p_Game) and ($allPlayers[$id]['presencas'] > self::N_MIN_PRE)) {
-                $top_goals_p_Game = $allPlayers[$id]['golos_p_jogo'];
-            }
+            $equipaMS = $this->equipaMS($playerID);
+            $allPlayers[$playerID]['equipa_m'] = $equipaMS['M'];
+            $allPlayers[$playerID]['equipa_m_p_jogo'] = $equipaMS['M_p_jogo'];
+            $allPlayers[$playerID]['equipa_s'] = $equipaMS['S'];
+            $allPlayers[$playerID]['equipa_s_p_jogo'] = $equipaMS['S_p_jogo'];
         }
 
-
-        //equipa marcados e sofridos
-        $Teams = $this->Team->find('all');
-        $ignoreTeams = array(5, 6, 7, 8, 9, 10);
-
-        //$key => game_id $value => teams from that game
-        foreach($Teams as $team) {
-            $gameTeams[$team['Team']['game_id']][] = array('id' => $team['Team']['id'],
-                'golos' => $team['Team']['golos']);
+        //var init
+        $bestGoalAverage = 0;
+        //find current topGoalscorer
+        foreach($allPlayers as $player){
+            if($player['golos_p_jogo'] > $bestGoalAverage){
+                $bestGoalAverage = $player['golos_p_jogo'];
+            }
         }
-
-        foreach($players as $player) {
-            //var simplification
-            $id = $player['Player']['id'];
-
-            //declare variables
-            $allPlayers[$id]['equipa_m'] = 0;
-            $allPlayers[$id]['equipa_s'] = 0;
-            foreach($player['Team'] as $team) {
-
-
-
-                if(!array_search($gameTeams[$team['game_id']][0]['id'], $ignoreTeams)) {
-                    if($gameTeams[$team['game_id']][0]['id'] == $team['id']) {
-                        $allPlayers[$id]['equipa_m'] += $gameTeams[$team['game_id']][0]['golos'];
-                    }
-                    else {
-                        $allPlayers[$id]['equipa_s'] += $gameTeams[$team['game_id']][0]['golos'];
-
-                    }
-                }
-
-                if(!array_search($gameTeams[$team['game_id']][1]['id'], $ignoreTeams)) {
-                    if($gameTeams[$team['game_id']][1]['id'] == $team['id']) {
-                        $allPlayers[$id]['equipa_m'] += $gameTeams[$team['game_id']][1]['golos'];
-                    }
-                    else {
-                        $allPlayers[$id]['equipa_s'] += $gameTeams[$team['game_id']][1]['golos'];
-                    }
-                }
-
-            }
-
-            //marcados por jogo
-            if(($allPlayers[$id]['presencas'] - $adjust[$id]) == 0){
-                $allPlayers[$id]['equipa_m_p_jogo'] = 0;
-                $allPlayers[$id]['equipa_s_p_jogo'] = 0;
-            }
-            else{
-                //marcados por jogo
-                $allPlayers[$id]['equipa_m_p_jogo'] = round($allPlayers[$id]['equipa_m'] /
-                    ($allPlayers[$id]['presencas'] - $adjust[$id]), 2);
-
-                //sofridos por jogo
-                $allPlayers[$id]['equipa_s_p_jogo'] = round($allPlayers[$id]['equipa_s'] /
-                    ($allPlayers[$id]['presencas'] - $adjust[$id]), 2);
-            }
-
-
-
-        }
-
-
-        //debug($allPlayers);
-
-        //debug($gameTeams);
 
         //save player data
         foreach($allPlayers as $id => $data) {
@@ -377,8 +414,8 @@ const N_MIN_PRE = 5;
                 $data['golos'] = 0;
             }
 
-            //generaterating
-            $goalsRating = $data['golos_p_jogo'] / $top_goals_p_Game;
+            //generateRating
+            $goalsRating = $data['golos_p_jogo'] / $bestGoalAverage;
             //in case player has less than N_MIN_PRE
             //e.g. player did 1 game and won
             //$estimate = (5 - 1)/5 * 0.5
@@ -391,27 +428,23 @@ const N_MIN_PRE = 5;
             }
 
             $rating = round(0.75*$vit_pre + 0.25*$goalsRating, 3);
+            $rating *= 1000;
 
 
 
             $saveplayer = array('Player' => array('id' => $id,
-                'rating' => $rating,
-                'vit_pre' => $vit_pre,
-                'golos' => $data['golos'],
-                'golos_p_jogo' => $data['golos_p_jogo'],
-                'presencas' => $data['presencas'],
-                'vitorias' => $data['victorias'],
-                'equipa_m' => $data['equipa_m'],
-                'equipa_m_p_jogo' => $data['equipa_m_p_jogo'],
-                'equipa_s' => $data['equipa_s'],
-                'equipa_s_p_jogo' => $data['equipa_s_p_jogo']));
+                                                'rating' => $rating,
+                                                'vit_pre' => $vit_pre,
+                                                'golos' => $data['golos'],
+                                                'golos_p_jogo' => $data['golos_p_jogo'],
+                                                'presencas' => $data['presencas'],
+                                                'vitorias' => $data['victorias'],
+                                                'equipa_m' => $data['equipa_m'],
+                                                'equipa_m_p_jogo' => $data['equipa_m_p_jogo'],
+                                                'equipa_s' => $data['equipa_s'],
+                                                'equipa_s_p_jogo' => $data['equipa_s_p_jogo']));
             $this->save($saveplayer);
-
-            //array_push($rankingEvolution[$i], $saveplayer);
         }
-
-        //$this->redirect(array('action' => 'view', $id));
-
     }
 
 /**

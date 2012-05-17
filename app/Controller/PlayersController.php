@@ -147,15 +147,27 @@ class PlayersController extends AppController {
         return $players;
     }
 
-    /**
-     * updateStats method
-     *
-     * @param string $id
-     * @return array
-     */
+/**
+ * updateStets method
+ *
+ * @param string $id
+ * @return array
+ */
     public function stats() {
         $this->Player->updateStats();
-        $this->redirect(array('action' => 'index'));
+        //$this->redirect(array('action' => 'index'));
     }
+
+/**
+ * updateStats method
+ *
+ * @param string $id
+ * @return array
+ */
+    public function test() {
+        //debug($this->Player->countPresencas(21,10));
+        debug($this->Player->bestGoalAverage(true));
+    }
+
 
 }
