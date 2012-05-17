@@ -181,7 +181,7 @@ class InvitesController extends AppController {
         $email->subject('Foste convocado!');
 
         // viewVars
-        $email->viewVars(array('gameLink' => FULL_BASE_URL.'/Games/view/'.$id));
+        $email->viewVars(array('gameLink' => FULL_BASE_URL.'/lazysunday/Games/view/'.$id));
 
         // a data e' a mesma para todos os invites
         // TODO: formatar a data

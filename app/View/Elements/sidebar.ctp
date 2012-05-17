@@ -1,3 +1,8 @@
+<script>
+    $(document).ready(function() {
+        $('.sparktristate').sparkline('html', {type: 'tristate'});
+    });
+</script>
 <?php $data = $this->requestAction('Players/sidebarStats'); ?>
 
 <div class=sideTitle>golos marcados</div>
@@ -15,9 +20,31 @@
         foreach ($data['ratingList'] as $player): ?>
             <tr>
                 <td class="num"><?php echo $i++; ?>º</td>
-                <td class="player"><a href="<?php echo $this->webroot; ?>/Players/view/<?php echo $player['Player']['id']; ?>"><?php echo $player['Player']['nome']; ?></a></td>
+                <td class="player"><a href="<?php echo $this->webroot; ?>/Players/view/<?php echo $player['Player']['id']; ?>">
+                    <?php echo $player['Player']['nome']; ?></a></td>
                 <td class="rank"><?php echo $player['Player']['rating']; ?></td>
-
+                <td>
+                    <span class="sparktristate"><?php
+                    // sparklines processa o html deste span
+                    $player['Team'] = array_reverse($player['Team']);
+                        // so' nos interessam os ultimos 5 jogos
+                        // jogo mais recente 'a direita
+                        for($j=4; $j > -1; $j--) {
+                            if($player['Team'][$j]['winner'] == 0) {
+                                // no lazyfoot uma derrota e' representada por '0'
+                                // nas sparklines e' representada por '-1'
+                                echo '-1';
+                            } else {
+                                echo $player['Team'][$j]['winner'];
+                            }
+                            // entre cada resultado imprimir virgula
+                            // mas o ultimo nao precisa
+                            if($j != 0) {
+                                echo ",";
+                            }
+                        }
+                    ?></span>
+                </td>
             </tr>
             <?php endforeach; ?>
 

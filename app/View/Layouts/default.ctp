@@ -11,7 +11,8 @@
 
     echo $this->Html->css('styles');
     ?>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="<?php echo $this->webroot; ?>js/jquery-1.7.2.min.js" type="text/javascript" ></script>
+    <script src="<?php echo $this->webroot; ?>js/jquery.sparkline.js" type="text/javascript" ></script>
     <script src="<?php echo $this->webroot; ?>js/highcharts.js" type="text/javascript"></script>
     <?php echo $scripts_for_layout; ?>
 </head>
