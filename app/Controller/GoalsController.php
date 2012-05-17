@@ -129,12 +129,23 @@ class GoalsController extends AppController {
 
         }
 
+        // who won?
+        if($teamGoals[0] > $teamGoals[1]) {
+            $winnerTeam = 0;
+        } else {
+            $winnerTeam = 1;
+        }
+
         //saveTeam result
         $options = array('conditions' => array('Team.game_id' => $id));
         $teams = $this->Team->find('all', $options);
         foreach($teams as $key => $team) {
             $this->Game->Team->id = $team['Team']['id'];
-            $teamScore = array('Team' => array('golos' => $teamGoals[$key]));
+            if($key == $winnerTeam) {
+                $teamScore = array('Team' => array('golos' => $teamGoals[$key], 'winner' => 1));
+            } else {
+                $teamScore = array('Team' => array('golos' => $teamGoals[$key], 'winner' => 0));
+            }
             $this->Game->Team->save($teamScore);
         };
 
