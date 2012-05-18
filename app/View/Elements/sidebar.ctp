@@ -25,8 +25,9 @@
                 <td class="rank"><?php echo $player['Player']['rating']; ?></td>
                 <td>
                     <span class="sparktristate"><?php
+                    if(array_key_exists('Team', $player)) {
                     // sparklines processa o html deste span
-                    $player['Team'] = array_reverse($player['Team']);
+                        $player['Team'] = array_reverse($player['Team']);
                         // so' nos interessam os ultimos 5 jogos
                         // jogo mais recente 'a direita
                         for($j=4; $j > -1; $j--) {
@@ -43,6 +44,7 @@
                                 echo ",";
                             }
                         }
+                    }
                     ?></span>
                 </td>
             </tr>
