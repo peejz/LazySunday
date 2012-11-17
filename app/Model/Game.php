@@ -82,67 +82,145 @@ class Game extends AppModel {
 	);
 
 
+/**
+ * teams_goals method
+ *
+ * @param string $id
+ * @return array
+ */
 
-    /**
-     * teams_goals method
-     *
-     * @param string $id
-     * @return array
-     */
     public function teamsGoals($id){
-        // ----- Teams
-        $teamoptions = array('conditions' => array('game_id' => $id));
-        $teams = $this->Team->find('all', $teamoptions);
+
+        $goaloptions = array('conditions' => array('game_id' => $id));
+        $goals = $this->Goal->find('all', $goaloptions);
+
+
+
         $i = 1;
-        //if(count($teams) != 2) throw new NotFoundException(__('Teams dont exist.'));
-        foreach($teams as $team) {
-            foreach($team['Player'] as $player) {
-                ${'team'.$i.'_list'}[$player['nome']] = $player['id'];
+        $team_1_score = 0;
+        $team_2_score = 0;
+        foreach($goals as $data){
+            if($i <= 5){
+                $team_1_data[$data['Player']['nome']]['golos'] = $data['Goal']['golos'];
+                $team_1_data[$data['Player']['nome']]['assistencias'] = $data['Goal']['assistencias'];
+                $team_1_data[$data['Player']['nome']]['player_points'] = $data['Goal']['player_points'];
+
+                $team_1_score =+ $team_1_score + $data['Goal']['golos'];
             }
-            ${'team_'.$i.'_golos'} = $team['Team']['golos'];
+            else{
+                $team_2_data[$data['Player']['nome']]['golos'] = $data['Goal']['golos'];
+                $team_2_data[$data['Player']['nome']]['assistencias'] = $data['Goal']['assistencias'];
+                $team_2_data[$data['Player']['nome']]['player_points'] = $data['Goal']['player_points'];
+
+                $team_2_score =+ $team_2_score + $data['Goal']['golos'];
+            }
+
             $i++;
         }
 
-        // ----- Goals
-        $goaloptions = array('conditions' => array('game_id' => $id));
-        $goals = $this->Goal->find('all', $goaloptions);
-        //if(count($goals <= 0)) throw new NotFoundException(__('Goals dont exist.'));
-        if($goals) {
-            foreach($goals as $goal) {
-                foreach($team1_list as $playername => $playerid) {
-                    if($goal['Goal']['player_id'] == $playerid){
-                        $team1_list[$playername] = $goal['Goal']['golos'];
-                    }
-                }
-                foreach($team2_list as $playername => $playerid) {
-                    if($goal['Goal']['player_id'] == $playerid){
-                        $team2_list[$playername] = $goal['Goal']['golos'];
-                    }
-                }
+        //debug($team_1_data);
+
+        return array('team_1_data' => $team_1_data,
+                     'team_2_data' => $team_2_data,
+                     'team_1_score' => $team_1_score,
+                     'team_2_score' => $team_2_score);
+
+
+    }
+
+
+    /**
+     * faz o rating de cada jogador no jogo seleccionado
+     *
+     * @param array $team
+     * @return bool
+     */
+
+    public function playerPoints($id) {
+
+        // Peso dos golos no rating final [0 a 1] ////
+            $goalWeight = 0.25;
+        // Pontos por jogo
+            $pointsPerGame = 5000;
+        //////////////////////////////////////////////
+
+        $teams = $this->Team->find('all', array('conditions' => array('Team.game_id' => $id)));
+
+        $totalGoals = $teams[0]['Team']['golos'] + $teams[1]['Team']['golos'];
+
+        /* loop para cada equipa
+           no 1º loop criam-se os pontos base para cada equipa
+           no 2º loop fazem-se os pontos para cada jogador.
+        */
+        $i=0;
+        foreach($teams as $team){
+            //pontos totais de cada equipa
+            $teamPoints[$i]['Team'] = ($teams[$i]['Team']['golos'] / $totalGoals) * $pointsPerGame;
+
+            //pontos base, cada jogador recebe pelo menos estes pontos
+            $teamPoints[$i]['Base'] = ($teamPoints[$i]['Team'] * (1 - $goalWeight))/5;
+
+            //pontos a serem distribuidos pelos jogadores que marcaram golos
+            $teamPoints[$i]['Goal'] = $teamPoints[$i]['Team'] * $goalWeight;
+
+          foreach($team['Goal'] as $player){
+
+              $playerPoints = $teamPoints[$i]['Base'] +
+                             ($teamPoints[$i]['Goal'] * ($player['golos'] / $teams[$i]['Team']['golos']));
+
+              //$pointsSave = array('Goal' => array('game_id' => $id, 'player_id' => $player['player_id'], 'player_points' => $playerPoints));
+              $pointsSave = array('Goal' => array('player_points' => $playerPoints));
+              $this->Goal->id = $player['id'];
+              $this->Goal->save($pointsSave);
+          }
+
+          $i++;
+        }
+    }
+
+/**
+ * calcula o player points para todos os jogos
+ *
+ * @param
+ * @return
+ */
+
+    public function allPlayerPoints() {
+
+        $games = $this->find('all');
+
+        foreach($games as $game){
+
+            $game['Game']['id'];
+            $this->playerPoints($game['Game']['id']);
+        }
+    }
+
+    /**
+     * adiciona o team id a cada golo
+     *
+     * @param
+     * @return
+     */
+
+    public function teamIdtoGoal() {
+
+        $teams = $this->Team->find('all');
+
+        foreach($teams as $team){
+
+            foreach($team['Player'] as $player){
+            $goals = array('Goal' => array('team_id' => $team['Team']['id']));
+
+            $search = $this->Goal->find('first', array('conditions' => array('Goal.game_id' => $team['Team']['game_id'],
+                                                                   'Goal.player_id' => $player['id'])));
+            $this->Goal->id = $search['Goal']['id'];
+            $this->Goal->save($goals);
             }
-        } else {
-            foreach($team1_list as $nome => $golos){$team1_list[$nome] = 0;}
-            foreach($team2_list as $nome => $golos){$team2_list[$nome] = 0;}
+
         }
 
-        //print_r($team1_list);
-        //print_r($team2_list);
-        //echo $team1_golos;
-        //echo $team2_golos;
-
-        // [Nome] => Golos
-        // [Peej] => 3
-        // [Far] => 2
-        // [Fresco] => 5
-        // ...
-
-        // ----- Disponivel na View
-        return array('team_1' => $team1_list,
-                     'team_2' => $team2_list,
-                     'team_1_goals' => $team_1_golos,
-                     'team_2_goals' => $team_2_golos);
-
-
+        return $goal;
     }
 
 }

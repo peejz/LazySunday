@@ -254,7 +254,7 @@ const N_MIN_PRE = 5;
             $gameList[$gameID][$playerID]['current'] = $golos;
             $gameList[$gameID][$playerID]['total'] = $playerGoals[$playerID];
             $gameList[$gameID][$playerID]['golos_p_jogo'] = round($playerGoals[$playerID] /
-                                                                (($this->countPresencas($playerID, $gameID)) - $player['Player']['adjust']), 2);
+                                                                ($this->countPresencas($playerID, $gameID)), 2);
 
         }
 
@@ -347,8 +347,8 @@ const N_MIN_PRE = 5;
         }
 
         //Calculate p_jogo
-        $equipaMS['M_p_jogo'] = round($equipaMS['M']/($presencas - $player['Player']['adjust']), 2);
-        $equipaMS['S_p_jogo'] = round($equipaMS['S']/($presencas - $player['Player']['adjust']), 2);
+        $equipaMS['M_p_jogo'] = round($equipaMS['M']/$presencas, 2);
+        $equipaMS['S_p_jogo'] = round($equipaMS['S']/$presencas, 2);
 
         return $equipaMS;
     }
@@ -375,7 +375,7 @@ const N_MIN_PRE = 5;
 
             if($allPlayers[$playerID]['golos'] != 0) {
                 $allPlayers[$playerID]['golos_p_jogo'] = round($allPlayers[$playerID]['golos'] /
-                                                              ($allPlayers[$playerID]['presencas'] - $player['Player']['adjust']), 2);
+                                                             $allPlayers[$playerID]['presencas'], 2);
             }
             else {
                 $allPlayers[$playerID]['golos_p_jogo'] = 0;
@@ -461,7 +461,7 @@ const N_MIN_PRE = 5;
         //$player['Player']['presencas'] = 0;
         $player['Player']['presencas'] = 0;
         $player['Player']['rating'] = 0;
-        $player['Player']['ratingElo'] = 0;
+        $player['Player']['ratingLouie'] = 0;
         $player['Player']['vitorias'] = 0;
         $player['Player']['vit_pre'] = 0;
         $player['Player']['golos'] = 0;
@@ -497,7 +497,7 @@ const N_MIN_PRE = 5;
                     }
 
                     // actualizar ranking
-                    $player['Player']['rating'] = round($player['Player']['vitorias']/$player['Player']['presencas'], 3);
+                    $player['Player']['rating'] = round($player['Player']['vitorias']/$player['Player']['presencas'], 3)*1000;
 
                     //debug($player);
 
@@ -534,5 +534,61 @@ const N_MIN_PRE = 5;
     private function isTeamWinner($team) {
         if($team['Team']['winner']) { return true; } else { return false; }
     }
+
+/**
+ * faz a média dos ratings dos ultimos x jogos
+ *
+ * @param array $team
+ * @return bool
+ */
+    public function averageRating($id) {
+
+        $lastGames = 20;
+
+        $ratings = $this->Goal->find('all', array('conditions' => array('Goal.player_id' => $id),
+                                                   'order' => array('Goal.game_id DESC'),
+                                                   'limit' => $lastGames));
+
+        $nRatings = count($ratings);
+
+        $sumRatings = 0;
+        foreach($ratings as $rating){
+            $sumRatings += $rating['Goal']['player_points'];
+        }
+
+        if($nRatings == 0){
+            return 0;
+        }
+        else
+        {
+            return ($sumRatings / $nRatings);
+        }
+
+    }
+
+/**
+ * faz a média dos ratings dos ultimos x jogos para todos os jogadores
+ *
+ * @param array $team
+ * @return bool
+ */
+    public function allAverageRating() {
+
+       $players = $this->find('all');
+
+        foreach($players as $player){
+
+            //get average
+           $rating = $this->averageRating($player['Player']['id']);
+
+            //save
+            $save = array('Player' => array('ratingLouie' => $rating));
+            $this->id = $player['Player']['id'];
+            $this->save($save);
+        }
+    }
+
+
+
 
 }

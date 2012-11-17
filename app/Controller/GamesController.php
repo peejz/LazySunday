@@ -44,9 +44,8 @@ class GamesController extends AppController {
         //Teams
         $this->set('generatedTeams', $this->Team->generate($id, $this->Invite->invites($id)));
         }
-        //elseif($game['Game']['estado'] == 1) {
-        //$something = "";
-        //}
+        elseif($game['Game']['estado'] == 1) {
+        }
         else {
         //teams goals - variaveis para a view
         $this->set($this->Game->teamsGoals($id));
@@ -167,6 +166,50 @@ class GamesController extends AppController {
         $options = array('conditions' => array('Team.game_id' => $id));
         $teams = $this->Team->find('all', $options);
         $this->set('teams', $teams);
+    }
+
+    /**
+     * updateStats method
+     *
+     * @param string $id
+     * @return array
+     */
+    public function teste() {
+        //debug($this->Player->countPresencas(21,10));
+        //debug($this->Player->bestGoalAverage(true));
+        //debug($this->Player->gameRating(56));
+
+        //$teste = $this->Game->playerPoints(55);
+        $teste = $this->Game->teamIdtoGoal();
+        //$teste = $this->Game->allPlayerPoints();
+
+        $this->set('teste', $teste);
+    }
+
+
+/**
+ * gameSheet method
+ *
+ * @param string $id
+ * @return void
+ */
+    public function gs($id = null) {
+
+        //generatedTeams
+        $this->set('generatedTeams', $this->Team->generate($id, $this->Invite->invites($id)));
+
+        $this->layout = 'gs'; //this will use the pdf.ctp layout
+        $this->render();
+    }
+
+
+
+    public function teamIdtoGoal() {
+        $this->Game->teamIdtoGoal();
+    }
+
+    public function allPlayerPoints() {
+        $this->Game->allPlayerPoints();
     }
 
 }

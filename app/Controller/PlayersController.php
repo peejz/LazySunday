@@ -148,7 +148,7 @@ class PlayersController extends AppController {
     }
 
 /**
- * updateStets method
+ * updateStats method
  *
  * @param string $id
  * @return array
@@ -159,15 +159,33 @@ class PlayersController extends AppController {
     }
 
 /**
+ * allAverageRating method
+ *
+ * @param
+ * @return
+ */
+    public function allAverageRating() {
+        $this->Player->allAverageRating();
+    }
+
+
+    /**
  * updateStats method
  *
  * @param string $id
  * @return array
  */
-    public function test() {
+    public function teste() {
         //debug($this->Player->countPresencas(21,10));
-        debug($this->Player->bestGoalAverage(true));
+        //debug($this->Player->bestGoalAverage(true));
+        //debug($this->Player->gameRating(56));
+
+        //$teste = $this->Player->averageRating(15);
+        $teste = $this->Player->allAverageRating();
+
+        $this->set('teste', $teste);
     }
+
 
 
 }

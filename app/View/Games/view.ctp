@@ -9,17 +9,18 @@
     <div class="team1">
 
         <!--- Jogo Terminado 1--->
-        <?php if($game['Game']['estado'] != 0): ?>
+        <?php if($game['Game']['estado'] == 2): ?>
             <div class="equipa1_res">
-                <?php echo $team_1_goals; ?>
+                <?php echo $team_1_score; ?>
             </div>
             <div class="equipa1">
                 <table>
 
-                    <?php foreach($team_1 as $nomejogador => $golos): ?>
+                    <?php foreach($team_1_data as $nomejogador => $data): ?>
                     <tr>
                         <td width=120px;><?php echo $nomejogador; ?></td>
-                        <td style="text-align: right"><?php echo $golos; ?></td>
+                        <td style="text-align: right"><?php echo $data['golos']."(".$data['assistencias'].")"; ?></td>
+                        <td style="text-align: right"><?php echo $data['player_points']; ?></td>
                     </tr>
                     <?php endforeach; ?>
 
@@ -59,17 +60,18 @@
     <div class="team2">
 
             <!--- Jogo Terminado 2--->
-            <?php if($game['Game']['estado'] != 0): ?>
+            <?php if($game['Game']['estado'] == 2): ?>
                 <div class="equipa2_res">
-                    <?php echo $team_2_goals; ?>
+                    <?php echo $team_2_score; ?>
                 </div>
                 <div class="equipa2">
                     <table>
 
-                        <?php foreach($team_2 as $nomejogador => $golos): ?>
+                        <?php foreach($team_2_data as $nomejogador => $data): ?>
                         <tr>
                             <td width=120px;><?php echo $nomejogador; ?></td>
-                            <td style="text-align: right"><?php echo $golos; ?></td>
+                            <td style="text-align: right"><?php echo $data['golos']."(".$data['assistencias'].")"; ?></td>
+                            <td style="text-align: right"><?php echo $data['player_points']; ?></td>
                         </tr>
                         <?php endforeach; ?>
 

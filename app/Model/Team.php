@@ -59,6 +59,27 @@ class Team extends AppModel {
 	);
 
 /**
+ * hasMany associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+        'Goal' => array(
+            'className' => 'Goal',
+            'foreignKey' => 'team_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
+    );
+
+/**
  * hasAndBelongsToMany associations
  *
  * @var array
@@ -152,43 +173,6 @@ class Team extends AppModel {
 
         array_multisort($rating, SORT_DESC, $player_id, SORT_ASC, $availableList);
 
-        //return $availableList;
-
-        /*if(count($availableList) >= 10)
-        {
-            //Sort into teams
-            $teams['team_1'][1] = $availableList[0];
-            $teams['team_2'][2] = $availableList[1];
-            $teams['team_2'][3] = $availableList[2];
-            $teams['team_1'][4] = $availableList[3];
-
-            $teams['team_1_rating'] = $teams['team_1'][1]['rating'] + $teams['team_1'][4]['rating'];
-            $teams['team_2_rating'] = $teams['team_2'][2]['rating'] + $teams['team_2'][3]['rating'];
-
-            for($i = 5; $i <= 9; $i += 2) {
-
-                //does a varition in case a player goes to either team
-                $var_1[1] = $teams['team_1_rating'] + $availableList[$i]['rating'];
-                $var_1[2] = $teams['team_2_rating'] + $availableList[$i-1]['rating'];
-                $var_2[1] = $teams['team_1_rating'] + $availableList[$i-1]['rating'];
-                $var_2[2] = $teams['team_2_rating'] + $availableList[$i]['rating'];
-
-                //if the variation is the smallest
-                if(abs($var_1[1] - $var_1[2]) < abs($var_2[1] - $var_2[2])) {
-                    $teams['team_1'][$i+1] = $availableList[$i];
-                    $teams['team_1_rating'] += $availableList[$i]['rating'];
-                    $teams['team_2'][$i] = $availableList[$i-1];
-                    $teams['team_2_rating'] += $availableList[$i-1]['rating'];
-
-                }
-                else {
-                    $teams['team_1'][$i] = $availableList[$i-1];
-                    $teams['team_1_rating'] += $availableList[$i-1]['rating'];
-                    $teams['team_2'][$i+1] = $availableList[$i];
-                    $teams['team_2_rating'] += $availableList[$i]['rating'];
-                }
-            }
-        }*/
 
         $ratingTotal = 0;
         $i = 1;

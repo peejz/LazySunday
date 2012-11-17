@@ -108,23 +108,29 @@ class GoalsController extends AppController {
  */
     public function submitGoals($id) {
 
+        //debug($this->request->data['Game']);
+        //exit;
+
         //variables
         $teamGoals[0] = null;
         $teamGoals[1] = null;
 
         $i = 1;
 
-        foreach($this->request->data['Game'] as $player_id => $goals) {
-            $playerGoals = array('Goal' => array('game_id' => $id, 'player_id' => $player_id, 'golos' => $goals));
+        foreach($this->request->data['Game'] as $player_id => $data) {
+            $playerGoals = array('Goal' => array('game_id' => $id,
+                                                 'player_id' => $player_id,
+                                                 'golos' => $data['golos'],
+                                                 'assistencias' => $data['assistencias']));
             $this->Goal->create();
             $this->Goal->save($playerGoals);
 
             //First 5 are from team 1, last five from team 2
             if($i++ <= 5) {
-                $teamGoals[0] += $goals;
+                $teamGoals[0] += $data['golos'];
             }
             else{
-                $teamGoals[1] += $goals;
+                $teamGoals[1] += $data['golos'];
             }
 
         }
@@ -153,8 +159,13 @@ class GoalsController extends AppController {
         $this->Game->id = $id;
         $this->Game->save(array('Game' => array('estado' => 2, 'resultado' => $teamGoals[0].'-'.$teamGoals[1])));
 
-        //Update Player Stats
+        //Update rating
         $this->Player->updateStats();
+
+        //Update ratingLouie
+        $this->Game->teamIdtoGoal();
+        $this->Game->allPlayerPoints();
+        $this->Player->allAverageRating();
 
         //Redirect
         $this->redirect(array('controller' => 'Games', 'action' => 'view', $id));

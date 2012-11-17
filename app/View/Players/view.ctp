@@ -9,7 +9,9 @@ foreach($playerEvo as $evo) {
         chart1 = new Highcharts.Chart({
             chart: {
                 renderTo: 'pgraph',
-                type: 'line'
+                type: 'line',
+                height: '500',
+                width: '600'
             },
             credits: {
                 enabled: false
@@ -21,9 +23,9 @@ foreach($playerEvo as $evo) {
                 title: {
                     text: 'Ranking'
                 },
-                min: 0,
-                max: 1,
-                tickInterval: 0.5
+                min: 200,
+                max: 800,
+                tickInterval: 200
             },
             xAxis: {
                 categories: []
@@ -45,38 +47,7 @@ foreach($playerEvo as $evo) {
 <?php echo $this->Html->script('highcharts'); ?>
 <div class="players view">
 <h2><?php  echo __($player['Player']['nome']);?></h2>
-	<dl>
-		<dt><?php echo __('Id'); ?></dt>
-		<dd>
-			<?php echo h($player['Player']['id']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Nome'); ?></dt>
-		<dd>
-			<?php echo h($player['Player']['nome']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Presencas'); ?></dt>
-		<dd>
-			<?php echo h($player['Player']['presencas']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Rating'); ?></dt>
-		<dd>
-			<?php echo h($player['Player']['rating']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Vitorias'); ?></dt>
-		<dd>
-			<?php echo h($player['Player']['vitorias']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Golos'); ?></dt>
-		<dd>
-			<?php echo h($player['Player']['golos']); ?>
-			&nbsp;
-		</dd>
-	</dl>
+
     <div id="pgraph" class="playerGraph">
 
     </div>
