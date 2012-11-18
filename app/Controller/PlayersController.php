@@ -168,9 +168,21 @@ class PlayersController extends AppController {
         $this->Player->allAverageRating();
     }
 
+/**
+ * chart method
+ *
+ * @param
+ * @return
+ */
+    public function chart() {
 
-    /**
- * updateStats method
+        $this->set('players', $this->Player->chart());
+    }
+
+
+
+ /**
+ * teste method
  *
  * @param string $id
  * @return array

@@ -1,8 +1,4 @@
-<?php
-foreach($playerEvo as $evo) {
-    //debug($evo);
-}
-?>
+<?php //debug($players); ?>
 <script>
     var chart1; // globally available
     $(document).ready(function() {
@@ -17,14 +13,14 @@ foreach($playerEvo as $evo) {
                 enabled: false
             },
             title: {
-                text: 'Evolução vit/pre'
+                text: 'Evolução do Ranking'
             },
             yAxis: {
                 title: {
-                    text: 'vit/pre'
+                    text: 'Ranking'
                 },
-                min: 200,
-                max: 900,
+                min: 100,
+                max: 1000,
                 tickInterval: 100
             },
             xAxis: {
@@ -37,10 +33,22 @@ foreach($playerEvo as $evo) {
                     }
                 }
             },
-            series: [{
-                name: '<?php  echo __($player['Player']['nome']);?>',
-                data: [<?php foreach($playerEvo as $evo) { echo($evo['Player']['rating']); echo ', '; } ?>]
-            }]
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -10,
+                y: 100,
+                borderWidth: 0
+            },
+            series: [
+                <?php foreach($players as $id => $player):?>
+                {
+                name: '<?php  echo $id; ?>',
+                data: [<?php foreach($player as $game) { echo($game); echo ', '; } ?>]
+            },
+            <?php endforeach; ?>
+            ]
         });
     });
 </script>
@@ -48,6 +56,6 @@ foreach($playerEvo as $evo) {
 <!--<div class="players view">
 <h2><?php /* echo __($player['Player']['nome']);*/?></h2>-->
 
-    <div id="pgraph" class="playerGraph">
-        <?php echo $this->Html->script('highcharts'); ?>
-    </div>
+<div id="pgraph" class="playerGraph">
+    <?php echo $this->Html->script('highcharts'); ?>
+</div>

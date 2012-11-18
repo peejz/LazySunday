@@ -588,6 +588,51 @@ const N_MIN_PRE = 5;
         }
     }
 
+/**
+ * chart method
+ *
+ * Cria um gráfico highcharts com a evolução simultânea de
+ * todos os jogadores usando o sistema do Louie
+ *
+ * @param none
+ * @return array
+ */
+    public function chart() {
+
+        //criar uma lista de jogadores com mais de X presenças
+        $playersBulk = $this->find('all', array('conditions' => array('presencas >=' => self::N_MIN_PRE)));
+
+        foreach($playersBulk as $player){
+            $players[$player['Player']['id']][0]=500;
+        }
+
+        //passar jogo a jogo, golo a golo e verificar se o jogador faz parte
+        //não fazendo copia-se o rating anterior
+        $gamesBulk = ClassRegistry::init('Game')->find('all');
+
+        $i = 1;
+        foreach($gamesBulk as $game){
+
+            foreach($game['Goal'] as $goal){
+                if(array_key_exists($goal['player_id'], $players)){
+                $players[$goal['player_id']][$i] = $goal['player_points'];
+                }
+            }
+
+            foreach($players as $id => $player){
+                if(!isset($player[$i])){
+                    $players[$id][$i] = $player[($i - 1)];
+                }
+            }
+
+            $i++;
+        }
+
+        //debug($players);
+
+        return $players;
+    }
+
 
 
 

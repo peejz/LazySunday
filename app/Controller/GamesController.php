@@ -212,4 +212,6 @@ class GamesController extends AppController {
         $this->Game->allPlayerPoints();
     }
 
+
+
 }

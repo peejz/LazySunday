@@ -129,8 +129,9 @@ html, body {
     overflow: auto;
 }
 #contentInnerWrapper {
-    width: 760px;
     float: left;
+    width: 760px;
+    position: relative;
 }
 #content {
     /*height: 700px;*/
@@ -138,13 +139,15 @@ html, body {
     background-color: #E8E8E8;
     margin: 5px;
     padding: 10px;
-    overflow: auto;
+    /*overflow: auto;*/
     text-align: center;
 }
 #sidebarWrapper {
     float: left;
-    width: 199px;
-    height: 600px;
+    position: relative;
+    width: 195px;
+    height: 680px;
+
 }
 #sidebarContent {
     padding: 5px;
@@ -443,6 +446,4 @@ a:link, a:visited { color:green; }
 a:hover { color: #b62121; }
 
 .playerGraph {
-    height: 200px;
-    margin-top: 20px;
 }
