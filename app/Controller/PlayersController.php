@@ -20,8 +20,13 @@ class PlayersController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function index($nPre=null) {
 		$this->Player->recursive = 0;
+
+        if($nPre != null){
+            $this->paginate = array('conditions' => array('Player.presencas >=' => $nPre));
+        }
+
 		$this->set('players', $this->paginate());
 	}
 

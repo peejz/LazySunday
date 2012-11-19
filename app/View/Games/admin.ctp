@@ -2,15 +2,20 @@
     <h2>Admin</h2>
     <ul>
         <li><?php echo $this->Html->link(__('Back to View'), array('action' => 'view', $game['Game']['id'])); ?></li>
-        <li><?php echo $this->Html->link(__('Update Pl Stats'), array('controller' => 'Players', 'action' => 'stats')); ?></li>
+
+
         <li><?php echo $this->Html->link(__('Folha de Jogo'), array('action' => 'gs', $game['Game']['id'])); ?></li>
-        <!--<li><?php /*echo $this->Html->link(__('Create Team_ids in Goal Col'), array('controller' => 'Games', 'action' => 'teamIdtoGoal')); */?></li>
-        <li><?php /*echo $this->Html->link(__('Generate the Louie rating for each game'), array('controller' => 'Games', 'action' => 'allPlayerPoints')); */?></li>
-        <li><?php /*echo $this->Html->link(__('Calculate the average for players table'), array('controller' => 'Players', 'action' => 'allAverageRating')); */?></li>-->
+
         <?php if($game['Game']['estado'] == 0): ?>
             <li><?php echo $this->Form->postLink('Gravar Equipas','/teams/saveTeams/'.$game['Game']['id']); ?></li>
             <li><?php echo $this->Form->postLink('Enviar Emails','/invites/sendEmails/'.$game['Game']['id']); ?></li>
         <?php endif; ?>
+        <li>---</li>
+        <li><?php echo $this->Html->link(__('Update Pl Stats'), array('controller' => 'Players', 'action' => 'stats')); ?></li>
+        <li>---</li>
+        <li><?php echo $this->Html->link(__('Create Team_ids in Goal Col'), array('controller' => 'Games', 'action' => 'teamIdtoGoal')); ?></li>
+        <li><?php echo $this->Html->link(__('Generate the Louie rating for each game'), array('controller' => 'Games', 'action' => 'allPlayerPoints')); ?></li>
+        <li><?php echo $this->Html->link(__('Calculate the average for players table'), array('controller' => 'Players', 'action' => 'allAverageRating')); ?></li>
     </ul>
 
 </div>
