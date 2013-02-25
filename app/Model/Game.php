@@ -138,10 +138,12 @@ class Game extends AppModel {
 
     public function playerPoints($id) {
 
-        // Peso dos golos no rating final [0 a 1] ////
-            $goalWeight = 0.25;
+        // Peso dos golos e assistências no rating final [0 a 1] ////
+            $pointsWeight = 0.25;
         // Pontos por jogo
             $pointsPerGame = 5000;
+        // Peso dos golos em relação às assistências [0 a 1]
+            $goalAssistWeight = 0.618;
         //////////////////////////////////////////////
 
         $teams = $this->Team->find('all', array('conditions' => array('Team.game_id' => $id)));
@@ -158,15 +160,31 @@ class Game extends AppModel {
             $teamPoints[$i]['Team'] = ($teams[$i]['Team']['golos'] / $totalGoals) * $pointsPerGame;
 
             //pontos base, cada jogador recebe pelo menos estes pontos
-            $teamPoints[$i]['Base'] = ($teamPoints[$i]['Team'] * (1 - $goalWeight))/5;
+            $teamPoints[$i]['Base'] = ($teamPoints[$i]['Team'] * (1 - $pointsWeight))/5;
 
-            //pontos a serem distribuidos pelos jogadores que marcaram golos
-            $teamPoints[$i]['Goal'] = $teamPoints[$i]['Team'] * $goalWeight;
+            //pontos a serem distribuidos pelos jogadores que marcaram golos e fizeram assistências
+            $teamPoints[$i]['specialPoints'] = $teamPoints[$i]['Team'] * $pointsWeight;
+
+            //total de assistências nesta equipa
+            $teams[$i]['Team']['assistencias'] = 0;
+
+            foreach($team['Goal'] as $player){
+                $teams[$i]['Team']['assistencias'] += $player['assistencias'];
+            }
+
+            //IMPORTANTE -> pontos por cada Golo. Segue a proporção indicada em $goalAssistWeight
+            $pointsPerGoal = $teamPoints[$i]['specialPoints'] / ($teams[$i]['Team']['golos'] +
+                                                                $teams[$i]['Team']['assistencias'] * $goalAssistWeight);
+            //este valor descobre-se usando o ratio
+            $pointsPerAssist = $pointsPerGoal * $goalAssistWeight;
 
           foreach($team['Goal'] as $player){
 
-              $playerPoints = $teamPoints[$i]['Base'] +
-                             ($teamPoints[$i]['Goal'] * ($player['golos'] / $teams[$i]['Team']['golos']));
+              $goalPoints = $player['golos'] * $pointsPerGoal;
+              $assistPoints = $player['assistencias'] * $pointsPerAssist;
+
+              //somar os pontos base mais os pontos especiais
+              $playerPoints = $teamPoints[$i]['Base'] + ($goalPoints + $assistPoints);
 
               //$pointsSave = array('Goal' => array('game_id' => $id, 'player_id' => $player['player_id'], 'player_points' => $playerPoints));
               $pointsSave = array('Goal' => array('player_points' => $playerPoints));
