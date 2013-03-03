@@ -589,6 +589,65 @@ const N_MIN_PRE = 5;
     }
 
 /**
+ * calcula as assistências de um determinado jogador
+ *
+ * @param none
+ * @return none
+ */
+    public function assists($playerId) {
+
+        //jogo a partir do qual se começou a contar as assistências
+        $gameId = 59;
+
+        //encontrar as assistências que são guardadas na tabela dos golos
+        $games = $this->Goal->find('all', array('conditions' => array('game_id >=' => $gameId, 'player_id =' => $playerId)));
+
+        //nº de jogos com assistências
+        $nGames = count($games);
+
+        //somar assistências
+        $assists['assist'] = 0;
+        foreach($games as $game){
+            $assists['assist'] += $game['Goal']['assistencias'];
+        }
+
+        //assistências por jogo
+        if($assists['assist'] != 0){
+        $assists['assist_p_jogo'] = round($assists['assist'] / $nGames, 2);
+        }
+        else
+        {
+        $assists['assist_p_jogo'] = 0;
+        }
+
+
+        return $assists;
+    }
+
+/**
+ * calcula as assistências para todos os jogadores e salva para a tabela Players
+ * assist e assist_p_jogo
+ *
+ * @param none
+ * @return none
+ */
+    public function allAssists() {
+
+        $players = $this->find('all');
+
+        foreach($players as $player){
+
+            //get average
+            $assists = $this->assists($player['Player']['id']);
+
+            //save
+            $save = array('Player' => array('assist' => $assists['assist'], 'assist_p_jogo' => $assists['assist_p_jogo']));
+            $this->id = $player['Player']['id'];
+            $this->save($save);
+        }
+    }
+
+/**
  * chart method
  *
  * Cria um gráfico highcharts com a evolução simultânea de

@@ -9,6 +9,7 @@
 			<th><h2><?php echo $this->Paginator->sort('vitorias','V');?></h2></th>
             <th><h2><?php echo $this->Paginator->sort('vit_pre','V/P');?></h2></th>
             <th><h2><?php echo $this->Paginator->sort('golos_p_jogo','G/J (Total)');?></h2></th>
+            <th><h2><?php echo $this->Paginator->sort('assist_p_jogo','A/J (Total)');?></h2></th>
             <th><h2><?php echo $this->Paginator->sort('equipa_m_p_jogo','EM/J (Total)');?></h2></th>
             <th><h2><?php echo $this->Paginator->sort('equipa_s_p_jogo','ES/J (Total)');?></h2></th>
 	</tr>
@@ -22,6 +23,7 @@
 		<td><?php echo h($player['Player']['vitorias']); ?>&nbsp;</td>
         <td><?php echo h($player['Player']['vit_pre']); ?>&nbsp;</td>
         <td><?php echo h($player['Player']['golos_p_jogo']); ?> (<?php echo h($player['Player']['golos']); ?>)&nbsp;</td>
+        <td><?php echo h($player['Player']['assist_p_jogo']); ?> (<?php echo h($player['Player']['assist']); ?>)&nbsp;</td>
         <td><?php echo h($player['Player']['equipa_m_p_jogo']); ?> (<?php echo h($player['Player']['equipa_m']); ?>)&nbsp;</td>
         <td><?php echo h($player['Player']['equipa_s_p_jogo']); ?> (<?php echo h($player['Player']['equipa_s']); ?>)&nbsp;</td>
 

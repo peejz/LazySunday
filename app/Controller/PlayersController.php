@@ -166,11 +166,15 @@ class PlayersController extends AppController {
 /**
  * allAverageRating method
  *
+ * Calcula o louie rating para a tabela dos jogadores
+ * Tb calcula as assistências
+ *
  * @param
  * @return
  */
     public function allAverageRating() {
         $this->Player->allAverageRating();
+        $this->Player->allAssists();
     }
 
 /**
@@ -198,9 +202,11 @@ class PlayersController extends AppController {
         //debug($this->Player->gameRating(56));
 
         //$teste = $this->Player->averageRating(15);
-        $teste = $this->Player->allAverageRating();
+        //$teste = $this->Player->allAverageRating();
 
-        $this->set('teste', $teste);
+        //$this->set('teste', $teste);
+
+        $this->Player->assists(15);
     }
 
 
